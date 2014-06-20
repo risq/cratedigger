@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>3dvinyls.js</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- HTML5 Shim for IE -->
+    <!--[if IE]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+    <canvas id="test" width="500" height="500"></canvas>
+
+    <!-- Javascript -->
+    <script src='bower_components/modernizr/modernizr.js'></script>
+    <script src='bower_components/three.js/three.js'></script>
+
+    <script src='src/3dvinyls.js'></script>
+    <script>
+        vinyls.init({
+            canvasId: 'test'
+        });
+    </script>
+
+</body>
+</html>

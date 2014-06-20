@@ -1,0 +1,25 @@
+{
+  "name": "3dvinyls.js",
+  "version": "0.0.1",
+  "homepage": "https://github.com/risq/3dvinyls.js",
+  "authors": [
+    "risq <valentin.ledrapier@gmail.com>"
+  ],
+  "moduleType": [
+    "amd",
+    "es6",
+    "globals"
+  ],
+  "license": "GPL",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "three.js": "*",
+    "modernizr": "~2.8.2"
+  }
+}
