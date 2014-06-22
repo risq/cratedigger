@@ -13,16 +13,17 @@
 
 <body>
 
-    <canvas id="test" width="500" height="500"></canvas>
+    <div id="vinyls" style="width: 1200px; height: 800px"></div>
 
     <!-- Javascript -->
     <script src='bower_components/modernizr/modernizr.js'></script>
     <script src='bower_components/three.js/three.js'></script>
+    <script src='bower_components/tween.js/build/tween.min.js'></script>
 
     <script src='src/3dvinyls.js'></script>
     <script>
         vinyls.init({
-            canvasId: 'test'
+            containerId: 'vinyls'
         });
     </script>
 

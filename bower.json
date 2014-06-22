@@ -20,6 +20,7 @@
   ],
   "dependencies": {
     "three.js": "*",
-    "modernizr": "~2.8.2"
+    "modernizr": "~2.8.2",
+    "tween.js": "https://github.com/sole/tween.js.git"
   }
 }
