@@ -297,9 +297,9 @@
         renderer.domElement.addEventListener('DOMMouseScroll', onScrollEvent, false);
         renderer.domElement.addEventListener('mousewheel', onScrollEvent, false);
 
-        var debug = new THREE.Mesh(new THREE.CubeGeometry(20, 20, 20, 1, 1, 1));
-        debug.position.set(200, 150, 0);
-        scene.add(debug);
+//        var debug = new THREE.Mesh(new THREE.CubeGeometry(20, 20, 20, 1, 1, 1));
+//        debug.position.set(200, 150, 0);
+//        scene.add(debug);
 
         animate()
     };
