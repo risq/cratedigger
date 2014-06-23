@@ -10,7 +10,8 @@
     "es6",
     "globals"
   ],
-  "license": "GPL",
+  "main": "dist/3dvinyls.js",
+  "license": "GPL-2.0",
   "ignore": [
     "**/.*",
     "node_modules",
@@ -19,7 +20,7 @@
     "tests"
   ],
   "dependencies": {
-    "three.js": "*",
+    "threejs": "http://threejs.org/build/three.min.js",
     "modernizr": "~2.8.2",
     "tween.js": "https://github.com/sole/tween.js.git"
   }
