@@ -60,6 +60,7 @@
 
     // Three.js objects
     var container,
+        stats,
         scene,
         camera,
         target,
@@ -83,37 +84,62 @@
     // States, util vars
     var canvasWidth,
         canvasHeight,
-        loading         = false,
-        infosOpened     = false,
-        doRender        = true,
-        mouse           = {x : 0, y : 0},
-        targetCameraPos = {x : 0, y : 0},
-        selectedVinyl   = -1,
-        shownVinyl      = -1,
-        loadedVinyls    = 0;
+        scrollVinylsTimeout,
+        isLoading = false,
+        infosPanelState = "closed",
+        isScrolling = false,
+        doRender = true,
+        mouse = {
+            x: 0,
+            y: 0
+        },
+        mouseDownPos = {
+            x: 0,
+            y: 0
+        },
+        targetCameraPos = {
+            x: 0,
+            y: 0
+        },
+        selectedVinyl = -1,
+        shownVinyl = -1,
+        loadedVinyls = 0;
 
     // Materials
     var wood_material;
 
     // Default settings
     var defaults = {
-        containerId     : 'vinyls',
-        nbCrates        : 2,
-        vinylsPerCrate  : 32,
-        lightIntensity  : 1,
-        cameraMouseMove : true,
-        callbackBefore  : function () {},
-        callbackAfter   : function () {},
+        debug: true,
+        containerId: 'vinyls',
+        nbCrates: 2,
+        vinylsPerCrate: 24,
+        lightIntensity: 1,
+        cameraMouseMove: true,
+        backgroundColor: 0x111111,
+        closeInfoPanelOnClick: true,
+        closeInfoPanelOnScroll: true,
+        callbackBefore: function () {},
+        callbackAfter: function () {},
         constants: {
-            vinylMoveTime           : 1000,
-            cameraMoveTime          : 800,
-            cameraBasePosition      : {
-                x: 230,
-                y: 210,
+            vinylMoveTime: 1000,
+            cameraMoveTime: 800,
+            infosOpenTime: 800,
+            vinylShownY: 25,
+            vinylFlippedY: 100,
+            cameraBasePosition: {
+                x: 270,
+                y: 180,
                 z: 110
             },
-            cameraMouseMoveSpeedY   : 0.05,
-            cameraMouseMoveSpeedZ   : 0.02
+            cameraFocusPosition: {
+                x: 140,
+                y: 180,
+                z: 80
+            },
+            cameraMouseMoveSpeedY: 0.07,
+            cameraMouseMoveSpeedZ: 0.03,
+            grabSensitivity: 6
         }
     };
 
@@ -145,10 +171,10 @@
     Vinyl.prototype.showVinyl = function () {
         if (this.state !== 'shown') {
             this.state = 'shown';
-            this.absolutePosition.setFromMatrixPosition( this.mesh.matrixWorld );
+            this.absolutePosition.setFromMatrixPosition(this.mesh.matrixWorld);
             new TWEEN.Tween(this.mesh.position)
                 .to({
-                    y: 25
+                    y: options.constants.vinylShownY
                 }, options.constants.vinylMoveTime)
                 .easing(TWEEN.Easing.Quartic.Out).start();
             new TWEEN.Tween(this.mesh.rotation)
@@ -159,17 +185,18 @@
             new TWEEN.Tween(target.position)
                 .to({
                     x: this.vinylXPos,
-                    y: 75,
+                    y: 50 + options.constants.vinylShownY,
                     z: this.absolutePosition.z
                 }, options.constants.cameraMoveTime)
                 .easing(TWEEN.Easing.Quartic.Out).start();
             new TWEEN.Tween(camera.position)
                 .to({
-                    x: this.vinylXPos + 140,
-                    y: 190,
-                    z: this.absolutePosition.z + 100
+                    x: this.vinylXPos + options.constants.cameraFocusPosition.x,
+                    y: options.constants.cameraFocusPosition.y,
+                    z: this.absolutePosition.z + options.constants.cameraFocusPosition.z
                 }, options.constants.cameraMoveTime)
                 .easing(TWEEN.Easing.Quartic.Out).start();
+
         }
     };
 
@@ -186,6 +213,7 @@
                     z: Math.PI / 2 + Math.PI / 7
                 }, options.constants.vinylMoveTime)
                 .easing(TWEEN.Easing.Quartic.Out).start();
+
         }
     };
 
@@ -201,6 +229,55 @@
                 .to({
                     z: Math.PI / 2 - Math.PI / 7
                 }, options.constants.vinylMoveTime)
+                .easing(TWEEN.Easing.Quartic.Out).start();
+
+        }
+    };
+
+    Vinyl.prototype.flipVinyl = function (done) {
+        this.state = 'flipped';
+        new TWEEN.Tween(this.mesh.position)
+            .to({
+                y: options.constants.vinylFlippedY
+            }, options.constants.infosOpenTime)
+            .easing(TWEEN.Easing.Quartic.Out).start();
+        new TWEEN.Tween(this.mesh.rotation)
+            .delay(options.constants.infosOpenTime / 4)
+            .to({
+                y: Math.PI
+            }, options.constants.infosOpenTime)
+            .easing(TWEEN.Easing.Quartic.Out).start();
+        new TWEEN.Tween(target.position)
+            .to({
+                x: this.vinylXPos,
+                y: options.constants.vinylFlippedY + 50,
+                z: this.absolutePosition.z
+            }, options.constants.cameraMoveTime)
+            .easing(TWEEN.Easing.Quartic.Out).start()
+            .onComplete(done);
+    };
+
+    Vinyl.prototype.flipBackVinyl = function (done) {
+        if (this.state === 'flipped') {
+            new TWEEN.Tween(this.mesh.position)
+                .delay(options.constants.infosOpenTime / 2)
+                .to({
+                    y: 0
+                }, options.constants.infosOpenTime)
+                .easing(TWEEN.Easing.Quartic.Out).start();
+            new TWEEN.Tween(this.mesh.rotation)
+                .to({
+                    y: 0
+                }, options.constants.infosOpenTime / 2)
+                .easing(TWEEN.Easing.Quartic.Out).start()
+                .onComplete(done);
+            new TWEEN.Tween(target.position)
+                .delay(options.constants.infosOpenTime / 2)
+                .to({
+                    x: this.vinylXPos,
+                    y: 75,
+                    z: this.absolutePosition.z
+                }, options.constants.infosOpenTime)
                 .easing(TWEEN.Easing.Quartic.Out).start();
         }
     };
@@ -221,21 +298,25 @@
         if (doRender) {
             requestAnimationFrame(animate);
             render();
+            if (options.debug) {
+                stats.update();
+            }
         }
     };
 
     var render = function () {
-//        rootContainer.rotation.y += 0.01;
+        //        rootContainer.rotation.y += 0.01;
 
         TWEEN.update();
         updateShownVinyl();
         if (options.cameraMouseMove) {
             targetCameraPos.x = (mouse.x / canvasWidth - 0.5) * 0.25;
             targetCameraPos.y = (mouse.y / canvasWidth - 0.5) * 0.25;
-            rootContainer.rotation.y += options.constants.cameraMouseMoveSpeedY * ( targetCameraPos.x - rootContainer.rotation.y );
-            rootContainer.rotation.z += options.constants.cameraMouseMoveSpeedZ * ( targetCameraPos.y - rootContainer.rotation.z );
+            rootContainer.rotation.y += options.constants.cameraMouseMoveSpeedY * (targetCameraPos.x - rootContainer.rotation.y);
+            rootContainer.rotation.z += options.constants.cameraMouseMoveSpeedZ * (targetCameraPos.y - rootContainer.rotation.z);
         }
         camera.lookAt(target.position);
+
         renderer.render(scene, camera);
     };
 
@@ -258,7 +339,7 @@
         for (var i = 0; i < vinyls.length && i < vinylsData.length; i++) {
             vinyls[i].data = vinylsData[i];
             vinyls[i].mesh.visible = true;
-            vinyls[i].mesh.material.materials = getVinylMaterial(vinylsData[i].cover, false);
+            vinyls[i].mesh.material.materials = getVinylMaterial(vinylsData[i].cover, vinylsData[i].hasSleeve);
         }
         loadedVinyls = vinylsData.length < vinyls.length ? vinylsData.length : vinyls.length;
         console.log('loadedVinyls', loadedVinyls);
@@ -268,15 +349,38 @@
     /*
      * Vinyls select methods
      */
+    var selectVinyl = function (id) {
+        if (infosPanelState === 'opened') {
+            flipBackSelectedVinyl();
+        } else if (infosPanelState !== 'opening' && infosPanelState !== 'closing') {
+            selectedVinyl = id;
+        }
+    };
+
+    var flipSelectedVinyl = function () {
+        infosPanelState = 'opening';
+        vinyls[selectedVinyl].flipVinyl(function () {
+            infosPanelState = 'opened';
+        });
+    };
+
+    var flipBackSelectedVinyl = function () {
+        if (infosPanelState === 'opened') {
+            infosPanelState = 'closing';
+            vinyls[selectedVinyl].flipBackVinyl(function () {
+                infosPanelState = 'closed';
+            });
+        }
+    };
+
     var updateShownVinyl = function () {
-        if (shownVinyl != selectedVinyl) {
+        if (infosPanelState === 'closed' && shownVinyl != selectedVinyl) {
             //console.log('updateShownVinyl..');
             shownVinyl = selectedVinyl;
             for (var vinylId = 0; vinylId < loadedVinyls; vinylId++) {
                 if (selectedVinyl == -1) {
                     vinyls[vinylId].pushVinyl();
-                }
-                else if (vinylId > selectedVinyl &&
+                } else if (vinylId > selectedVinyl &&
                     vinylId > vinyls[selectedVinyl].crateId * options.vinylsPerCrate &&
                     vinylId < (vinyls[selectedVinyl].crateId * options.vinylsPerCrate) + options.vinylsPerCrate) {
                     vinyls[vinylId].pullVinyl();
@@ -310,25 +414,21 @@
 
     var selectPrevVinyl = function () {
         if (selectedVinyl == -1) {
-            selectedVinyl = loadedVinyls - 1;
-        }
-        else if (selectedVinyl < loadedVinyls - 1) {
-            selectedVinyl += 1;
-        }
-        else {
-            selectedVinyl = 0;
+            selectVinyl(loadedVinyls - 1);
+        } else if (selectedVinyl < loadedVinyls - 1) {
+            selectVinyl(selectedVinyl + 1);
+        } else {
+            selectVinyl(0);
         }
     };
 
     var selectNextVinyl = function () {
         if (selectedVinyl == -1) {
-            selectedVinyl = 0;
-        }
-        else if (selectedVinyl > 0) {
-            selectedVinyl -= 1;
-        }
-        else {
-            selectedVinyl = loadedVinyls - 1;
+            selectVinyl(0);
+        } else if (selectedVinyl > 0) {
+            selectVinyl(selectedVinyl - 1);
+        } else {
+            selectVinyl(loadedVinyls - 1);
         }
     };
 
@@ -337,69 +437,110 @@
      * Events handling
      */
     var onMouseMoveEvent = function (e) {
-        var m_posx = 0, m_posy = 0, e_posx = 0, e_posy = 0,
-               obj = this;
+        var m_posx = 0,
+            m_posy = 0,
+            e_posx = 0,
+            e_posy = 0,
+            obj = this;
 
         //get mouse position on document crossbrowser
-        if (!e){e = window.event;}
-        if (e.pageX || e.pageY){
+        if (!e) {
+            e = window.event;
+        }
+        if (e.pageX || e.pageY) {
             m_posx = e.pageX;
             m_posy = e.pageY;
-        } else if (e.clientX || e.clientY){
+        } else if (e.clientX || e.clientY) {
             m_posx = e.clientX + document.body.scrollLeft +
-                    document.documentElement.scrollLeft;
+                document.documentElement.scrollLeft;
             m_posy = e.clientY + document.body.scrollTop +
-                    document.documentElement.scrollTop;
+                document.documentElement.scrollTop;
         }
         //get parent element position in document
-        if (obj.offsetParent){
+        if (obj.offsetParent) {
             do {
                 e_posx += obj.offsetLeft;
                 e_posy += obj.offsetTop;
             } while (obj = obj.offsetParent);
         }
         // mouse position minus elm position is mouseposition relative to element:
-
         mouse.x = m_posx - e_posx;
         mouse.y = m_posy - e_posy;
     };
 
     var onScrollEvent = function (e) {
-        if (wheelDirection(e) < 0) {
-            selectPrevVinyl();
-        } else {
-            selectNextVinyl();
+        if (infosPanelState === 'closed') {
+            if (wheelDirection(e) < 0) {
+                selectPrevVinyl();
+            } else {
+                selectNextVinyl();
+            }
+        }
+        else if (infosPanelState === 'opened' && options.closeInfoPanelOnScroll) {
+            flipBackSelectedVinyl();
         }
         return false;
     };
 
     var onClickEvent = function (e) {
-        if (!loading) {
-            if (!infosOpened) {
-                var vector = new THREE.Vector3(
-                    ( ( e.clientX - renderer.domElement.offsetLeft ) / renderer.domElement.width ) * 2 - 1,
-                    - ( ( e.clientY - renderer.domElement.offsetTop ) / renderer.domElement.height ) * 2 + 1,
-                    0.5
-                );
-                projector.unprojectVector(vector, camera);
-                var raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
-                var intersects = raycaster.intersectObjects(cratesContainer.children, true);
+        if (infosPanelState === 'closed') {
+            var vector = new THREE.Vector3(
+                ((e.clientX - renderer.domElement.offsetLeft) / renderer.domElement.width) * 2 - 1, -((e.clientY - renderer.domElement.offsetTop) / renderer.domElement.height) * 2 + 1,
+                0.5
+            );
+            projector.unprojectVector(vector, camera);
+            var raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
+            var intersects = raycaster.intersectObjects(cratesContainer.children, true);
 
-                if (intersects.length > 0 && intersects[0].object.vinylId >= 0) {
-                    var clickedVinyl = vinyls[intersects[0].object.vinylId];
-                    if (clickedVinyl.state == 'shown') {
-                        //flip
-                    }
-                    else {
-                        selectedVinyl = clickedVinyl.id;
-                    }
+            if (intersects.length > 0 && intersects[0].object.vinylId >= 0) {
+                var clickedVinyl = vinyls[intersects[0].object.vinylId];
+                if (selectedVinyl === clickedVinyl.id) {
+                    flipSelectedVinyl();
+                } else {
+                    selectVinyl(clickedVinyl.id);
                 }
-                else {
-                    selectedVinyl = -1;
-                }
-                return false;
+            } else {
+                resetShownVinyl();
             }
+            return false;
         }
+    };
+
+    var onMouseDownEvent = function (e) {
+        clearInterval(scrollVinylsTimeout);
+        if (infosPanelState === 'closed') {
+            scrollVinyls(mouse.y);
+            mouseDownPos = {
+                x: mouse.x,
+                y: mouse.y
+            };
+        }
+        else if (infosPanelState === 'opened' && options.closeInfoPanelOnClick) {
+            flipBackSelectedVinyl();
+        }
+    };
+
+    var onMouseUpEvent = function (e) {
+        clearInterval(scrollVinylsTimeout);
+        classie.remove(renderer.domElement, 'grab');
+        if (coordsEqualsApprox(mouseDownPos, mouse, options.constants.grabSensitivity)) {
+            onClickEvent(e);
+        }
+    };
+
+    var scrollVinyls = function (baseY) {
+        scrollVinylsTimeout = setTimeout(function () {
+            classie.add(renderer.domElement, 'grab');
+            var delta = (baseY - mouse.y) / canvasHeight;
+            if (delta > 0) {
+                selectNextVinyl();
+                //console.log("NEXT VINYL " + delta);
+            } else if (delta < 0) {
+                selectPrevVinyl();
+                //console.log("PREV VINYL " + delta);
+            }
+            scrollVinyls(baseY);
+        }, 75);
     };
 
     /*
@@ -416,17 +557,13 @@
 
         container.appendChild(renderer.domElement);
         renderer.domElement.id = "context";
+        renderer.setClearColorHex(options.backgroundColor, 1);
 
         camera = new THREE.PerspectiveCamera(45, canvasWidth / canvasHeight, 0.1, 20000);
-        camera.position.set(
-            options.constants.cameraBasePosition.x,
-            options.constants.cameraBasePosition.y,
-            options.constants.cameraBasePosition.z
-        );
 
         target = new THREE.Object3D();
-//        target = new THREE.Mesh(new THREE.BoxGeometry(10, 10, 10, 1, 1, 1));
-//        scene.add(target);
+        //        target = new THREE.Mesh(new THREE.BoxGeometry(10, 10, 10, 1, 1, 1));
+        //        scene.add(target);
         camera.lookAt(target.position);
 
         projector = new THREE.Projector();
@@ -454,13 +591,28 @@
         renderer.domElement.addEventListener('DOMMouseScroll', onScrollEvent, false);
         renderer.domElement.addEventListener('mousewheel', onScrollEvent, false);
         renderer.domElement.addEventListener('mousemove', onMouseMoveEvent, false);
-        renderer.domElement.addEventListener('mousedown', onClickEvent, false);
+        renderer.domElement.addEventListener('mousedown', onMouseDownEvent, false);
+        renderer.domElement.addEventListener('mouseup', onMouseUpEvent, false);
+        //        renderer.domElement.addEventListener('click', onClickEvent, false);
 
-//        var debug = new THREE.Mesh(new THREE.BoxGeometry(20, 20, 20, 1, 1, 1));
-//        debug.position.set(200, 150, 0);
-//        scene.add(debug);
+        //        var debug = new THREE.Mesh(new THREE.BoxGeometry(20, 20, 20, 1, 1, 1));
+        //        debug.position.set(200, 150, 0);
+        //        scene.add(debug);
 
+        if (options.debug) {
+            initDebug();
+        }
+        resetShownVinyl();
         animate();
+    };
+
+    var initDebug = function () {
+        stats = new Stats();
+        stats.domElement.style.position = 'absolute';
+        stats.domElement.style.left = "0px";
+        stats.domElement.style.top = "0px";
+        container.style.position = 'relative';
+        container.appendChild(stats.domElement);
     };
 
     var initCrates = function () {
@@ -533,22 +685,21 @@
 
         var texture = new THREE.Texture(mapCanvas);
 
-        img.onload = function() {
+        img.onload = function () {
             if (hasSleeve) {
                 var sleeve = new Image();
-                sleeve.src = 'sleeve.png';
+                sleeve.src = 'img/sleeve.png';
 
-                sleeve.onload = function() {
+                sleeve.onload = function () {
                     var ctx = mapCanvas.getContext('2d');
                     ctx.translate(imgWidth / 2, imgHeight / 2);
                     ctx.rotate(Math.PI / 2);
                     ctx.translate(-imgWidth / 2, -imgHeight / 2);
-                    ctx.drawImage(img, 166, 166, 180, 180);
+                    ctx.drawImage(img, 130, 130, 135, 135);
                     ctx.drawImage(sleeve, 0, 0, 400, 400);
                     texture.needsUpdate = true;
                 };
-            }
-            else {
+            } else {
                 var ctx = mapCanvas.getContext('2d');
                 ctx.translate(imgWidth / 2, imgHeight / 2);
                 ctx.rotate(Math.PI / 2);
@@ -601,6 +752,10 @@
         return (e.detail < 0) ? 1 : (e.wheelDelta > 0) ? 1 : -1;
     };
 
+    var coordsEqualsApprox = function (coord1, coord2, range) {
+        return (Math.abs(coord1.x - coord2.x) <= range) && (Math.abs(coord1.y - coord2.y) <= range);
+    };
+
     /*
      *  Exports
      */
@@ -611,9 +766,9 @@
         console.log('initializing...');
         console.log('options:', options);
 
-        container       = document.getElementById(options.containerId);
-        canvasWidth     = options.canvasWidth ? options.canvasWidth : container.offsetWidth;
-        canvasHeight    = options.canvasHeight ? options.canvasHeight : container.offsetHeight;
+        container = document.getElementById(options.containerId);
+        canvasWidth = options.canvasWidth ? options.canvasWidth : container.offsetWidth;
+        canvasHeight = options.canvasHeight ? options.canvasHeight : container.offsetHeight;
 
         console.log(container);
         initScene();
@@ -621,11 +776,9 @@
     exports.selectVinyl = function (id) {
         if (id < 0) {
             resetShownVinyl();
-        }
-        else if (id > loadedVinyls) {
-            selectedVinyl =  loadedVinyls - 1;
-        }
-        else {
+        } else if (id > loadedVinyls) {
+            selectedVinyl = loadedVinyls - 1;
+        } else {
             selectedVinyl = id;
         }
     };

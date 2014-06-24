@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>3dvinyls.js</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <link rel="stylesheet" href="css/3dvinyls.css" />
     <!-- HTML5 Shim for IE -->
     <!--[if IE]>
         <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -16,9 +16,11 @@
     <div id="vinyls" style="width: 800px; height: 600px"></div>
 
     <!-- Javascript -->
-    <script src='../bower_components/modernizr/modernizr.js'></script>
-    <script src='../bower_components/threejs/index.js'></script>
-    <script src='../bower_components/tween.js/build/tween.min.js'></script>
+    <script src="bower_components/modernizr/modernizr.js"></script>
+    <script src="bower_components/classie/classie.js"></script>
+    <script src="bower_components/threejs/index.js"></script>
+    <script src="bower_components/tween.js/build/tween.min.js"></script>
+    <script src="bower_components/stats.js/build/stats.min.js"></script>
 
     <script src='script/3dvinyls.js'></script>
     <script>
@@ -28,15 +30,20 @@
 
         var vinylsData = [];
         for (var i = 0; i < 80; i++) {
-            vinylsData[i] = {};
-            vinylsData[i].cover = 'https://cdns-images.deezer.com/images/cover/b9049f80e2d9aed923144beb6d069086/400x400-000000-80-0-0.jpg';
+            vinylsData[i] = {
+                cover: 'http://cdn-images.deezer.com/images/cover/fb2b1fbdb9779c146ef7bee3c4d00507/400x400-000000-80-0-0.jpg',
+                hasSleeve: false
+            };
         };
         var vinylsData2 = [];
         for (var i = 0; i < 30; i++) {
-            vinylsData2[i] = {};
-            vinylsData2[i].cover = 'http://cdn-images.deezer.com/images/cover/90665acc69b221b7cb04e53c7b81f7f4/400x400-000000-80-0-0.jpg';
+            vinylsData2[i] = {
+                cover: 'http://cdn-images.deezer.com/images/cover/90665acc69b221b7cb04e53c7b81f7f4/400x400-000000-80-0-0.jpg',
+                hasSleeve: true
+            };
         };
         vinyls.loadVinyls(vinylsData);
+
     </script>
 
 </body>

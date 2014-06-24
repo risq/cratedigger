@@ -1,0 +1,14 @@
+body {
+    -webkit-touch-callout: none;
+
+    -webkit-user-select: none;
+
+    -moz-user-select: none;
+
+    user-select: none;
+}
+
+.grab {
+    cursor:-webkit-grabbing;
+    cursor:-moz-grabbing
+}
