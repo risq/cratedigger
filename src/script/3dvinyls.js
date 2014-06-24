@@ -67,7 +67,8 @@
         renderer,
         projector,
         light,
-        leftLight;
+        leftLight,
+        rightLight;
 
     // Feature test
     var supports = !!document.querySelector && !!root.addEventListener;
@@ -111,12 +112,15 @@
     // Default settings
     var defaults = {
         debug: true,
+        canvasWidth: null,
+        canvasHeight: null,
         containerId: 'vinyls',
         nbCrates: 2,
         vinylsPerCrate: 24,
         lightIntensity: 1,
         cameraMouseMove: true,
         backgroundColor: 0x111111,
+        sleeveColor: 0x0d0702,
         closeInfoPanelOnClick: true,
         closeInfoPanelOnScroll: true,
         callbackBefore: function () {},
@@ -177,11 +181,13 @@
                     y: options.constants.vinylShownY
                 }, options.constants.vinylMoveTime)
                 .easing(TWEEN.Easing.Quartic.Out).start();
+
             new TWEEN.Tween(this.mesh.rotation)
                 .to({
                     z: Math.PI / 2
                 }, options.constants.vinylMoveTime)
                 .easing(TWEEN.Easing.Quartic.Out).start();
+
             new TWEEN.Tween(target.position)
                 .to({
                     x: this.vinylXPos,
@@ -189,6 +195,7 @@
                     z: this.absolutePosition.z
                 }, options.constants.cameraMoveTime)
                 .easing(TWEEN.Easing.Quartic.Out).start();
+
             new TWEEN.Tween(camera.position)
                 .to({
                     x: this.vinylXPos + options.constants.cameraFocusPosition.x,
@@ -208,6 +215,7 @@
                     y: 0
                 }, options.constants.vinylMoveTime)
                 .easing(TWEEN.Easing.Quartic.Out).start();
+
             new TWEEN.Tween(this.mesh.rotation)
                 .to({
                     z: Math.PI / 2 + Math.PI / 7
@@ -225,6 +233,7 @@
                     y: 0
                 }, options.constants.vinylMoveTime)
                 .easing(TWEEN.Easing.Quartic.Out).start();
+
             new TWEEN.Tween(this.mesh.rotation)
                 .to({
                     z: Math.PI / 2 - Math.PI / 7
@@ -241,18 +250,20 @@
                 y: options.constants.vinylFlippedY
             }, options.constants.infosOpenTime)
             .easing(TWEEN.Easing.Quartic.Out).start();
+
         new TWEEN.Tween(this.mesh.rotation)
             .delay(options.constants.infosOpenTime / 4)
             .to({
                 y: Math.PI
             }, options.constants.infosOpenTime)
             .easing(TWEEN.Easing.Quartic.Out).start();
+
         new TWEEN.Tween(target.position)
             .to({
                 x: this.vinylXPos,
                 y: options.constants.vinylFlippedY + 50,
                 z: this.absolutePosition.z
-            }, options.constants.cameraMoveTime)
+            }, options.constants.infosOpenTime)
             .easing(TWEEN.Easing.Quartic.Out).start()
             .onComplete(done);
     };
@@ -265,12 +276,14 @@
                     y: 0
                 }, options.constants.infosOpenTime)
                 .easing(TWEEN.Easing.Quartic.Out).start();
+
             new TWEEN.Tween(this.mesh.rotation)
                 .to({
                     y: 0
                 }, options.constants.infosOpenTime / 2)
                 .easing(TWEEN.Easing.Quartic.Out).start()
                 .onComplete(done);
+
             new TWEEN.Tween(target.position)
                 .delay(options.constants.infosOpenTime / 2)
                 .to({
@@ -557,7 +570,7 @@
 
         container.appendChild(renderer.domElement);
         renderer.domElement.id = "context";
-        renderer.setClearColorHex(options.backgroundColor, 1);
+        renderer.setClearColor(options.backgroundColor, 1);
 
         camera = new THREE.PerspectiveCamera(45, canvasWidth / canvasHeight, 0.1, 20000);
 
@@ -581,12 +594,16 @@
         initVinyls();
 
         light = new THREE.PointLight(0xFFFFFF, options.lightIntensity * 1.1);
-        light.position.set(175, 90, 0);
+        light.position.set(300, 80, 0);
         scene.add(light);
 
         leftLight = new THREE.PointLight(0xFFFFFF, options.lightIntensity * 0.6);
-        leftLight.position.set(200, 150, 1000);
+        leftLight.position.set(-100, 300, 1000);
         scene.add(leftLight);
+
+        rightLight = new THREE.PointLight(0xFFFFFF, options.lightIntensity * 0.6);
+        rightLight.position.set(-100, 300, -1000);
+        scene.add(rightLight);
 
         renderer.domElement.addEventListener('DOMMouseScroll', onScrollEvent, false);
         renderer.domElement.addEventListener('mousewheel', onScrollEvent, false);
@@ -595,9 +612,6 @@
         renderer.domElement.addEventListener('mouseup', onMouseUpEvent, false);
         //        renderer.domElement.addEventListener('click', onClickEvent, false);
 
-        //        var debug = new THREE.Mesh(new THREE.BoxGeometry(20, 20, 20, 1, 1, 1));
-        //        debug.position.set(200, 150, 0);
-        //        scene.add(debug);
 
         if (options.debug) {
             initDebug();
@@ -613,6 +627,15 @@
         stats.domElement.style.top = "0px";
         container.style.position = 'relative';
         container.appendChild(stats.domElement);
+
+        var debug = new THREE.Mesh(new THREE.BoxGeometry(20, 20, 20, 1, 1, 1));
+        debug.position.set(
+            light.position.x,
+            light.position.y,
+            light.position.z
+        );
+        scene.add(debug);
+
     };
 
     var initCrates = function () {
@@ -709,27 +732,21 @@
             }
         };
 
+        var sleeveMaterial = new THREE.MeshLambertMaterial({
+            color: options.sleeveColor
+        });
+
         var materials = [
-            new THREE.MeshLambertMaterial({
-                color: 0x1a0e05
-            }),
-            new THREE.MeshLambertMaterial({
-                color: 0x1a0e05
-            }),
-            new THREE.MeshLambertMaterial({
-                color: 0x1a0e05
-            }),
+            sleeveMaterial,
+            sleeveMaterial,
+            sleeveMaterial,
             // texture
             new THREE.MeshLambertMaterial({
                 color: 0xffffff,
                 map: texture
             }),
-            new THREE.MeshLambertMaterial({
-                color: 0x1a0e05
-            }),
-            new THREE.MeshLambertMaterial({
-                color: 0x1a0e05
-            })
+            sleeveMaterial,
+            sleeveMaterial
         ];
         return materials;
     };
