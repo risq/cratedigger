@@ -8,7 +8,8 @@ var gulp = require('gulp'),
     runSequence = require('run-sequence'),
     connect = require('gulp-connect'),
     autoprefixer = require('gulp-autoprefixer'),
-    cssmin = require('gulp-cssmin');
+    cssmin = require('gulp-cssmin'),
+    shell = require('gulp-shell');
 
 
 gulp.task('connect', function() {
@@ -19,26 +20,31 @@ gulp.task('connect', function() {
 });
 
 // Scripts
-gulp.task('scripts-build', function() {
-  return gulp.src('src/script/**/*.js')
+gulp.task('build-scripts', function() {
+  return gulp.src('src/scripts/**/*.js')
     .pipe(jshint('.jshintrc'))
     .pipe(jshint.reporter('default'))
     .pipe(concat('cratedigger.js'))
-    .pipe(gulp.dest('dist'))
+    .pipe(gulp.dest('dist/scripts'))
     .pipe(rename({ suffix: '.min' }))
     .pipe(uglify())
-    .pipe(gulp.dest('dist'))
+    .pipe(gulp.dest('dist/scripts'))
 });
 
 // Styles
-gulp.task('styles-build', function() {
-  return gulp.src('src/css/**/*.css')
+gulp.task('build-styles', function() {
+  return gulp.src('src/styles/**/*.css')
     .pipe(concat('cratedigger.css'))
     .pipe(autoprefixer())
-    .pipe(gulp.dest('dist'))
+    .pipe(gulp.dest('dist/styles'))
     .pipe(cssmin())
     .pipe(rename({ suffix: '.min' }))
-    .pipe(gulp.dest('dist'))
+    .pipe(gulp.dest('dist/styles'))
+});
+
+gulp.task('build-imgs', function() {
+    return gulp.src('src/img/*')
+        .pipe(gulp.dest('dist/img'))
 });
 
 // Clean
@@ -48,8 +54,33 @@ gulp.task('clean', function() {
 });
 
 gulp.task('build', function () {
-    runSequence('clean', ['scripts-build', 'styles-build']);
+    runSequence('clean', ['build-scripts', 'build-styles', 'build-imgs']);
 });
+
+gulp.task('build-demo', function () {
+    runSequence('clean', ['build-scripts', 'build-styles'], 'move-demo-files', 'bower-install-demo');
+});
+
+gulp.task('move-demo-files', function () {
+    gulp.src('src/demo.html')
+        .pipe(rename('index.html'))
+        .pipe(gulp.dest('demo'))
+    gulp.src('dist/styles/*.css')
+        .pipe(gulp.dest('demo/styles'))
+    gulp.src('dist/scripts/*.js')
+        .pipe(gulp.dest('demo/scripts'))
+    gulp.src('src/img/*')
+        .pipe(gulp.dest('demo/img'))
+    gulp.src('bower.json')
+        .pipe(gulp.dest('demo'))
+});
+
+gulp.task('bower-install-demo', function () {
+    gulp.src('./')
+        .pipe(shell([
+            'cp -r src/bower_components demo/bower_components'
+        ]))
+})
 
 gulp.task('default', ['connect']);
 
