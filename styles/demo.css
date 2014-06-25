@@ -1,0 +1,17 @@
+html, body {
+    background-color: #111111;
+    height: 100%;
+    margin: 0;
+}
+
+
+#cratedigger-container {
+    width: 800px;
+    height: 600px;
+    position: absolute;
+    margin: auto;
+    bottom: 0;
+    left: 0;
+    top: 0;
+    right: 0;
+}

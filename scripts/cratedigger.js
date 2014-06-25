@@ -58,13 +58,13 @@
     var options = {},
         exports = {}, // Object for public APIs
 
-    // DOM container elements
+        // DOM container elements
         rootContainerElement,
         canvasContainerElement,
         loadingContainerElement,
         infosContainerElement,
 
-    // Three.js objects
+        // Three.js objects
         stats,
         scene,
         camera,
@@ -75,19 +75,19 @@
         leftLight,
         rightLight,
 
-    // Feature test
+        // Feature test
         supports = !!document.querySelector && !!root.addEventListener,
 
-    // Objects arrays
+        // Objects arrays
         crates = [],
         vinyls = [],
 
-    // Three.js objects containers
+        // Three.js objects containers
         rootContainer,
         cratesContainer,
         vinylsContainer,
 
-    // States, util vars
+        // States, util vars
         canvasWidth,
         canvasHeight,
         scrollVinylsTimeout,
@@ -111,49 +111,49 @@
         shownVinyl = -1,
         loadedVinyls = 0,
 
-    // Materials
+        // Materials
         wood_material,
 
-    // Default settings
+        // Default settings
         defaults = {
-        debug: true,
-        canvasWidth: null,
-        canvasHeight: null,
-        rootContainerId     : 'vinyls',
-        canvasContainerId   : 'vinylsCanvas',
-        loadingContainerId  : 'vinylsLoading',
-        infosContainerId    : 'vinylsInfos',
-        nbCrates: 2,
-        vinylsPerCrate: 24,
-        lightIntensity: 1,
-        cameraMouseMove: true,
-        backgroundColor: 0x111111,
-        sleeveColor: 0x0d0702,
-        closeInfoPanelOnClick: true,
-        closeInfoPanelOnScroll: true,
-        callbackBefore: function () {},
-        callbackAfter: function () {},
-        constants: {
-            vinylMoveTime: 1000,
-            cameraMoveTime: 800,
-            infosOpenTime: 800,
-            vinylShownY: 25,
-            vinylFlippedY: 100,
-            cameraBasePosition: {
-                x: 270,
-                y: 180,
-                z: 110
-            },
-            cameraFocusPosition: {
-                x: 140,
-                y: 180,
-                z: 80
-            },
-            cameraMouseMoveSpeedY: 0.07,
-            cameraMouseMoveSpeedZ: 0.03,
-            grabSensitivity: 6
-        }
-    };
+            debug: true,
+            canvasWidth: null,
+            canvasHeight: null,
+            rootContainerId     : 'vinyls',
+            canvasContainerId   : 'vinylsCanvas',
+            loadingContainerId  : 'vinylsLoading',
+            infosContainerId    : 'vinylsInfos',
+            nbCrates: 2,
+            vinylsPerCrate: 24,
+            lightIntensity: 1,
+            cameraMouseMove: true,
+            backgroundColor: 0x111111,
+            sleeveColor: 0x0d0702,
+            closeInfoPanelOnClick: true,
+            closeInfoPanelOnScroll: true,
+            callbackBefore: function () {},
+            callbackAfter: function () {},
+            constants: {
+                vinylMoveTime: 1000,
+                cameraMoveTime: 800,
+                infosOpenTime: 800,
+                vinylShownY: 25,
+                vinylFlippedY: 100,
+                cameraBasePosition: {
+                    x: 270,
+                    y: 180,
+                    z: 110
+                },
+                cameraFocusPosition: {
+                    x: 140,
+                    y: 180,
+                    z: 80
+                },
+                cameraMouseMoveSpeedY: 0.07,
+                cameraMouseMoveSpeedZ: 0.03,
+                grabSensitivity: 6
+            }
+        };
 
     /*
      *  Classes
@@ -176,8 +176,8 @@
 
     Vinyl.prototype.log = function () {
         console.log("Vinyl n°", this.id,
-            "crateId =", this.crateId,
-            "pos =", this.pos);
+                    "crateId =", this.crateId,
+                    "pos =", this.pos);
     };
 
     Vinyl.prototype.showVinyl = function () {
@@ -185,32 +185,32 @@
             this.state = 'shown';
             this.absolutePosition.setFromMatrixPosition(this.mesh.matrixWorld);
             new TWEEN.Tween(this.mesh.position)
-                .to({
-                    y: options.constants.vinylShownY
-                }, options.constants.vinylMoveTime)
-                .easing(TWEEN.Easing.Quartic.Out).start();
+            .to({
+                y: options.constants.vinylShownY
+            }, options.constants.vinylMoveTime)
+            .easing(TWEEN.Easing.Quartic.Out).start();
 
             new TWEEN.Tween(this.mesh.rotation)
-                .to({
-                    z: Math.PI / 2
-                }, options.constants.vinylMoveTime)
-                .easing(TWEEN.Easing.Quartic.Out).start();
+            .to({
+                z: Math.PI / 2
+            }, options.constants.vinylMoveTime)
+            .easing(TWEEN.Easing.Quartic.Out).start();
 
             new TWEEN.Tween(target.position)
-                .to({
-                    x: this.vinylXPos,
-                    y: 50 + options.constants.vinylShownY,
-                    z: this.absolutePosition.z
-                }, options.constants.cameraMoveTime)
-                .easing(TWEEN.Easing.Quartic.Out).start();
+            .to({
+                x: this.vinylXPos,
+                y: 50 + options.constants.vinylShownY,
+                z: this.absolutePosition.z
+            }, options.constants.cameraMoveTime)
+            .easing(TWEEN.Easing.Quartic.Out).start();
 
             new TWEEN.Tween(camera.position)
-                .to({
-                    x: this.vinylXPos + options.constants.cameraFocusPosition.x,
-                    y: options.constants.cameraFocusPosition.y,
-                    z: this.absolutePosition.z + options.constants.cameraFocusPosition.z
-                }, options.constants.cameraMoveTime)
-                .easing(TWEEN.Easing.Quartic.Out).start();
+            .to({
+                x: this.vinylXPos + options.constants.cameraFocusPosition.x,
+                y: options.constants.cameraFocusPosition.y,
+                z: this.absolutePosition.z + options.constants.cameraFocusPosition.z
+            }, options.constants.cameraMoveTime)
+            .easing(TWEEN.Easing.Quartic.Out).start();
 
         }
     };
@@ -219,16 +219,16 @@
         if (this.state != 'pushed') {
             this.state = 'pushed';
             new TWEEN.Tween(this.mesh.position)
-                .to({
-                    y: 0
-                }, options.constants.vinylMoveTime)
-                .easing(TWEEN.Easing.Quartic.Out).start();
+            .to({
+                y: 0
+            }, options.constants.vinylMoveTime)
+            .easing(TWEEN.Easing.Quartic.Out).start();
 
             new TWEEN.Tween(this.mesh.rotation)
-                .to({
-                    z: Math.PI / 2 + Math.PI / 7
-                }, options.constants.vinylMoveTime)
-                .easing(TWEEN.Easing.Quartic.Out).start();
+            .to({
+                z: Math.PI / 2 + Math.PI / 7
+            }, options.constants.vinylMoveTime)
+            .easing(TWEEN.Easing.Quartic.Out).start();
 
         }
     };
@@ -237,16 +237,16 @@
         if (this.state !== 'pulled') {
             this.state = 'pulled';
             new TWEEN.Tween(this.mesh.position)
-                .to({
-                    y: 0
-                }, options.constants.vinylMoveTime)
-                .easing(TWEEN.Easing.Quartic.Out).start();
+            .to({
+                y: 0
+            }, options.constants.vinylMoveTime)
+            .easing(TWEEN.Easing.Quartic.Out).start();
 
             new TWEEN.Tween(this.mesh.rotation)
-                .to({
-                    z: Math.PI / 2 - Math.PI / 7
-                }, options.constants.vinylMoveTime)
-                .easing(TWEEN.Easing.Quartic.Out).start();
+            .to({
+                z: Math.PI / 2 - Math.PI / 7
+            }, options.constants.vinylMoveTime)
+            .easing(TWEEN.Easing.Quartic.Out).start();
 
         }
     };
@@ -254,52 +254,52 @@
     Vinyl.prototype.flipVinyl = function (done) {
         this.state = 'flipped';
         new TWEEN.Tween(this.mesh.position)
-            .to({
-                y: options.constants.vinylFlippedY
-            }, options.constants.infosOpenTime)
-            .easing(TWEEN.Easing.Quartic.Out).start();
+        .to({
+            y: options.constants.vinylFlippedY
+        }, options.constants.infosOpenTime)
+        .easing(TWEEN.Easing.Quartic.Out).start();
 
         new TWEEN.Tween(this.mesh.rotation)
-            .delay(options.constants.infosOpenTime / 4)
-            .to({
-                y: Math.PI
-            }, options.constants.infosOpenTime)
-            .easing(TWEEN.Easing.Quartic.Out).start();
+        .delay(options.constants.infosOpenTime / 4)
+        .to({
+            y: Math.PI
+        }, options.constants.infosOpenTime)
+        .easing(TWEEN.Easing.Quartic.Out).start();
 
         new TWEEN.Tween(target.position)
-            .to({
-                x: this.vinylXPos,
-                y: options.constants.vinylFlippedY + 50,
-                z: this.absolutePosition.z
-            }, options.constants.infosOpenTime)
-            .easing(TWEEN.Easing.Quartic.Out).start()
-            .onComplete(done);
+        .to({
+            x: this.vinylXPos,
+            y: options.constants.vinylFlippedY + 50,
+            z: this.absolutePosition.z
+        }, options.constants.infosOpenTime)
+        .easing(TWEEN.Easing.Quartic.Out).start()
+        .onComplete(done);
     };
 
     Vinyl.prototype.flipBackVinyl = function (done) {
         if (this.state === 'flipped') {
             new TWEEN.Tween(this.mesh.position)
-                .delay(options.constants.infosOpenTime / 2)
-                .to({
-                    y: 0
-                }, options.constants.infosOpenTime)
-                .easing(TWEEN.Easing.Quartic.Out).start();
+            .delay(options.constants.infosOpenTime / 2)
+            .to({
+                y: 0
+            }, options.constants.infosOpenTime)
+            .easing(TWEEN.Easing.Quartic.Out).start();
 
             new TWEEN.Tween(this.mesh.rotation)
-                .to({
-                    y: 0
-                }, options.constants.infosOpenTime / 2)
-                .easing(TWEEN.Easing.Quartic.Out).start()
-                .onComplete(done);
+            .to({
+                y: 0
+            }, options.constants.infosOpenTime / 2)
+            .easing(TWEEN.Easing.Quartic.Out).start()
+            .onComplete(done);
 
             new TWEEN.Tween(target.position)
-                .delay(options.constants.infosOpenTime / 2)
-                .to({
-                    x: this.vinylXPos,
-                    y: 75,
-                    z: this.absolutePosition.z
-                }, options.constants.infosOpenTime)
-                .easing(TWEEN.Easing.Quartic.Out).start();
+            .delay(options.constants.infosOpenTime / 2)
+            .to({
+                x: this.vinylXPos,
+                y: 75,
+                z: this.absolutePosition.z
+            }, options.constants.infosOpenTime)
+            .easing(TWEEN.Easing.Quartic.Out).start();
         }
     };
 
@@ -402,8 +402,8 @@
                 if (selectedVinyl == -1) {
                     vinyls[vinylId].pushVinyl();
                 } else if (vinylId > selectedVinyl &&
-                    vinylId > vinyls[selectedVinyl].crateId * options.vinylsPerCrate &&
-                    vinylId < (vinyls[selectedVinyl].crateId * options.vinylsPerCrate) + options.vinylsPerCrate) {
+                           vinylId > vinyls[selectedVinyl].crateId * options.vinylsPerCrate &&
+                           vinylId < (vinyls[selectedVinyl].crateId * options.vinylsPerCrate) + options.vinylsPerCrate) {
                     vinyls[vinylId].pullVinyl();
                 } else if (vinylId == selectedVinyl) {
                     vinyls[vinylId].showVinyl();
@@ -417,20 +417,20 @@
     var resetShownVinyl = function () {
         selectedVinyl = -1;
         new TWEEN.Tween(target.position)
-            .to({
-                x: 0,
-                y: 0,
-                z: 0
-            }, options.constants.cameraMoveTime)
-            .easing(TWEEN.Easing.Quartic.Out).start();
+        .to({
+            x: 0,
+            y: 0,
+            z: 0
+        }, options.constants.cameraMoveTime)
+        .easing(TWEEN.Easing.Quartic.Out).start();
 
         new TWEEN.Tween(camera.position)
-            .to({
-                x: options.constants.cameraBasePosition.x,
-                y: options.constants.cameraBasePosition.y,
-                z: options.constants.cameraBasePosition.z
-            }, options.constants.cameraMoveTime)
-            .easing(TWEEN.Easing.Quartic.Out).start();
+        .to({
+            x: options.constants.cameraBasePosition.x,
+            y: options.constants.cameraBasePosition.y,
+            z: options.constants.cameraBasePosition.z
+        }, options.constants.cameraMoveTime)
+        .easing(TWEEN.Easing.Quartic.Out).start();
     };
 
     var selectPrevVinyl = function () {
@@ -503,10 +503,10 @@
         return false;
     };
 
-    var onClickEvent = function (e) {
+    var onClickEvent = function (mouseDownPos) {
         if (infosPanelState === 'closed') {
             var vector = new THREE.Vector3(
-                ((e.clientX - renderer.domElement.offsetLeft) / renderer.domElement.width) * 2 - 1, -((e.clientY - renderer.domElement.offsetTop) / renderer.domElement.height) * 2 + 1,
+                ((mouseDownPos.x - renderer.domElement.offsetLeft) / renderer.domElement.width) * 2 - 1, -((mouseDownPos.y - renderer.domElement.offsetTop) / renderer.domElement.height) * 2 + 1,
                 0.5
             );
             projector.unprojectVector(vector, camera);
@@ -545,7 +545,7 @@
         clearInterval(scrollVinylsTimeout);
         classie.remove(renderer.domElement, 'grab');
         if (coordsEqualsApprox(mouseDownPos, mouse, options.constants.grabSensitivity)) {
-            onClickEvent(e);
+            onClickEvent(mouseDownPos);
         }
     };
 
