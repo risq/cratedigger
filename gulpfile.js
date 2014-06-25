@@ -23,7 +23,7 @@ gulp.task('scripts-build', function() {
   return gulp.src('src/script/**/*.js')
     .pipe(jshint('.jshintrc'))
     .pipe(jshint.reporter('default'))
-    .pipe(concat('3dvinyls.js'))
+    .pipe(concat('cratedigger.js'))
     .pipe(gulp.dest('dist'))
     .pipe(rename({ suffix: '.min' }))
     .pipe(uglify())

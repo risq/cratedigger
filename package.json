@@ -1,21 +1,21 @@
 {
-  "name": "3dvinyls.js",
+  "name": "cratedigger.js",
   "version": "0.0.1",
-  "description": "3dvinyls.js\r ===========",
-  "main": "dist/3dvinyls.js",
+  "description": "cratedigger.js\r ===========",
+  "main": "dist/cratedigger.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/risq/3dvinyls.js.git"
+    "url": "git://github.com/risq/cratedigger.js.git"
   },
   "author": "risq",
   "license": "GPL-2.0",
   "bugs": {
-    "url": "https://github.com/risq/3dvinyls.js/issues"
+    "url": "https://github.com/risq/cratedigger.js/issues"
   },
-  "homepage": "https://github.com/risq/3dvinyls.js",
+  "homepage": "https://github.com/risq/cratedigger.js",
   "devDependencies": {
     "gulp": "^3.8.1",
     "gulp-clean": "^0.3.0",

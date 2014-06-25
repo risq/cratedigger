@@ -32,7 +32,7 @@
 
 /**
  *
- * 3dvinyls.js v0.0.1
+ * cratedigger.js v0.0.1
  * By risq.
  *
  */
@@ -44,7 +44,7 @@
     } else if (typeof exports === 'object') {
         module.exports = factory;
     } else {
-        root.vinyls = factory(root);
+        root.cratedigger = factory(root);
     }
 })(this, function (root) {
 
@@ -800,22 +800,22 @@
 
         rootContainerElement    = document.getElementById(options.rootContainerId);
         if (!rootContainerElement) {
-            console.log('3dvinyls.js - Init failed : can not find root container element.');
+            console.log('cratedigger.js - Init failed : can not find root container element.');
             return;
         }
         canvasContainerElement  = document.getElementById(options.canvasContainerId);
         if (!rootContainerElement) {
-            console.log('3dvinyls.js - Init failed : can not find canvas container element.');
+            console.log('cratedigger.js - Init failed : can not find canvas container element.');
             return;
         }
         loadingContainerElement = document.getElementById(options.loadingContainerId);
         if (!rootContainerElement) {
-            console.log('3dvinyls.js - Init failed : can not find loading container element.');
+            console.log('cratedigger.js - Init failed : can not find loading container element.');
             return;
         }
         infosContainerElement   = document.getElementById(options.infosContainerId);
         if (!rootContainerElement) {
-            console.log('3dvinyls.js - Init failed : can not find infos container element.');
+            console.log('cratedigger.js - Init failed : can not find infos container element.');
             return;
         }
 

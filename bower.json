@@ -1,7 +1,7 @@
 {
-  "name": "3dvinyls.js",
+  "name": "cratedigger.js",
   "version": "0.0.1",
-  "homepage": "https://github.com/risq/3dvinyls.js",
+  "homepage": "https://github.com/risq/cratedigger.js",
   "authors": [
     "risq <valentin.ledrapier@gmail.com>"
   ],
@@ -10,7 +10,7 @@
     "es6",
     "globals"
   ],
-  "main": "dist/3dvinyls.js",
+  "main": "dist/cratedigger.js",
   "license": "GPL-2.0",
   "ignore": [
     "**/.*",
