@@ -1,14 +1,17 @@
-body {
+#vinyls {
+    width: 800px;
+    height: 600px;
     -webkit-touch-callout: none;
-
     -webkit-user-select: none;
-
     -moz-user-select: none;
-
     user-select: none;
 }
 
-.grab {
+#canvasContainer .grab {
     cursor:-webkit-grabbing;
     cursor:-moz-grabbing
+}
+
+#vinylsLoading {
+
 }

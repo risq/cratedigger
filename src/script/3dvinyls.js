@@ -55,11 +55,16 @@
      */
 
     // Plugin
-    var options = {};
-    var exports = {}; // Object for public APIs
+    var options = {},
+        exports = {}, // Object for public APIs
+
+    // DOM container elements
+        rootContainerElement,
+        canvasContainerElement,
+        loadingContainerElement,
+        infosContainerElement,
 
     // Three.js objects
-    var container,
         stats,
         scene,
         camera,
@@ -68,22 +73,22 @@
         projector,
         light,
         leftLight,
-        rightLight;
+        rightLight,
 
     // Feature test
-    var supports = !!document.querySelector && !!root.addEventListener;
+        supports = !!document.querySelector && !!root.addEventListener,
 
     // Objects arrays
-    var crates = [],
-        vinyls = [];
+        crates = [],
+        vinyls = [],
 
     // Three.js objects containers
-    var rootContainer,
+        rootContainer,
         cratesContainer,
-        vinylsContainer;
+        vinylsContainer,
 
     // States, util vars
-    var canvasWidth,
+        canvasWidth,
         canvasHeight,
         scrollVinylsTimeout,
         isLoading = false,
@@ -104,17 +109,20 @@
         },
         selectedVinyl = -1,
         shownVinyl = -1,
-        loadedVinyls = 0;
+        loadedVinyls = 0,
 
     // Materials
-    var wood_material;
+        wood_material,
 
     // Default settings
-    var defaults = {
+        defaults = {
         debug: true,
         canvasWidth: null,
         canvasHeight: null,
-        containerId: 'vinyls',
+        rootContainerId     : 'vinyls',
+        canvasContainerId   : 'vinylsCanvas',
+        loadingContainerId  : 'vinylsLoading',
+        infosContainerId    : 'vinylsInfos',
         nbCrates: 2,
         vinylsPerCrate: 24,
         lightIntensity: 1,
@@ -568,7 +576,7 @@
         });
         renderer.setSize(canvasWidth, canvasHeight);
 
-        container.appendChild(renderer.domElement);
+        rootContainerElement.appendChild(renderer.domElement);
         renderer.domElement.id = "context";
         renderer.setClearColor(options.backgroundColor, 1);
 
@@ -581,9 +589,12 @@
 
         projector = new THREE.Projector();
 
+        var wood_texture = THREE.ImageUtils.loadTexture('img/wood.jpg');
+        wood_texture.anisotropy = renderer.getMaxAnisotropy();
         wood_material = new THREE.MeshLambertMaterial({
-            map: THREE.ImageUtils.loadTexture('img/wood.jpg')
+            map: wood_texture
         });
+
 
         rootContainer = new THREE.Object3D();
         cratesContainer = new THREE.Object3D();
@@ -612,6 +623,11 @@
         renderer.domElement.addEventListener('mouseup', onMouseUpEvent, false);
         //        renderer.domElement.addEventListener('click', onClickEvent, false);
 
+        // DOM setup
+        rootContainerElement.style.position     = 'relative';
+        canvasContainerElement.style.position   = 'absolute';
+        infosContainerElement.style.position    = 'absolute';
+        loadingContainerElement.style.position  = 'absolute';
 
         if (options.debug) {
             initDebug();
@@ -623,10 +639,9 @@
     var initDebug = function () {
         stats = new Stats();
         stats.domElement.style.position = 'absolute';
-        stats.domElement.style.left = "0px";
-        stats.domElement.style.top = "0px";
-        container.style.position = 'relative';
-        container.appendChild(stats.domElement);
+        stats.domElement.style.left = "0";
+        stats.domElement.style.top = "0";
+        rootContainerElement.appendChild(stats.domElement);
 
         var debug = new THREE.Mesh(new THREE.BoxGeometry(20, 20, 20, 1, 1, 1));
         debug.position.set(
@@ -783,11 +798,29 @@
         console.log('initializing...');
         console.log('options:', options);
 
-        container = document.getElementById(options.containerId);
-        canvasWidth = options.canvasWidth ? options.canvasWidth : container.offsetWidth;
-        canvasHeight = options.canvasHeight ? options.canvasHeight : container.offsetHeight;
+        rootContainerElement    = document.getElementById(options.rootContainerId);
+        if (!rootContainerElement) {
+            console.log('3dvinyls.js - Init failed : can not find root container element.');
+            return;
+        }
+        canvasContainerElement  = document.getElementById(options.canvasContainerId);
+        if (!rootContainerElement) {
+            console.log('3dvinyls.js - Init failed : can not find canvas container element.');
+            return;
+        }
+        loadingContainerElement = document.getElementById(options.loadingContainerId);
+        if (!rootContainerElement) {
+            console.log('3dvinyls.js - Init failed : can not find loading container element.');
+            return;
+        }
+        infosContainerElement   = document.getElementById(options.infosContainerId);
+        if (!rootContainerElement) {
+            console.log('3dvinyls.js - Init failed : can not find infos container element.');
+            return;
+        }
 
-        console.log(container);
+        canvasWidth  = options.canvasWidth  ? options.canvasWidth  : rootContainerElement.offsetWidth;
+        canvasHeight = options.canvasHeight ? options.canvasHeight : rootContainerElement.offsetHeight;
         initScene();
     };
     exports.selectVinyl = function (id) {

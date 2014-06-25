@@ -13,7 +13,11 @@
 
 <body>
 
-    <div id="vinyls" style="width: 800px; height: 600px"></div>
+    <div id="vinyls">
+        <div id="vinylsCanvas"></div>
+        <div id="vinylsLoading"></div>
+        <div id="vinylsInfos"></div>
+    </div>
 
     <!-- Javascript -->
     <script src="bower_components/modernizr/modernizr.js"></script>
@@ -25,7 +29,10 @@
     <script src='script/3dvinyls.js'></script>
     <script>
         vinyls.init({
-            containerId: 'vinyls'
+            rootContainerId     : 'vinyls',
+            canvasContainerId   : 'vinylsCanvas',
+            loadingContainerId  : 'vinylsLoading',
+            infosContainerId    : 'vinylsInfos'
         });
 
         var vinylsData = [];
