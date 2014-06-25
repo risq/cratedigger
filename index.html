@@ -45,14 +45,14 @@
             };
         };
         var vinylsData2 = [];
-        for (var i = 0; i < 64; i++) {
-            vinylsData2[i] = {
-                cover: 'http://cdn-images.deezer.com/images/cover/90665acc69b221b7cb04e53c7b81f7f4/400x400-000000-80-0-0.jpg',
-                hasSleeve: true
-            };
-        };
-        cratedigger.loadVinyls(vinylsData);
 
+        cratedigger.loadVinyls(vinylsData);
+        
+        document.addEventListener('click', function(e) {
+            if (e.target != cratedigger.canvas()) {
+                cratedigger.resetShownVinyl();
+            }
+        }, false);
     </script>
 
 </body>

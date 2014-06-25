@@ -415,22 +415,26 @@
     };
 
     var resetShownVinyl = function () {
-        selectedVinyl = -1;
-        new TWEEN.Tween(target.position)
-        .to({
-            x: 0,
-            y: 0,
-            z: 0
-        }, options.constants.cameraMoveTime)
-        .easing(TWEEN.Easing.Quartic.Out).start();
+        if (infosPanelState === 'opened') {
+            flipBackSelectedVinyl();
+        } else if (infosPanelState !== 'opening' && infosPanelState !== 'closing') {
+            selectedVinyl = -1;
+            new TWEEN.Tween(target.position)
+            .to({
+                x: 0,
+                y: 0,
+                z: 0
+            }, options.constants.cameraMoveTime)
+            .easing(TWEEN.Easing.Quartic.Out).start();
 
-        new TWEEN.Tween(camera.position)
-        .to({
-            x: options.constants.cameraBasePosition.x,
-            y: options.constants.cameraBasePosition.y,
-            z: options.constants.cameraBasePosition.z
-        }, options.constants.cameraMoveTime)
-        .easing(TWEEN.Easing.Quartic.Out).start();
+            new TWEEN.Tween(camera.position)
+            .to({
+                x: options.constants.cameraBasePosition.x,
+                y: options.constants.cameraBasePosition.y,
+                z: options.constants.cameraBasePosition.z
+            }, options.constants.cameraMoveTime)
+            .easing(TWEEN.Easing.Quartic.Out).start();
+        }
     };
 
     var selectPrevVinyl = function () {
@@ -523,7 +527,6 @@
             } else {
                 resetShownVinyl();
             }
-            return false;
         }
     };
 
@@ -579,7 +582,7 @@
         rootContainerElement.appendChild(renderer.domElement);
         renderer.domElement.id = "context";
         renderer.setClearColor(options.backgroundColor, 1);
-
+        
         camera = new THREE.PerspectiveCamera(45, canvasWidth / canvasHeight, 0.1, 20000);
 
         target = new THREE.Object3D();
@@ -629,6 +632,7 @@
         infosContainerElement.style.position    = 'absolute';
         loadingContainerElement.style.position  = 'absolute';
 
+        
         if (options.debug) {
             initDebug();
         }
@@ -841,6 +845,10 @@
     };
     exports.loadVinyls = loadVinyls;
     exports.unloadVinyls = unloadVinyls;
+    exports.resetShownVinyl = resetShownVinyl;
+    exports.canvas = function () {
+        return renderer.domElement;
+    };
 
     //
     // Public APIs
