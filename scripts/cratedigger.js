@@ -119,10 +119,10 @@
             debug: true,
             canvasWidth: null,
             canvasHeight: null,
-            rootContainerId     : 'vinyls',
-            canvasContainerId   : 'vinylsCanvas',
-            loadingContainerId  : 'vinylsLoading',
-            infosContainerId    : 'vinylsInfos',
+            rootContainerId     : 'cratedigger',
+            canvasContainerId   : 'cratediggerCanvas',
+            loadingContainerId  : 'cratediggerLoading',
+            infosContainerId    : 'cratediggerInfos',
             nbCrates: 2,
             vinylsPerCrate: 24,
             lightIntensity: 1,
@@ -579,10 +579,10 @@
         });
         renderer.setSize(canvasWidth, canvasHeight);
 
-        rootContainerElement.appendChild(renderer.domElement);
+        canvasContainerElement.appendChild(renderer.domElement);
         renderer.domElement.id = "context";
         renderer.setClearColor(options.backgroundColor, 1);
-        
+
         camera = new THREE.PerspectiveCamera(45, canvasWidth / canvasHeight, 0.1, 20000);
 
         target = new THREE.Object3D();
@@ -632,7 +632,7 @@
         infosContainerElement.style.position    = 'absolute';
         loadingContainerElement.style.position  = 'absolute';
 
-        
+
         if (options.debug) {
             initDebug();
         }
