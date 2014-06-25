@@ -119,10 +119,10 @@
             debug: true,
             canvasWidth: null,
             canvasHeight: null,
-            rootContainerId     : 'vinyls',
-            canvasContainerId   : 'vinylsCanvas',
-            loadingContainerId  : 'vinylsLoading',
-            infosContainerId    : 'vinylsInfos',
+            rootContainerId     : 'cratedigger',
+            canvasContainerId   : 'cratediggerCanvas',
+            loadingContainerId  : 'cratediggerLoading',
+            infosContainerId    : 'cratediggerInfos',
             nbCrates: 2,
             vinylsPerCrate: 24,
             lightIntensity: 1,
@@ -579,7 +579,7 @@
         });
         renderer.setSize(canvasWidth, canvasHeight);
 
-        rootContainerElement.appendChild(renderer.domElement);
+        canvasContainerElement.appendChild(renderer.domElement);
         renderer.domElement.id = "context";
         renderer.setClearColor(options.backgroundColor, 1);
 
