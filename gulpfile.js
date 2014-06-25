@@ -5,10 +5,10 @@ var gulp = require('gulp'),
     rename = require('gulp-rename'),
     clean = require('gulp-clean'),
     concat = require('gulp-concat'),
-    notify = require('gulp-notify'),
-    livereload = require('gulp-livereload'),
     runSequence = require('run-sequence'),
-    connect = require('gulp-connect');
+    connect = require('gulp-connect'),
+    autoprefixer = require('gulp-autoprefixer'),
+    cssmin = require('gulp-cssmin');
 
 
 gulp.task('connect', function() {
@@ -30,6 +30,17 @@ gulp.task('scripts-build', function() {
     .pipe(gulp.dest('dist'))
 });
 
+// Styles
+gulp.task('styles-build', function() {
+  return gulp.src('src/css/**/*.css')
+    .pipe(concat('cratedigger.css'))
+    .pipe(autoprefixer())
+    .pipe(gulp.dest('dist'))
+    .pipe(cssmin())
+    .pipe(rename({ suffix: '.min' }))
+    .pipe(gulp.dest('dist'))
+});
+
 // Clean
 gulp.task('clean', function() {
   return gulp.src(['dist'], {read: false})
@@ -37,7 +48,7 @@ gulp.task('clean', function() {
 });
 
 gulp.task('build', function () {
-    runSequence('clean', 'scripts-build');
+    runSequence('clean', ['scripts-build', 'styles-build']);
 });
 
 gulp.task('default', ['connect']);
