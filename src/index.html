@@ -51,6 +51,11 @@
         };
         cratedigger.loadVinyls(vinylsData);
 
+        document.addEventListener('click', function(e) {
+            if (e.target != cratedigger.canvas()) {
+                cratedigger.resetShownVinyl();
+            }
+        }, false);
     </script>
 
 </body>
