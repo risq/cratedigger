@@ -19,6 +19,13 @@ gulp.task('connect', function() {
     });
 });
 
+gulp.task('demo', function() {
+    connect.server({
+        root: 'demo',
+        port: 3001
+    });
+});
+
 // Scripts
 gulp.task('build-scripts', function() {
   return gulp.src('src/scripts/**/*.js')
@@ -62,17 +69,12 @@ gulp.task('build-demo', function () {
 });
 
 gulp.task('move-demo-files', function () {
-    gulp.src('src/demo.html')
-        .pipe(rename('index.html'))
-        .pipe(gulp.dest('demo'))
     gulp.src('dist/styles/*.css')
         .pipe(gulp.dest('demo/styles'))
     gulp.src('dist/scripts/*.js')
         .pipe(gulp.dest('demo/scripts'))
     gulp.src('src/img/*')
         .pipe(gulp.dest('demo/img'))
-    gulp.src('bower.json')
-        .pipe(gulp.dest('demo'))
 });
 
 gulp.task('bower-install-demo', function () {
