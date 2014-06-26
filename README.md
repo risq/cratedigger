@@ -6,5 +6,4 @@ cratedigger.js
 
 demo
 -----------
-
 http://risq.github.io/cratedigger.js/
