@@ -24,9 +24,10 @@
     "gulp-connect": "^2.0.5",
     "gulp-cssmin": "^0.1.6",
     "gulp-jshint": "^1.6.3",
+    "gulp-open": "^0.2.8",
     "gulp-rename": "^1.2.0",
+    "gulp-shell": "^0.2.7",
     "gulp-uglify": "^0.3.1",
-    "run-sequence": "^0.3.6",
-    "gulp-shell": "^0.2.7"
+    "run-sequence": "^0.3.6"
   }
 }

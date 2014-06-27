@@ -9,7 +9,8 @@ var gulp = require('gulp'),
     connect = require('gulp-connect'),
     autoprefixer = require('gulp-autoprefixer'),
     cssmin = require('gulp-cssmin'),
-    shell = require('gulp-shell');
+    shell = require('gulp-shell'),
+    open = require("gulp-open");
 
 
 gulp.task('connect', function() {
@@ -17,6 +18,8 @@ gulp.task('connect', function() {
         root: 'src',
         port: 3001
     });
+    gulp.src("src/index.html")
+        .pipe(open('', {url: 'http://localhost:3001'}));
 });
 
 gulp.task('demo', function() {
@@ -24,6 +27,8 @@ gulp.task('demo', function() {
         root: 'demo',
         port: 3001
     });
+    gulp.src("demo/index.html")
+        .pipe(open('', {url: 'http://localhost:3001'}));
 });
 
 // Scripts
