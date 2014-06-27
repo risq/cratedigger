@@ -12,7 +12,7 @@ http://risq.github.io/cratedigger.js/
 building & testing
 -----------
 
-install `bower` and `gulp` (if not already installed)
+install `bower` and `gulp` (if not already installed) :
     
     npm install bower -g
     npm install gulp -g
@@ -27,11 +27,11 @@ install dependencies :
     npm install
     bower install
     
-test cratedigger.js
+test cratedigger.js :
     
     gulp
     
-build cratedigger.js
+build cratedigger.js :
 
     gulp build
     
