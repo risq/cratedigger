@@ -1,3 +1,8 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
 #cratedigger {
     width: 800px;
     height: 600px;
@@ -15,4 +20,8 @@
 
 #cratediggerLoading {
 
+}
+
+#cratediggerInfos {
+    background-color: #111111;
 }

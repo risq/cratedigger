@@ -131,6 +131,7 @@
             sleeveColor: 0x0d0702,
             closeInfoPanelOnClick: true,
             closeInfoPanelOnScroll: true,
+            infoPanelOpacity: 0.8,
             callbackBefore: function () {},
             callbackAfter: function () {},
             constants: {
@@ -138,7 +139,7 @@
                 cameraMoveTime: 800,
                 infosOpenTime: 800,
                 vinylShownY: 25,
-                vinylFlippedY: 100,
+                vinylFlippedY: 110,
                 cameraBasePosition: {
                     x: 270,
                     y: 180,
@@ -331,7 +332,7 @@
         TWEEN.update();
         updateShownVinyl();
         if (options.cameraMouseMove) {
-            targetCameraPos.x = (mouse.x / canvasWidth - 0.5) * 0.25;
+            targetCameraPos.x = (mouse.x / canvasWidth - 0.5) * 0.25; // inverse axis?
             targetCameraPos.y = (mouse.y / canvasWidth - 0.5) * 0.25;
             rootContainer.rotation.y += options.constants.cameraMouseMoveSpeedY * (targetCameraPos.x - rootContainer.rotation.y);
             rootContainer.rotation.z += options.constants.cameraMouseMoveSpeedZ * (targetCameraPos.y - rootContainer.rotation.z);
@@ -379,6 +380,7 @@
     };
 
     var flipSelectedVinyl = function () {
+        fadeIn(infosContainerElement);
         infosPanelState = 'opening';
         vinyls[selectedVinyl].flipVinyl(function () {
             infosPanelState = 'opened';
@@ -387,6 +389,7 @@
 
     var flipBackSelectedVinyl = function () {
         if (infosPanelState === 'opened') {
+            fadeOut(infosContainerElement);
             infosPanelState = 'closing';
             vinyls[selectedVinyl].flipBackVinyl(function () {
                 infosPanelState = 'closed';
@@ -619,11 +622,11 @@
         rightLight.position.set(-100, 300, -1000);
         scene.add(rightLight);
 
-        renderer.domElement.addEventListener('DOMMouseScroll', onScrollEvent, false);
-        renderer.domElement.addEventListener('mousewheel', onScrollEvent, false);
-        renderer.domElement.addEventListener('mousemove', onMouseMoveEvent, false);
-        renderer.domElement.addEventListener('mousedown', onMouseDownEvent, false);
-        renderer.domElement.addEventListener('mouseup', onMouseUpEvent, false);
+        rootContainerElement.addEventListener('DOMMouseScroll', onScrollEvent, false);
+        rootContainerElement.addEventListener('mousewheel', onScrollEvent, false);
+        rootContainerElement.addEventListener('mousemove', onMouseMoveEvent, false);
+        rootContainerElement.addEventListener('mousedown', onMouseDownEvent, false);
+        rootContainerElement.addEventListener('mouseup', onMouseUpEvent, false);
         //        renderer.domElement.addEventListener('click', onClickEvent, false);
 
         // DOM setup
@@ -631,7 +634,20 @@
         canvasContainerElement.style.position   = 'absolute';
         infosContainerElement.style.position    = 'absolute';
         loadingContainerElement.style.position  = 'absolute';
+        
+        console.log(canvasHeight)
+        rootContainerElement.style.height     = canvasHeight + 'px';
+        canvasContainerElement.style.height   = canvasHeight + 'px';
+        infosContainerElement.style.height    = canvasHeight + 'px';
+        loadingContainerElement.style.height  = canvasHeight + 'px';
+        
+        rootContainerElement.style.width     = canvasWidth + 'px';
+        canvasContainerElement.style.width   = canvasWidth + 'px';
+        infosContainerElement.style.width    = canvasWidth + 'px';
+        loadingContainerElement.style.width  = canvasWidth + 'px';
 
+        infosContainerElement.style.display  = 'none';
+        fadeOut(loadingContainerElement);
 
         if (options.debug) {
             initDebug();
@@ -791,7 +807,34 @@
     var coordsEqualsApprox = function (coord1, coord2, range) {
         return (Math.abs(coord1.x - coord2.x) <= range) && (Math.abs(coord1.y - coord2.y) <= range);
     };
-
+    
+    var fadeOut = function (element) {
+        if (element.style.opacity <= 0) {
+            element.style.display = 'none';
+            element.style.opacity = 0;
+        }
+        else {
+            element.style.opacity -= 0.1;
+            setTimeout(function () {
+                fadeOut(element);
+            }, 10);
+        }
+    }
+    
+    var fadeIn = function (element, op) {
+        if (element.style.opacity < options.infoPanelOpacity) {
+            if (element.style.display == 'none') {
+                element.style.display = 'block';
+                op = 0;
+            }
+            op += 0.03;
+            element.style.opacity = op;
+            setTimeout(function () {
+                fadeIn(element, op);
+            }, 10);
+        }
+    }
+    
     /*
      *  Exports
      */
