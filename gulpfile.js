@@ -10,7 +10,8 @@ var gulp = require('gulp'),
     autoprefixer = require('gulp-autoprefixer'),
     cssmin = require('gulp-cssmin'),
     shell = require('gulp-shell'),
-    open = require("gulp-open");
+    open = require("gulp-open"),
+    del = require('del');
 
 
 gulp.task('connect', function() {
@@ -61,8 +62,7 @@ gulp.task('build-imgs', function() {
 
 // Clean
 gulp.task('clean', function() {
-  return gulp.src(['dist'], {read: false})
-    .pipe(clean());
+    del.sync('dist');
 });
 
 gulp.task('build', function () {

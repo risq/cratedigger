@@ -13,15 +13,27 @@ html, body {
     user-select: none;
 }
 
-#cratediggerCanvas canvas.grab {
+#cratedigger-canvas canvas.grab {
     cursor:-webkit-grabbing;
     cursor:-moz-grabbing
 }
 
-#cratediggerLoading {
+#cratedigger-loading {
 
 }
 
-#cratediggerInfos {
+#cratedigger-infos {
     background-color: #111111;
+}
+
+#cratedigger-record-title {
+
+}
+
+#cratedigger-record-artist {
+
+}
+
+#cratedigger-record-image {
+
 }

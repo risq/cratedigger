@@ -20,10 +20,10 @@
     "tests"
   ],
   "dependencies": {
-    "threejs": "http://threejs.org/build/three.min.js",
     "modernizr": "~2.8.2",
     "tween.js": "https://github.com/sole/tween.js.git",
     "stats.js": "git@github.com:mrdoob/stats.js.git",
-    "classie": "~1.0.1"
+    "classie": "~1.0.1",
+    "three.js": "*"
   }
 }

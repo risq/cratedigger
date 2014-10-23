@@ -14,49 +14,24 @@
 
 <body>
     <div id="cratedigger">
-        <div id="cratediggerCanvas"></div>
-        <div id="cratediggerLoading"></div>
-        <div id="cratediggerInfos"></div>
+        <div id="cratedigger-canvas"></div>
+        <div id="cratedigger-loading"></div>
+        <div id="cratedigger-infos">
+            <div id="cratedigger-record-title"></div>
+            <div id="cratedigger-record-artist"></div>
+            <div id="cratedigger-record-image"></div>
+        </div>
     </div>
 
     <!-- Javascript -->
     <script src="bower_components/modernizr/modernizr.js"></script>
     <script src="bower_components/classie/classie.js"></script>
-    <script src="bower_components/threejs/index.js"></script>
+    <script src="bower_components/three.js/three.min.js"></script>
     <script src="bower_components/tween.js/build/tween.min.js"></script>
     <script src="bower_components/stats.js/build/stats.min.js"></script>
 
-    <script src='scripts/cratedigger.js'></script>
-    <script>
-        cratedigger.init({
-            rootContainerId     : 'cratedigger',
-            canvasContainerId   : 'cratediggerCanvas',
-            loadingContainerId  : 'cratediggerLoading',
-            infosContainerId    : 'cratediggerInfos'
-        });
-
-        var vinylsData = [];
-        for (var i = 0; i < 240; i++) {
-            vinylsData[i] = {
-                cover: 'http://cdn-images.deezer.com/images/cover/fb2b1fbdb9779c146ef7bee3c4d00507/400x400-000000-80-0-0.jpg',
-                hasSleeve: false
-            };
-        };
-        var vinylsData2 = [];
-        for (var i = 0; i < 64; i++) {
-            vinylsData2[i] = {
-                cover: 'http://cdn-images.deezer.com/images/cover/90665acc69b221b7cb04e53c7b81f7f4/400x400-000000-80-0-0.jpg',
-                hasSleeve: true
-            };
-        };
-        cratedigger.loadVinyls(vinylsData);
-
-        document.addEventListener('click', function(e) {
-            if (e.target != cratedigger.canvas()) {
-                cratedigger.resetShownVinyl();
-            }
-        }, false);
-    </script>
+    <script src="scripts/cratedigger.js"></script>
+    <script src="main.js"></script>
 
 </body>
 </html>
