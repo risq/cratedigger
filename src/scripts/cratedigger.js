@@ -1,34 +1,34 @@
 /*
-                      _____              _____              _____             _______
-                     /\    \            /\    \            /\    \           /::\    \
-                    /::\    \          /::\    \          /::\    \         /::::\    \
-                   /::::\    \         \:::\    \        /::::\    \       /::::::\    \
-                  /::::::\    \         \:::\    \      /::::::\    \     /::::::::\    \
-                 /:::/\:::\    \         \:::\    \    /:::/\:::\    \   /:::/~~\:::\    \
-                /:::/__\:::\    \         \:::\    \  /:::/__\:::\    \ /:::/    \:::\    \
-               /::::\   \:::\    \        /::::\    \ \:::\   \:::\    \:::/    / \:::\    \
-              /::::::\   \:::\    \__    /::::::\    \_\:::\   \:::\    \:/____/   \:::\____\
-             /:::/\:::\   \:::\____\ \  /:::/\:::\    \ \:::\   \:::\    \    |     |:::|    |
-            /:::/  \:::\   \:::|    | \/:::/  \:::\____\ \:::\   \:::\____\___|     |:::|____|
-            \::/   |::::\  /:::|____| /:::/    \::/    /  \:::\   \::/    /   _\___/:::/    /
-             \/____|:::::\/:::/    /\/:::/    / \/____/\   \:::\   \/____/:\ |::| /:::/    /
-                   |:::::::::/    /:::::/    /      \:::\   \:::\    \  \:::\|::|/:::/    /
-                   |::|\::::/    /\::::/____/        \:::\   \:::\____\  \::::::::::/    /
-                   |::| \::/____/  \:::\    \         \:::\  /:::/    /   \::::::::/    /
-                   |::|  ~|         \:::\    \         \:::\/:::/    /     \::::::/    /
-                   |::|   |          \:::\    \         \::::::/    /       \::::/____/
-                   \::|   |           \:::\____\         \::::/    /         |::|    |
-                    \:|   |            \::/    /          \::/    /          |::|____|
-                     \|___|             \/____/            \/____/            ~~
+ _____              _____              _____             _______
+ /\    \            /\    \            /\    \           /::\    \
+ /::\    \          /::\    \          /::\    \         /::::\    \
+ /::::\    \         \:::\    \        /::::\    \       /::::::\    \
+ /::::::\    \         \:::\    \      /::::::\    \     /::::::::\    \
+ /:::/\:::\    \         \:::\    \    /:::/\:::\    \   /:::/~~\:::\    \
+ /:::/__\:::\    \         \:::\    \  /:::/__\:::\    \ /:::/    \:::\    \
+ /::::\   \:::\    \        /::::\    \ \:::\   \:::\    \:::/    / \:::\    \
+ /::::::\   \:::\    \__    /::::::\    \_\:::\   \:::\    \:/____/   \:::\____\
+ /:::/\:::\   \:::\____\ \  /:::/\:::\    \ \:::\   \:::\    \    |     |:::|    |
+ /:::/  \:::\   \:::|    | \/:::/  \:::\____\ \:::\   \:::\____\___|     |:::|____|
+ \::/   |::::\  /:::|____| /:::/    \::/    /  \:::\   \::/    /   _\___/:::/    /
+ \/____|:::::\/:::/    /\/:::/    / \/____/\   \:::\   \/____/:\ |::| /:::/    /
+ |:::::::::/    /:::::/    /      \:::\   \:::\    \  \:::\|::|/:::/    /
+ |::|\::::/    /\::::/____/        \:::\   \:::\____\  \::::::::::/    /
+ |::| \::/____/  \:::\    \         \:::\  /:::/    /   \::::::::/    /
+ |::|  ~|         \:::\    \         \:::\/:::/    /     \::::::/    /
+ |::|   |          \:::\    \         \::::::/    /       \::::/____/
+ \::|   |           \:::\____\         \::::/    /         |::|    |
+ \:|   |            \::/    /          \::/    /          |::|____|
+ \|___|             \/____/            \/____/            ~~
 
-                              __             .___.__                                   __
-           ________________ _/  |_  ____   __| _/|__| ____   ____   ___________       |__| ______
-         _/ ___\_  __ \__  \\   __\/ __ \ / __ | |  |/ ___\ / ___\_/ __ \_  __ \      |  |/  ___/
-         \  \___|  | \// __ \|  | \  ___// /_/ | |  / /_/  > /_/  >  ___/|  | \/      |  |\___ \
-          \___  >__|  (____  /__|  \___  >____ | |__\___  /\___  / \___  >__|  /\ /\__|  /____  >
-              \/           \/          \/     \/   /_____//_____/      \/      \/ \______|    \/
+ __             .___.__                                   __
+ ________________ _/  |_  ____   __| _/|__| ____   ____   ___________       |__| ______
+ _/ ___\_  __ \__  \\   __\/ __ \ / __ | |  |/ ___\ / ___\_/ __ \_  __ \      |  |/  ___/
+ \  \___|  | \// __ \|  | \  ___// /_/ | |  / /_/  > /_/  >  ___/|  | \/      |  |\___ \
+ \___  >__|  (____  /__|  \___  >____ | |__\___  /\___  / \___  >__|  /\ /\__|  /____  >
+ \/           \/          \/     \/   /_____//_____/      \/      \/ \______|    \/
 
-*/
+ */
 
 /**
  *
@@ -58,13 +58,16 @@
     var options = {},
         exports = {}, // Object for public APIs
 
-        // DOM container elements
+    // DOM container elements
         rootContainerElement,
         canvasContainerElement,
         loadingContainerElement,
         infosContainerElement,
+        titleInfosElement,
+        artistInfosElement,
+        coverInfosElement,
 
-        // Three.js objects
+    // Three.js objects
         stats,
         scene,
         camera,
@@ -75,19 +78,19 @@
         leftLight,
         rightLight,
 
-        // Feature test
+    // Feature test
         supports = !!document.querySelector && !!root.addEventListener,
 
-        // Objects arrays
+    // Objects arrays
         crates = [],
         records = [],
 
-        // Three.js objects containers
+    // Three.js objects containers
         rootContainer,
         cratesContainer,
         recordsContainer,
 
-        // States, util vars
+    // States, util vars
         canvasWidth,
         canvasHeight,
         scrollRecordsTimeout,
@@ -111,18 +114,14 @@
         shownRecord = -1,
         loadedRecords = 0,
 
-        // Materials
+    // Materials
         wood_material,
 
-        // Default settings
+    // Default settings
         defaults = {
             debug: true,
             canvasWidth: null,
             canvasHeight: null,
-            rootContainerId     : 'cratedigger',
-            canvasContainerId   : 'cratedigger-canvas',
-            loadingContainerId  : 'cratedigger-loading',
-            infosContainerId    : 'cratedigger-infos',
             nbCrates: 2,
             recordsPerCrate: 24,
             lightIntensity: 1,
@@ -131,9 +130,19 @@
             sleeveColor: 0x0d0702,
             closeInfoPanelOnClick: true,
             closeInfoPanelOnScroll: true,
-            infoPanelOpacity: 0.8,
+            infoPanelOpacity: 0.9,
+            updateCanvasSizeOnWindowResize: false,
             callbackBefore: function () {},
             callbackAfter: function () {},
+            elements: {
+                rootContainerId     : 'cratedigger',
+                canvasContainerId   : 'cratedigger-canvas',
+                loadingContainerId  : 'cratedigger-loading',
+                infosContainerId    : 'cratedigger-infos',
+                titleContainerId    : 'cratedigger-record-title',
+                artistContainerId   : 'cratedigger-record-artist',
+                coverContainerId    : 'cratedigger-record-cover'
+            },
             constants: {
                 recordMoveTime: 1000,
                 cameraMoveTime: 800,
@@ -177,8 +186,8 @@
 
     Record.prototype.log = function () {
         console.log("Record n°", this.id,
-                    "crateId =", this.crateId,
-                    "pos =", this.pos);
+            "crateId =", this.crateId,
+            "pos =", this.pos);
     };
 
     Record.prototype.showRecord = function () {
@@ -186,32 +195,32 @@
             this.state = 'shown';
             this.absolutePosition.setFromMatrixPosition(this.mesh.matrixWorld);
             new TWEEN.Tween(this.mesh.position)
-            .to({
-                y: options.constants.recordShownY
-            }, options.constants.recordMoveTime)
-            .easing(TWEEN.Easing.Quartic.Out).start();
+                .to({
+                    y: options.constants.recordShownY
+                }, options.constants.recordMoveTime)
+                .easing(TWEEN.Easing.Quartic.Out).start();
 
             new TWEEN.Tween(this.mesh.rotation)
-            .to({
-                z: Math.PI / 2
-            }, options.constants.recordMoveTime)
-            .easing(TWEEN.Easing.Quartic.Out).start();
+                .to({
+                    z: Math.PI / 2
+                }, options.constants.recordMoveTime)
+                .easing(TWEEN.Easing.Quartic.Out).start();
 
             new TWEEN.Tween(target.position)
-            .to({
-                x: this.recordXPos,
-                y: 50 + options.constants.recordShownY,
-                z: this.absolutePosition.z
-            }, options.constants.cameraMoveTime)
-            .easing(TWEEN.Easing.Quartic.Out).start();
+                .to({
+                    x: this.recordXPos,
+                    y: 50 + options.constants.recordShownY,
+                    z: this.absolutePosition.z
+                }, options.constants.cameraMoveTime)
+                .easing(TWEEN.Easing.Quartic.Out).start();
 
             new TWEEN.Tween(camera.position)
-            .to({
-                x: this.recordXPos + options.constants.cameraFocusPosition.x,
-                y: options.constants.cameraFocusPosition.y,
-                z: this.absolutePosition.z + options.constants.cameraFocusPosition.z
-            }, options.constants.cameraMoveTime)
-            .easing(TWEEN.Easing.Quartic.Out).start();
+                .to({
+                    x: this.recordXPos + options.constants.cameraFocusPosition.x,
+                    y: options.constants.cameraFocusPosition.y,
+                    z: this.absolutePosition.z + options.constants.cameraFocusPosition.z
+                }, options.constants.cameraMoveTime)
+                .easing(TWEEN.Easing.Quartic.Out).start();
 
         }
     };
@@ -220,16 +229,16 @@
         if (this.state != 'pushed') {
             this.state = 'pushed';
             new TWEEN.Tween(this.mesh.position)
-            .to({
-                y: 0
-            }, options.constants.recordMoveTime)
-            .easing(TWEEN.Easing.Quartic.Out).start();
+                .to({
+                    y: 0
+                }, options.constants.recordMoveTime)
+                .easing(TWEEN.Easing.Quartic.Out).start();
 
             new TWEEN.Tween(this.mesh.rotation)
-            .to({
-                z: Math.PI / 2 + Math.PI / 7
-            }, options.constants.recordMoveTime)
-            .easing(TWEEN.Easing.Quartic.Out).start();
+                .to({
+                    z: Math.PI / 2 + Math.PI / 7
+                }, options.constants.recordMoveTime)
+                .easing(TWEEN.Easing.Quartic.Out).start();
 
         }
     };
@@ -238,16 +247,16 @@
         if (this.state !== 'pulled') {
             this.state = 'pulled';
             new TWEEN.Tween(this.mesh.position)
-            .to({
-                y: 0
-            }, options.constants.recordMoveTime)
-            .easing(TWEEN.Easing.Quartic.Out).start();
+                .to({
+                    y: 0
+                }, options.constants.recordMoveTime)
+                .easing(TWEEN.Easing.Quartic.Out).start();
 
             new TWEEN.Tween(this.mesh.rotation)
-            .to({
-                z: Math.PI / 2 - Math.PI / 7
-            }, options.constants.recordMoveTime)
-            .easing(TWEEN.Easing.Quartic.Out).start();
+                .to({
+                    z: Math.PI / 2 - Math.PI / 7
+                }, options.constants.recordMoveTime)
+                .easing(TWEEN.Easing.Quartic.Out).start();
 
         }
     };
@@ -255,52 +264,52 @@
     Record.prototype.flipRecord = function (done) {
         this.state = 'flipped';
         new TWEEN.Tween(this.mesh.position)
-        .to({
-            y: options.constants.recordFlippedY
-        }, options.constants.infosOpenTime)
-        .easing(TWEEN.Easing.Quartic.Out).start();
+            .to({
+                y: options.constants.recordFlippedY
+            }, options.constants.infosOpenTime)
+            .easing(TWEEN.Easing.Quartic.Out).start();
 
         new TWEEN.Tween(this.mesh.rotation)
-        .delay(options.constants.infosOpenTime / 4)
-        .to({
-            y: Math.PI
-        }, options.constants.infosOpenTime)
-        .easing(TWEEN.Easing.Quartic.Out).start();
+            .delay(options.constants.infosOpenTime / 4)
+            .to({
+                y: Math.PI
+            }, options.constants.infosOpenTime)
+            .easing(TWEEN.Easing.Quartic.Out).start();
 
         new TWEEN.Tween(target.position)
-        .to({
-            x: this.recordXPos,
-            y: options.constants.recordFlippedY + 50,
-            z: this.absolutePosition.z
-        }, options.constants.infosOpenTime)
-        .easing(TWEEN.Easing.Quartic.Out).start()
-        .onComplete(done);
+            .to({
+                x: this.recordXPos,
+                y: options.constants.recordFlippedY + 50,
+                z: this.absolutePosition.z
+            }, options.constants.infosOpenTime)
+            .easing(TWEEN.Easing.Quartic.Out).start()
+            .onComplete(done);
     };
 
     Record.prototype.flipBackRecord = function (done) {
         if (this.state === 'flipped') {
             new TWEEN.Tween(this.mesh.position)
-            .delay(options.constants.infosOpenTime / 2)
-            .to({
-                y: 0
-            }, options.constants.infosOpenTime)
-            .easing(TWEEN.Easing.Quartic.Out).start();
+                .delay(options.constants.infosOpenTime / 2)
+                .to({
+                    y: 0
+                }, options.constants.infosOpenTime)
+                .easing(TWEEN.Easing.Quartic.Out).start();
 
             new TWEEN.Tween(this.mesh.rotation)
-            .to({
-                y: 0
-            }, options.constants.infosOpenTime / 2)
-            .easing(TWEEN.Easing.Quartic.Out).start()
-            .onComplete(done);
+                .to({
+                    y: 0
+                }, options.constants.infosOpenTime / 2)
+                .easing(TWEEN.Easing.Quartic.Out).start()
+                .onComplete(done);
 
             new TWEEN.Tween(target.position)
-            .delay(options.constants.infosOpenTime / 2)
-            .to({
-                x: this.recordXPos,
-                y: 75,
-                z: this.absolutePosition.z
-            }, options.constants.infosOpenTime)
-            .easing(TWEEN.Easing.Quartic.Out).start();
+                .delay(options.constants.infosOpenTime / 2)
+                .to({
+                    x: this.recordXPos,
+                    y: 75,
+                    z: this.absolutePosition.z
+                }, options.constants.infosOpenTime)
+                .easing(TWEEN.Easing.Quartic.Out).start();
         }
     };
 
@@ -380,11 +389,14 @@
     };
 
     var flipSelectedRecord = function () {
-        fadeIn(infosContainerElement);
+        fillInfosPanel(records[selectedRecord]);
         infosPanelState = 'opening';
         records[selectedRecord].flipRecord(function () {
             infosPanelState = 'opened';
         });
+        setTimeout(function() {
+            fadeIn(infosContainerElement);
+        }, 300);
     };
 
     var flipBackSelectedRecord = function () {
@@ -405,8 +417,8 @@
                 if (selectedRecord == -1) {
                     records[recordId].pushRecord();
                 } else if (recordId > selectedRecord &&
-                           recordId > records[selectedRecord].crateId * options.recordsPerCrate &&
-                           recordId < (records[selectedRecord].crateId * options.recordsPerCrate) + options.recordsPerCrate) {
+                    recordId > records[selectedRecord].crateId * options.recordsPerCrate &&
+                    recordId < (records[selectedRecord].crateId * options.recordsPerCrate) + options.recordsPerCrate) {
                     records[recordId].pullRecord();
                 } else if (recordId == selectedRecord) {
                     records[recordId].showRecord();
@@ -423,20 +435,20 @@
         } else if (infosPanelState !== 'opening' && infosPanelState !== 'closing') {
             selectedRecord = -1;
             new TWEEN.Tween(target.position)
-            .to({
-                x: 0,
-                y: 0,
-                z: 0
-            }, options.constants.cameraMoveTime)
-            .easing(TWEEN.Easing.Quartic.Out).start();
+                .to({
+                    x: 0,
+                    y: 0,
+                    z: 0
+                }, options.constants.cameraMoveTime)
+                .easing(TWEEN.Easing.Quartic.Out).start();
 
             new TWEEN.Tween(camera.position)
-            .to({
-                x: options.constants.cameraBasePosition.x,
-                y: options.constants.cameraBasePosition.y,
-                z: options.constants.cameraBasePosition.z
-            }, options.constants.cameraMoveTime)
-            .easing(TWEEN.Easing.Quartic.Out).start();
+                .to({
+                    x: options.constants.cameraBasePosition.x,
+                    y: options.constants.cameraBasePosition.y,
+                    z: options.constants.cameraBasePosition.z
+                }, options.constants.cameraMoveTime)
+                .easing(TWEEN.Easing.Quartic.Out).start();
         }
     };
 
@@ -460,6 +472,17 @@
         }
     };
 
+    var fillInfosPanel = function(record) {
+        if (record.data.title) {
+            titleInfosElement.innerHTML = record.data.title;
+        }
+        if (record.data.artist) {
+            artistInfosElement.innerHTML = record.data.artist;
+        }
+        if (record.data.cover) {
+            coverInfosElement.style.backgroundImage = 'url(' + record.data.cover + ')';
+        }
+    };
 
     /*
      * Events handling
@@ -480,16 +503,16 @@
             m_posy = e.pageY;
         } else if (e.clientX || e.clientY) {
             m_posx = e.clientX + document.body.scrollLeft +
-                document.documentElement.scrollLeft;
+            document.documentElement.scrollLeft;
             m_posy = e.clientY + document.body.scrollTop +
-                document.documentElement.scrollTop;
+            document.documentElement.scrollTop;
         }
         //get parent element position in document
         if (obj.offsetParent) {
             do {
                 e_posx += obj.offsetLeft;
                 e_posy += obj.offsetTop;
-            } while (obj = obj.offsetParent)
+            } while (obj = obj.offsetParent);
         }
         // mouse position minus elm position is mouseposition relative to element:
         mouse.x = m_posx - e_posx;
@@ -570,6 +593,15 @@
         }, 75);
     };
 
+    var onWindowResizeEvent = function(e) {
+        calculateCanvasSize();
+        setCanvasDimensions();
+
+        renderer.setSize(canvasWidth, canvasHeight);
+        camera.aspect	= window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+    };
+
     /*
      *  INITIALISATION
      */
@@ -601,7 +633,6 @@
             map: wood_texture
         });
 
-
         rootContainer = new THREE.Object3D();
         cratesContainer = new THREE.Object3D();
         scene.add(rootContainer);
@@ -627,6 +658,11 @@
         rootContainerElement.addEventListener('mousemove', onMouseMoveEvent, false);
         rootContainerElement.addEventListener('mousedown', onMouseDownEvent, false);
         rootContainerElement.addEventListener('mouseup', onMouseUpEvent, false);
+
+        if (options.updateCanvasSizeOnWindowResize) {
+            window.addEventListener('resize', onWindowResizeEvent, false);
+        }
+
         //        renderer.domElement.addEventListener('click', onClickEvent, false);
 
         // DOM setup
@@ -636,15 +672,8 @@
         loadingContainerElement.style.position  = 'absolute';
 
         console.log(canvasHeight);
-        rootContainerElement.style.height     = canvasHeight + 'px';
-        canvasContainerElement.style.height   = canvasHeight + 'px';
-        infosContainerElement.style.height    = canvasHeight + 'px';
-        loadingContainerElement.style.height  = canvasHeight + 'px';
 
-        rootContainerElement.style.width     = canvasWidth + 'px';
-        canvasContainerElement.style.width   = canvasWidth + 'px';
-        infosContainerElement.style.width    = canvasWidth + 'px';
-        loadingContainerElement.style.width  = canvasWidth + 'px';
+        setCanvasDimensions();
 
         infosContainerElement.style.display  = 'none';
         fadeOut(loadingContainerElement);
@@ -721,7 +750,6 @@
                 currentRecordId++;
             }
         }
-        console.log(records);
     };
 
     var createRecord = function (id, crateId, pos) {
@@ -807,7 +835,7 @@
     var coordsEqualsApprox = function (coord1, coord2, range) {
         return (Math.abs(coord1.x - coord2.x) <= range) && (Math.abs(coord1.y - coord2.y) <= range);
     };
-    
+
     var fadeOut = function (element) {
         if (element.style.opacity <= 0) {
             element.style.display = 'none';
@@ -820,7 +848,7 @@
             }, 10);
         }
     };
-    
+
     var fadeIn = function (element, op) {
         if (element.style.opacity < options.infoPanelOpacity) {
             if (element.style.display == 'none') {
@@ -837,7 +865,24 @@
             element.style.opacity = options.infoPanelOpacity;
         }
     };
-    
+
+    var calculateCanvasSize = function() {
+        canvasWidth  = options.canvasWidth  ? options.canvasWidth  : rootContainerElement.clientWidth;
+        canvasHeight = options.canvasHeight ? options.canvasHeight : rootContainerElement.clientHeight;
+    };
+
+    var setCanvasDimensions = function() {
+        //rootContainerElement.style.height     = canvasHeight + 'px';
+        canvasContainerElement.style.height   = canvasHeight + 'px';
+        infosContainerElement.style.height    = canvasHeight + 'px';
+        loadingContainerElement.style.height  = canvasHeight + 'px';
+
+        //rootContainerElement.style.width     = canvasWidth + 'px';
+        canvasContainerElement.style.width   = canvasWidth + 'px';
+        infosContainerElement.style.width    = canvasWidth + 'px';
+        loadingContainerElement.style.width  = canvasWidth + 'px';
+    };
+
     /*
      *  Exports
      */
@@ -848,29 +893,44 @@
         console.log('initializing...');
         console.log('options:', options);
 
-        rootContainerElement    = document.getElementById(options.rootContainerId);
+        rootContainerElement    = document.getElementById(options.elements.rootContainerId);
         if (!rootContainerElement) {
-            console.log('cratedigger.js - Init failed : can not find root container element.');
+            console.error('cratedigger.js - Init failed : can not find root container element.');
             return;
         }
-        canvasContainerElement  = document.getElementById(options.canvasContainerId);
-        if (!rootContainerElement) {
-            console.log('cratedigger.js - Init failed : can not find canvas container element.');
+        canvasContainerElement  = document.getElementById(options.elements.canvasContainerId);
+        if (!canvasContainerElement) {
+            console.error('cratedigger.js - Init failed : can not find canvas container element.');
             return;
         }
-        loadingContainerElement = document.getElementById(options.loadingContainerId);
-        if (!rootContainerElement) {
-            console.log('cratedigger.js - Init failed : can not find loading container element.');
+        loadingContainerElement = document.getElementById(options.elements.loadingContainerId);
+        if (!loadingContainerElement) {
+            console.error('cratedigger.js - Init failed : can not find loading container element.');
             return;
         }
-        infosContainerElement   = document.getElementById(options.infosContainerId);
-        if (!rootContainerElement) {
-            console.log('cratedigger.js - Init failed : can not find infos container element.');
+        infosContainerElement   = document.getElementById(options.elements.infosContainerId);
+        if (!infosContainerElement) {
+            console.error('cratedigger.js - Init failed : can not find infos container element.');
+            return;
+        }
+        titleInfosElement       = document.getElementById(options.elements.titleContainerId);
+        if (!titleInfosElement) {
+            console.error('cratedigger.js - Init failed : can not find record title container element.');
+            return;
+        }
+        artistInfosElement       = document.getElementById(options.elements.artistContainerId);
+        if (!artistInfosElement) {
+            console.error('cratedigger.js - Init failed : can not find record artist container element.');
+            return;
+        }
+        coverInfosElement       = document.getElementById(options.elements.coverContainerId);
+        if (!coverInfosElement) {
+            console.error('cratedigger.js - Init failed : can not find cover image container element.');
             return;
         }
 
-        canvasWidth  = options.canvasWidth  ? options.canvasWidth  : rootContainerElement.offsetWidth;
-        canvasHeight = options.canvasHeight ? options.canvasHeight : rootContainerElement.offsetHeight;
+        calculateCanvasSize();
+
         initScene();
     };
     exports.selectRecord = function (id) {

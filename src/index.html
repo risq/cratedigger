@@ -5,6 +5,7 @@
     <title>cratedigger.js</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/cratedigger.css" />
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
     <!-- HTML5 Shim for IE -->
     <!--[if IE]>
         <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -17,9 +18,13 @@
         <div id="cratedigger-canvas"></div>
         <div id="cratedigger-loading"></div>
         <div id="cratedigger-infos">
-            <div id="cratedigger-record-title"></div>
-            <div id="cratedigger-record-artist"></div>
-            <div id="cratedigger-record-image"></div>
+            <div class="infos-container">
+                <div class="vertical-center">
+                    <div id="cratedigger-record-artist"></div>
+                    <div id="cratedigger-record-title"></div>
+                    <div id="cratedigger-record-cover"></div>
+                </div>
+            </div>
         </div>
     </div>
 
