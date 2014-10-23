@@ -15,9 +15,17 @@
 <body>
     <div id="cratedigger-container">
         <div id="cratedigger">
-            <div id="cratediggerCanvas"></div>
-            <div id="cratediggerLoading"></div>
-            <div id="cratediggerInfos"></div>
+            <div id="cratedigger-canvas"></div>
+            <div id="cratedigger-loading"></div>
+            <div id="cratedigger-infos">
+                <div class="infos-container">
+                    <div class="vertical-center">
+                        <div id="cratedigger-record-artist"></div>
+                        <div id="cratedigger-record-title"></div>
+                        <div id="cratedigger-record-cover"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -29,31 +37,7 @@
     <script src="bower_components/stats.js/build/stats.min.js"></script>
 
     <script src='scripts/cratedigger.js'></script>
-    <script>
-        cratedigger.init({
-            rootContainerId     : 'cratedigger',
-            canvasContainerId   : 'cratediggerCanvas',
-            loadingContainerId  : 'cratediggerLoading',
-            infosContainerId    : 'cratediggerInfos'
-        });
-
-        var vinylsData = [];
-        for (var i = 0; i < 240; i++) {
-            vinylsData[i] = {
-                cover: 'http://cdn-images.deezer.com/images/cover/fb2b1fbdb9779c146ef7bee3c4d00507/400x400-000000-80-0-0.jpg',
-                hasSleeve: false
-            };
-        };
-        var vinylsData2 = [];
-
-        cratedigger.loadVinyls(vinylsData);
-        
-        document.addEventListener('click', function(e) {
-            if (e.target != cratedigger.canvas()) {
-                cratedigger.resetShownVinyl();
-            }
-        }, false);
-    </script>
+    <script src="main.js"></script>
 
 </body>
 </html>

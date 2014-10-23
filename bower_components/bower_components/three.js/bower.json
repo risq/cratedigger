@@ -1,0 +1,23 @@
+{
+  "name": "three.js",
+  "version": "0.0.68",
+  "homepage": "http://threejs.org/",
+  "authors": [
+    "http://mrdoob.com"
+  ],
+  "description": "JavaScript 3D library",
+  "main": "three.min.js",
+  "keywords": [
+    "threejs",
+    "3d",
+    "webgl"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

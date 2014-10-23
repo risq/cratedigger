@@ -1,34 +1,34 @@
 /*
-                      _____              _____              _____             _______
-                     /\    \            /\    \            /\    \           /::\    \
-                    /::\    \          /::\    \          /::\    \         /::::\    \
-                   /::::\    \         \:::\    \        /::::\    \       /::::::\    \
-                  /::::::\    \         \:::\    \      /::::::\    \     /::::::::\    \
-                 /:::/\:::\    \         \:::\    \    /:::/\:::\    \   /:::/~~\:::\    \
-                /:::/__\:::\    \         \:::\    \  /:::/__\:::\    \ /:::/    \:::\    \
-               /::::\   \:::\    \        /::::\    \ \:::\   \:::\    \:::/    / \:::\    \
-              /::::::\   \:::\    \__    /::::::\    \_\:::\   \:::\    \:/____/   \:::\____\
-             /:::/\:::\   \:::\____\ \  /:::/\:::\    \ \:::\   \:::\    \    |     |:::|    |
-            /:::/  \:::\   \:::|    | \/:::/  \:::\____\ \:::\   \:::\____\___|     |:::|____|
-            \::/   |::::\  /:::|____| /:::/    \::/    /  \:::\   \::/    /   _\___/:::/    /
-             \/____|:::::\/:::/    /\/:::/    / \/____/\   \:::\   \/____/:\ |::| /:::/    /
-                   |:::::::::/    /:::::/    /      \:::\   \:::\    \  \:::\|::|/:::/    /
-                   |::|\::::/    /\::::/____/        \:::\   \:::\____\  \::::::::::/    /
-                   |::| \::/____/  \:::\    \         \:::\  /:::/    /   \::::::::/    /
-                   |::|  ~|         \:::\    \         \:::\/:::/    /     \::::::/    /
-                   |::|   |          \:::\    \         \::::::/    /       \::::/____/
-                   \::|   |           \:::\____\         \::::/    /         |::|    |
-                    \:|   |            \::/    /          \::/    /          |::|____|
-                     \|___|             \/____/            \/____/            ~~
+ _____              _____              _____             _______
+ /\    \            /\    \            /\    \           /::\    \
+ /::\    \          /::\    \          /::\    \         /::::\    \
+ /::::\    \         \:::\    \        /::::\    \       /::::::\    \
+ /::::::\    \         \:::\    \      /::::::\    \     /::::::::\    \
+ /:::/\:::\    \         \:::\    \    /:::/\:::\    \   /:::/~~\:::\    \
+ /:::/__\:::\    \         \:::\    \  /:::/__\:::\    \ /:::/    \:::\    \
+ /::::\   \:::\    \        /::::\    \ \:::\   \:::\    \:::/    / \:::\    \
+ /::::::\   \:::\    \__    /::::::\    \_\:::\   \:::\    \:/____/   \:::\____\
+ /:::/\:::\   \:::\____\ \  /:::/\:::\    \ \:::\   \:::\    \    |     |:::|    |
+ /:::/  \:::\   \:::|    | \/:::/  \:::\____\ \:::\   \:::\____\___|     |:::|____|
+ \::/   |::::\  /:::|____| /:::/    \::/    /  \:::\   \::/    /   _\___/:::/    /
+ \/____|:::::\/:::/    /\/:::/    / \/____/\   \:::\   \/____/:\ |::| /:::/    /
+ |:::::::::/    /:::::/    /      \:::\   \:::\    \  \:::\|::|/:::/    /
+ |::|\::::/    /\::::/____/        \:::\   \:::\____\  \::::::::::/    /
+ |::| \::/____/  \:::\    \         \:::\  /:::/    /   \::::::::/    /
+ |::|  ~|         \:::\    \         \:::\/:::/    /     \::::::/    /
+ |::|   |          \:::\    \         \::::::/    /       \::::/____/
+ \::|   |           \:::\____\         \::::/    /         |::|    |
+ \:|   |            \::/    /          \::/    /          |::|____|
+ \|___|             \/____/            \/____/            ~~
 
-                              __             .___.__                                   __
-           ________________ _/  |_  ____   __| _/|__| ____   ____   ___________       |__| ______
-         _/ ___\_  __ \__  \\   __\/ __ \ / __ | |  |/ ___\ / ___\_/ __ \_  __ \      |  |/  ___/
-         \  \___|  | \// __ \|  | \  ___// /_/ | |  / /_/  > /_/  >  ___/|  | \/      |  |\___ \
-          \___  >__|  (____  /__|  \___  >____ | |__\___  /\___  / \___  >__|  /\ /\__|  /____  >
-              \/           \/          \/     \/   /_____//_____/      \/      \/ \______|    \/
+ __             .___.__                                   __
+ ________________ _/  |_  ____   __| _/|__| ____   ____   ___________       |__| ______
+ _/ ___\_  __ \__  \\   __\/ __ \ / __ | |  |/ ___\ / ___\_/ __ \_  __ \      |  |/  ___/
+ \  \___|  | \// __ \|  | \  ___// /_/ | |  / /_/  > /_/  >  ___/|  | \/      |  |\___ \
+ \___  >__|  (____  /__|  \___  >____ | |__\___  /\___  / \___  >__|  /\ /\__|  /____  >
+ \/           \/          \/     \/   /_____//_____/      \/      \/ \______|    \/
 
-*/
+ */
 
 /**
  *
@@ -58,13 +58,16 @@
     var options = {},
         exports = {}, // Object for public APIs
 
-        // DOM container elements
+    // DOM container elements
         rootContainerElement,
         canvasContainerElement,
         loadingContainerElement,
         infosContainerElement,
+        titleInfosElement,
+        artistInfosElement,
+        coverInfosElement,
 
-        // Three.js objects
+    // Three.js objects
         stats,
         scene,
         camera,
@@ -75,22 +78,22 @@
         leftLight,
         rightLight,
 
-        // Feature test
+    // Feature test
         supports = !!document.querySelector && !!root.addEventListener,
 
-        // Objects arrays
+    // Objects arrays
         crates = [],
-        vinyls = [],
+        records = [],
 
-        // Three.js objects containers
+    // Three.js objects containers
         rootContainer,
         cratesContainer,
-        vinylsContainer,
+        recordsContainer,
 
-        // States, util vars
+    // States, util vars
         canvasWidth,
         canvasHeight,
-        scrollVinylsTimeout,
+        scrollRecordsTimeout,
         isLoading = false,
         infosPanelState = "closed",
         isScrolling = false,
@@ -107,39 +110,45 @@
             x: 0,
             y: 0
         },
-        selectedVinyl = -1,
-        shownVinyl = -1,
-        loadedVinyls = 0,
+        selectedRecord = -1,
+        shownRecord = -1,
+        loadedRecords = 0,
 
-        // Materials
+    // Materials
         wood_material,
 
-        // Default settings
+    // Default settings
         defaults = {
             debug: true,
             canvasWidth: null,
             canvasHeight: null,
-            rootContainerId     : 'cratedigger',
-            canvasContainerId   : 'cratediggerCanvas',
-            loadingContainerId  : 'cratediggerLoading',
-            infosContainerId    : 'cratediggerInfos',
             nbCrates: 2,
-            vinylsPerCrate: 24,
+            recordsPerCrate: 24,
             lightIntensity: 1,
             cameraMouseMove: true,
             backgroundColor: 0x111111,
             sleeveColor: 0x0d0702,
             closeInfoPanelOnClick: true,
             closeInfoPanelOnScroll: true,
-            infoPanelOpacity: 0.8,
+            infoPanelOpacity: 0.9,
+            updateCanvasSizeOnWindowResize: false,
             callbackBefore: function () {},
             callbackAfter: function () {},
+            elements: {
+                rootContainerId     : 'cratedigger',
+                canvasContainerId   : 'cratedigger-canvas',
+                loadingContainerId  : 'cratedigger-loading',
+                infosContainerId    : 'cratedigger-infos',
+                titleContainerId    : 'cratedigger-record-title',
+                artistContainerId   : 'cratedigger-record-artist',
+                coverContainerId    : 'cratedigger-record-cover'
+            },
             constants: {
-                vinylMoveTime: 1000,
+                recordMoveTime: 1000,
                 cameraMoveTime: 800,
                 infosOpenTime: 800,
-                vinylShownY: 25,
-                vinylFlippedY: 110,
+                recordShownY: 25,
+                recordFlippedY: 110,
                 cameraBasePosition: {
                     x: 270,
                     y: 180,
@@ -159,148 +168,148 @@
     /*
      *  Classes
      */
-    var Vinyl = function (id, crateId, pos) {
+    var Record = function (id, crateId, pos) {
         this.id = id;
         this.crateId = crateId;
         this.pos = pos;
         this.state = 'out';
-        this.vinylXPos = -62 + (135 / options.vinylsPerCrate) * pos;
-        this.mesh = new THREE.Mesh(new THREE.BoxGeometry(100, 1.5, 100, 1, 1, 1), new THREE.MeshFaceMaterial(getVinylMaterial(null, false)));
+        this.recordXPos = -62 + (135 / options.recordsPerCrate) * pos;
+        this.mesh = new THREE.Mesh(new THREE.BoxGeometry(100, 1.5, 100, 1, 1, 1), new THREE.MeshFaceMaterial(getRecordMaterial(null, false)));
         this.mesh.geometry.applyMatrix(new THREE.Matrix4().makeTranslation(50, 0, 0));
-        this.mesh.position.set(this.vinylXPos, 0, 0);
+        this.mesh.position.set(this.recordXPos, 0, 0);
         this.mesh.rotation.z = Math.PI / 2;
-        this.mesh.vinylId = id;
+        this.mesh.recordId = id;
         this.mesh.visible = false;
         this.absolutePosition = new THREE.Vector3();
-        this.pushVinyl();
+        this.pushRecord();
     };
 
-    Vinyl.prototype.log = function () {
-        console.log("Vinyl n°", this.id,
-                    "crateId =", this.crateId,
-                    "pos =", this.pos);
+    Record.prototype.log = function () {
+        console.log("Record n°", this.id,
+            "crateId =", this.crateId,
+            "pos =", this.pos);
     };
 
-    Vinyl.prototype.showVinyl = function () {
+    Record.prototype.showRecord = function () {
         if (this.state !== 'shown') {
             this.state = 'shown';
             this.absolutePosition.setFromMatrixPosition(this.mesh.matrixWorld);
             new TWEEN.Tween(this.mesh.position)
-            .to({
-                y: options.constants.vinylShownY
-            }, options.constants.vinylMoveTime)
-            .easing(TWEEN.Easing.Quartic.Out).start();
+                .to({
+                    y: options.constants.recordShownY
+                }, options.constants.recordMoveTime)
+                .easing(TWEEN.Easing.Quartic.Out).start();
 
             new TWEEN.Tween(this.mesh.rotation)
-            .to({
-                z: Math.PI / 2
-            }, options.constants.vinylMoveTime)
-            .easing(TWEEN.Easing.Quartic.Out).start();
+                .to({
+                    z: Math.PI / 2
+                }, options.constants.recordMoveTime)
+                .easing(TWEEN.Easing.Quartic.Out).start();
 
             new TWEEN.Tween(target.position)
-            .to({
-                x: this.vinylXPos,
-                y: 50 + options.constants.vinylShownY,
-                z: this.absolutePosition.z
-            }, options.constants.cameraMoveTime)
-            .easing(TWEEN.Easing.Quartic.Out).start();
+                .to({
+                    x: this.recordXPos,
+                    y: 50 + options.constants.recordShownY,
+                    z: this.absolutePosition.z
+                }, options.constants.cameraMoveTime)
+                .easing(TWEEN.Easing.Quartic.Out).start();
 
             new TWEEN.Tween(camera.position)
-            .to({
-                x: this.vinylXPos + options.constants.cameraFocusPosition.x,
-                y: options.constants.cameraFocusPosition.y,
-                z: this.absolutePosition.z + options.constants.cameraFocusPosition.z
-            }, options.constants.cameraMoveTime)
-            .easing(TWEEN.Easing.Quartic.Out).start();
+                .to({
+                    x: this.recordXPos + options.constants.cameraFocusPosition.x,
+                    y: options.constants.cameraFocusPosition.y,
+                    z: this.absolutePosition.z + options.constants.cameraFocusPosition.z
+                }, options.constants.cameraMoveTime)
+                .easing(TWEEN.Easing.Quartic.Out).start();
 
         }
     };
 
-    Vinyl.prototype.pushVinyl = function () {
+    Record.prototype.pushRecord = function () {
         if (this.state != 'pushed') {
             this.state = 'pushed';
             new TWEEN.Tween(this.mesh.position)
-            .to({
-                y: 0
-            }, options.constants.vinylMoveTime)
-            .easing(TWEEN.Easing.Quartic.Out).start();
+                .to({
+                    y: 0
+                }, options.constants.recordMoveTime)
+                .easing(TWEEN.Easing.Quartic.Out).start();
 
             new TWEEN.Tween(this.mesh.rotation)
-            .to({
-                z: Math.PI / 2 + Math.PI / 7
-            }, options.constants.vinylMoveTime)
-            .easing(TWEEN.Easing.Quartic.Out).start();
+                .to({
+                    z: Math.PI / 2 + Math.PI / 7
+                }, options.constants.recordMoveTime)
+                .easing(TWEEN.Easing.Quartic.Out).start();
 
         }
     };
 
-    Vinyl.prototype.pullVinyl = function () {
+    Record.prototype.pullRecord = function () {
         if (this.state !== 'pulled') {
             this.state = 'pulled';
             new TWEEN.Tween(this.mesh.position)
-            .to({
-                y: 0
-            }, options.constants.vinylMoveTime)
-            .easing(TWEEN.Easing.Quartic.Out).start();
+                .to({
+                    y: 0
+                }, options.constants.recordMoveTime)
+                .easing(TWEEN.Easing.Quartic.Out).start();
 
             new TWEEN.Tween(this.mesh.rotation)
-            .to({
-                z: Math.PI / 2 - Math.PI / 7
-            }, options.constants.vinylMoveTime)
-            .easing(TWEEN.Easing.Quartic.Out).start();
+                .to({
+                    z: Math.PI / 2 - Math.PI / 7
+                }, options.constants.recordMoveTime)
+                .easing(TWEEN.Easing.Quartic.Out).start();
 
         }
     };
 
-    Vinyl.prototype.flipVinyl = function (done) {
+    Record.prototype.flipRecord = function (done) {
         this.state = 'flipped';
         new TWEEN.Tween(this.mesh.position)
-        .to({
-            y: options.constants.vinylFlippedY
-        }, options.constants.infosOpenTime)
-        .easing(TWEEN.Easing.Quartic.Out).start();
+            .to({
+                y: options.constants.recordFlippedY
+            }, options.constants.infosOpenTime)
+            .easing(TWEEN.Easing.Quartic.Out).start();
 
         new TWEEN.Tween(this.mesh.rotation)
-        .delay(options.constants.infosOpenTime / 4)
-        .to({
-            y: Math.PI
-        }, options.constants.infosOpenTime)
-        .easing(TWEEN.Easing.Quartic.Out).start();
+            .delay(options.constants.infosOpenTime / 4)
+            .to({
+                y: Math.PI
+            }, options.constants.infosOpenTime)
+            .easing(TWEEN.Easing.Quartic.Out).start();
 
         new TWEEN.Tween(target.position)
-        .to({
-            x: this.vinylXPos,
-            y: options.constants.vinylFlippedY + 50,
-            z: this.absolutePosition.z
-        }, options.constants.infosOpenTime)
-        .easing(TWEEN.Easing.Quartic.Out).start()
-        .onComplete(done);
-    };
-
-    Vinyl.prototype.flipBackVinyl = function (done) {
-        if (this.state === 'flipped') {
-            new TWEEN.Tween(this.mesh.position)
-            .delay(options.constants.infosOpenTime / 2)
             .to({
-                y: 0
-            }, options.constants.infosOpenTime)
-            .easing(TWEEN.Easing.Quartic.Out).start();
-
-            new TWEEN.Tween(this.mesh.rotation)
-            .to({
-                y: 0
-            }, options.constants.infosOpenTime / 2)
-            .easing(TWEEN.Easing.Quartic.Out).start()
-            .onComplete(done);
-
-            new TWEEN.Tween(target.position)
-            .delay(options.constants.infosOpenTime / 2)
-            .to({
-                x: this.vinylXPos,
-                y: 75,
+                x: this.recordXPos,
+                y: options.constants.recordFlippedY + 50,
                 z: this.absolutePosition.z
             }, options.constants.infosOpenTime)
-            .easing(TWEEN.Easing.Quartic.Out).start();
+            .easing(TWEEN.Easing.Quartic.Out).start()
+            .onComplete(done);
+    };
+
+    Record.prototype.flipBackRecord = function (done) {
+        if (this.state === 'flipped') {
+            new TWEEN.Tween(this.mesh.position)
+                .delay(options.constants.infosOpenTime / 2)
+                .to({
+                    y: 0
+                }, options.constants.infosOpenTime)
+                .easing(TWEEN.Easing.Quartic.Out).start();
+
+            new TWEEN.Tween(this.mesh.rotation)
+                .to({
+                    y: 0
+                }, options.constants.infosOpenTime / 2)
+                .easing(TWEEN.Easing.Quartic.Out).start()
+                .onComplete(done);
+
+            new TWEEN.Tween(target.position)
+                .delay(options.constants.infosOpenTime / 2)
+                .to({
+                    x: this.recordXPos,
+                    y: 75,
+                    z: this.absolutePosition.z
+                }, options.constants.infosOpenTime)
+                .easing(TWEEN.Easing.Quartic.Out).start();
         }
     };
 
@@ -330,7 +339,7 @@
         //        rootContainer.rotation.y += 0.01;
 
         TWEEN.update();
-        updateShownVinyl();
+        updateShownRecord();
         if (options.cameraMouseMove) {
             targetCameraPos.x = (mouse.x / canvasWidth - 0.5) * 0.25; // inverse axis?
             targetCameraPos.y = (mouse.y / canvasWidth - 0.5) * 0.25;
@@ -345,121 +354,135 @@
     /*
      * Loading methods
      */
-    var unloadVinyls = function () {
-        for (var i = 0; i < vinyls.length; i++) {
-            vinyls[i].data = null;
-            vinyls[i].mesh.visible = false;
+    var unloadRecords = function () {
+        for (var i = 0; i < records.length; i++) {
+            records[i].data = null;
+            records[i].mesh.visible = false;
         }
-        loadedVinyls = 0;
+        loadedRecords = 0;
     };
 
 
-    var loadVinyls = function (vinylsData) {
-        if (loadedVinyls > 0) {
-            unloadVinyls();
+    var loadRecords = function (recordsData) {
+        if (loadedRecords > 0) {
+            unloadRecords();
         }
-        for (var i = 0; i < vinyls.length && i < vinylsData.length; i++) {
-            vinyls[i].data = vinylsData[i];
-            vinyls[i].mesh.visible = true;
-            vinyls[i].mesh.material.materials = getVinylMaterial(vinylsData[i].cover, vinylsData[i].hasSleeve);
+        for (var i = 0; i < records.length && i < recordsData.length; i++) {
+            records[i].data = recordsData[i];
+            records[i].mesh.visible = true;
+            records[i].mesh.material.materials = getRecordMaterial(recordsData[i].cover, recordsData[i].hasSleeve);
         }
-        loadedVinyls = vinylsData.length < vinyls.length ? vinylsData.length : vinyls.length;
-        console.log('loadedVinyls', loadedVinyls);
+        loadedRecords = recordsData.length < records.length ? recordsData.length : records.length;
+        console.log('loadedRecords', loadedRecords);
     };
 
 
     /*
-     * Vinyls select methods
+     * Records select methods
      */
-    var selectVinyl = function (id) {
+    var selectRecord = function (id) {
         if (infosPanelState === 'opened') {
-            flipBackSelectedVinyl();
+            flipBackSelectedRecord();
         } else if (infosPanelState !== 'opening' && infosPanelState !== 'closing') {
-            selectedVinyl = id;
+            selectedRecord = id;
         }
     };
 
-    var flipSelectedVinyl = function () {
-        fadeIn(infosContainerElement);
+    var flipSelectedRecord = function () {
+        fillInfosPanel(records[selectedRecord]);
         infosPanelState = 'opening';
-        vinyls[selectedVinyl].flipVinyl(function () {
+        records[selectedRecord].flipRecord(function () {
             infosPanelState = 'opened';
         });
+        setTimeout(function() {
+            fadeIn(infosContainerElement);
+        }, 300);
     };
 
-    var flipBackSelectedVinyl = function () {
+    var flipBackSelectedRecord = function () {
         if (infosPanelState === 'opened') {
             fadeOut(infosContainerElement);
             infosPanelState = 'closing';
-            vinyls[selectedVinyl].flipBackVinyl(function () {
+            records[selectedRecord].flipBackRecord(function () {
                 infosPanelState = 'closed';
             });
         }
     };
 
-    var updateShownVinyl = function () {
-        if (infosPanelState === 'closed' && shownVinyl != selectedVinyl) {
-            //console.log('updateShownVinyl..');
-            shownVinyl = selectedVinyl;
-            for (var vinylId = 0; vinylId < loadedVinyls; vinylId++) {
-                if (selectedVinyl == -1) {
-                    vinyls[vinylId].pushVinyl();
-                } else if (vinylId > selectedVinyl &&
-                           vinylId > vinyls[selectedVinyl].crateId * options.vinylsPerCrate &&
-                           vinylId < (vinyls[selectedVinyl].crateId * options.vinylsPerCrate) + options.vinylsPerCrate) {
-                    vinyls[vinylId].pullVinyl();
-                } else if (vinylId == selectedVinyl) {
-                    vinyls[vinylId].showVinyl();
+    var updateShownRecord = function () {
+        if (infosPanelState === 'closed' && shownRecord != selectedRecord) {
+            //console.log('updateShownRecord..');
+            shownRecord = selectedRecord;
+            for (var recordId = 0; recordId < loadedRecords; recordId++) {
+                if (selectedRecord == -1) {
+                    records[recordId].pushRecord();
+                } else if (recordId > selectedRecord &&
+                    recordId > records[selectedRecord].crateId * options.recordsPerCrate &&
+                    recordId < (records[selectedRecord].crateId * options.recordsPerCrate) + options.recordsPerCrate) {
+                    records[recordId].pullRecord();
+                } else if (recordId == selectedRecord) {
+                    records[recordId].showRecord();
                 } else {
-                    vinyls[vinylId].pushVinyl();
+                    records[recordId].pushRecord();
                 }
             }
         }
     };
 
-    var resetShownVinyl = function () {
+    var resetShownRecord = function () {
         if (infosPanelState === 'opened') {
-            flipBackSelectedVinyl();
+            flipBackSelectedRecord();
         } else if (infosPanelState !== 'opening' && infosPanelState !== 'closing') {
-            selectedVinyl = -1;
+            selectedRecord = -1;
             new TWEEN.Tween(target.position)
-            .to({
-                x: 0,
-                y: 0,
-                z: 0
-            }, options.constants.cameraMoveTime)
-            .easing(TWEEN.Easing.Quartic.Out).start();
+                .to({
+                    x: 0,
+                    y: 0,
+                    z: 0
+                }, options.constants.cameraMoveTime)
+                .easing(TWEEN.Easing.Quartic.Out).start();
 
             new TWEEN.Tween(camera.position)
-            .to({
-                x: options.constants.cameraBasePosition.x,
-                y: options.constants.cameraBasePosition.y,
-                z: options.constants.cameraBasePosition.z
-            }, options.constants.cameraMoveTime)
-            .easing(TWEEN.Easing.Quartic.Out).start();
+                .to({
+                    x: options.constants.cameraBasePosition.x,
+                    y: options.constants.cameraBasePosition.y,
+                    z: options.constants.cameraBasePosition.z
+                }, options.constants.cameraMoveTime)
+                .easing(TWEEN.Easing.Quartic.Out).start();
         }
     };
 
-    var selectPrevVinyl = function () {
-        if (selectedVinyl == -1) {
-            selectVinyl(loadedVinyls - 1);
-        } else if (selectedVinyl < loadedVinyls - 1) {
-            selectVinyl(selectedVinyl + 1);
+    var selectPrevRecord = function () {
+        if (selectedRecord == -1) {
+            selectRecord(loadedRecords - 1);
+        } else if (selectedRecord < loadedRecords - 1) {
+            selectRecord(selectedRecord + 1);
         } else {
-            selectVinyl(0);
+            selectRecord(0);
         }
     };
 
-    var selectNextVinyl = function () {
-        if (selectedVinyl == -1) {
-            selectVinyl(0);
-        } else if (selectedVinyl > 0) {
-            selectVinyl(selectedVinyl - 1);
+    var selectNextRecord = function () {
+        if (selectedRecord == -1) {
+            selectRecord(0);
+        } else if (selectedRecord > 0) {
+            selectRecord(selectedRecord - 1);
         } else {
-            selectVinyl(loadedVinyls - 1);
+            selectRecord(loadedRecords - 1);
         }
     };
 
+    var fillInfosPanel = function(record) {
+        if (record.data.title) {
+            titleInfosElement.innerHTML = record.data.title;
+        }
+        if (record.data.artist) {
+            artistInfosElement.innerHTML = record.data.artist;
+        }
+        if (record.data.cover) {
+            coverInfosElement.style.backgroundImage = 'url(' + record.data.cover + ')';
+        }
+    };
 
     /*
      * Events handling
@@ -480,9 +503,9 @@
             m_posy = e.pageY;
         } else if (e.clientX || e.clientY) {
             m_posx = e.clientX + document.body.scrollLeft +
-                document.documentElement.scrollLeft;
+            document.documentElement.scrollLeft;
             m_posy = e.clientY + document.body.scrollTop +
-                document.documentElement.scrollTop;
+            document.documentElement.scrollTop;
         }
         //get parent element position in document
         if (obj.offsetParent) {
@@ -499,13 +522,13 @@
     var onScrollEvent = function (e) {
         if (infosPanelState === 'closed') {
             if (wheelDirection(e) < 0) {
-                selectPrevVinyl();
+                selectPrevRecord();
             } else {
-                selectNextVinyl();
+                selectNextRecord();
             }
         }
         else if (infosPanelState === 'opened' && options.closeInfoPanelOnScroll) {
-            flipBackSelectedVinyl();
+            flipBackSelectedRecord();
         }
         return false;
     };
@@ -520,54 +543,63 @@
             var raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
             var intersects = raycaster.intersectObjects(cratesContainer.children, true);
 
-            if (intersects.length > 0 && intersects[0].object.vinylId >= 0) {
-                var clickedVinyl = vinyls[intersects[0].object.vinylId];
-                if (selectedVinyl === clickedVinyl.id) {
-                    flipSelectedVinyl();
+            if (intersects.length > 0 && intersects[0].object.recordId >= 0) {
+                var clickedRecord = records[intersects[0].object.recordId];
+                if (selectedRecord === clickedRecord.id) {
+                    flipSelectedRecord();
                 } else {
-                    selectVinyl(clickedVinyl.id);
+                    selectRecord(clickedRecord.id);
                 }
             } else {
-                resetShownVinyl();
+                resetShownRecord();
             }
         }
     };
 
     var onMouseDownEvent = function (e) {
-        clearInterval(scrollVinylsTimeout);
+        clearInterval(scrollRecordsTimeout);
         if (infosPanelState === 'closed') {
-            scrollVinyls(mouse.y);
+            scrollRecords(mouse.y);
             mouseDownPos = {
                 x: mouse.x,
                 y: mouse.y
             };
         }
         else if (infosPanelState === 'opened' && options.closeInfoPanelOnClick) {
-            flipBackSelectedVinyl();
+            flipBackSelectedRecord();
         }
     };
 
     var onMouseUpEvent = function (e) {
-        clearInterval(scrollVinylsTimeout);
+        clearInterval(scrollRecordsTimeout);
         classie.remove(renderer.domElement, 'grab');
         if (coordsEqualsApprox(mouseDownPos, mouse, options.constants.grabSensitivity)) {
             onClickEvent(mouseDownPos);
         }
     };
 
-    var scrollVinyls = function (baseY) {
-        scrollVinylsTimeout = setTimeout(function () {
+    var scrollRecords = function (baseY) {
+        scrollRecordsTimeout = setTimeout(function () {
             classie.add(renderer.domElement, 'grab');
             var delta = (baseY - mouse.y) / canvasHeight;
             if (delta > 0) {
-                selectNextVinyl();
-                //console.log("NEXT VINYL " + delta);
+                selectNextRecord();
+                //console.log("NEXT RECORD " + delta);
             } else if (delta < 0) {
-                selectPrevVinyl();
-                //console.log("PREV VINYL " + delta);
+                selectPrevRecord();
+                //console.log("PREV RECORD " + delta);
             }
-            scrollVinyls(baseY);
+            scrollRecords(baseY);
         }, 75);
+    };
+
+    var onWindowResizeEvent = function(e) {
+        calculateCanvasSize();
+        setCanvasDimensions();
+
+        renderer.setSize(canvasWidth, canvasHeight);
+        camera.aspect	= window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
     };
 
     /*
@@ -601,14 +633,13 @@
             map: wood_texture
         });
 
-
         rootContainer = new THREE.Object3D();
         cratesContainer = new THREE.Object3D();
         scene.add(rootContainer);
         rootContainer.add(cratesContainer);
 
         initCrates();
-        initVinyls();
+        initRecords();
 
         light = new THREE.PointLight(0xFFFFFF, options.lightIntensity * 1.1);
         light.position.set(300, 80, 0);
@@ -627,6 +658,11 @@
         rootContainerElement.addEventListener('mousemove', onMouseMoveEvent, false);
         rootContainerElement.addEventListener('mousedown', onMouseDownEvent, false);
         rootContainerElement.addEventListener('mouseup', onMouseUpEvent, false);
+
+        if (options.updateCanvasSizeOnWindowResize) {
+            window.addEventListener('resize', onWindowResizeEvent, false);
+        }
+
         //        renderer.domElement.addEventListener('click', onClickEvent, false);
 
         // DOM setup
@@ -634,17 +670,10 @@
         canvasContainerElement.style.position   = 'absolute';
         infosContainerElement.style.position    = 'absolute';
         loadingContainerElement.style.position  = 'absolute';
-        
-        console.log(canvasHeight)
-        rootContainerElement.style.height     = canvasHeight + 'px';
-        canvasContainerElement.style.height   = canvasHeight + 'px';
-        infosContainerElement.style.height    = canvasHeight + 'px';
-        loadingContainerElement.style.height  = canvasHeight + 'px';
-        
-        rootContainerElement.style.width     = canvasWidth + 'px';
-        canvasContainerElement.style.width   = canvasWidth + 'px';
-        infosContainerElement.style.width    = canvasWidth + 'px';
-        loadingContainerElement.style.width  = canvasWidth + 'px';
+
+        console.log(canvasHeight);
+
+        setCanvasDimensions();
 
         infosContainerElement.style.display  = 'none';
         fadeOut(loadingContainerElement);
@@ -652,7 +681,7 @@
         if (options.debug) {
             initDebug();
         }
-        resetShownVinyl();
+        resetShownRecord();
         animate();
     };
 
@@ -713,27 +742,26 @@
         return crates[id];
     };
 
-    var initVinyls = function () {
-        var currentVinylId = 0;
+    var initRecords = function () {
+        var currentRecordId = 0;
         for (var crateId = 0; crateId < crates.length; crateId++) {
-            for (var pos = 0; pos < options.vinylsPerCrate; pos++) {
-                createVinyl(currentVinylId, crateId, pos);
-                currentVinylId++;
+            for (var pos = 0; pos < options.recordsPerCrate; pos++) {
+                createRecord(currentRecordId, crateId, pos);
+                currentRecordId++;
             }
         }
-        console.log(vinyls);
     };
 
-    var createVinyl = function (id, crateId, pos) {
-        var vinyl = new Vinyl(id, crateId, pos);
-        crates[crateId].add(vinyl.mesh);
-        vinyls.push(vinyl);
+    var createRecord = function (id, crateId, pos) {
+        var record = new Record(id, crateId, pos);
+        crates[crateId].add(record.mesh);
+        records.push(record);
     };
 
-    var getVinylMaterial = function (src, hasSleeve) {
+    var getRecordMaterial = function (src, hasSleeve) {
         var img = new Image();
         img.crossOrigin = "Anonymous";
-        img.src = src;
+        img.src = src ? src : '';
 
         var imgWidth = 400,
             imgHeight = 400,
@@ -795,8 +823,8 @@
             d = e.detail;
         if (d) {
             if (w) return w / d / 40 * d > 0 ? 1 : -1; // Opera
-            else return -d / 3; // Firefox;         TODO: do not /3 for OS X
-        } else return w / 120; // IE/Safari/Chrome TODO: /3 for Chrome OS X
+            else return -d / 3; // Firefox;
+        } else return w / 120; // IE/Safari/Chrome
     };
 
     var wheelDirection = function (e) {
@@ -807,7 +835,7 @@
     var coordsEqualsApprox = function (coord1, coord2, range) {
         return (Math.abs(coord1.x - coord2.x) <= range) && (Math.abs(coord1.y - coord2.y) <= range);
     };
-    
+
     var fadeOut = function (element) {
         if (element.style.opacity <= 0) {
             element.style.display = 'none';
@@ -819,8 +847,8 @@
                 fadeOut(element);
             }, 10);
         }
-    }
-    
+    };
+
     var fadeIn = function (element, op) {
         if (element.style.opacity < options.infoPanelOpacity) {
             if (element.style.display == 'none') {
@@ -833,8 +861,28 @@
                 fadeIn(element, op);
             }, 10);
         }
-    }
-    
+        else {
+            element.style.opacity = options.infoPanelOpacity;
+        }
+    };
+
+    var calculateCanvasSize = function() {
+        canvasWidth  = options.canvasWidth  ? options.canvasWidth  : rootContainerElement.clientWidth;
+        canvasHeight = options.canvasHeight ? options.canvasHeight : rootContainerElement.clientHeight;
+    };
+
+    var setCanvasDimensions = function() {
+        //rootContainerElement.style.height     = canvasHeight + 'px';
+        canvasContainerElement.style.height   = canvasHeight + 'px';
+        infosContainerElement.style.height    = canvasHeight + 'px';
+        loadingContainerElement.style.height  = canvasHeight + 'px';
+
+        //rootContainerElement.style.width     = canvasWidth + 'px';
+        canvasContainerElement.style.width   = canvasWidth + 'px';
+        infosContainerElement.style.width    = canvasWidth + 'px';
+        loadingContainerElement.style.width  = canvasWidth + 'px';
+    };
+
     /*
      *  Exports
      */
@@ -845,38 +893,53 @@
         console.log('initializing...');
         console.log('options:', options);
 
-        rootContainerElement    = document.getElementById(options.rootContainerId);
+        rootContainerElement    = document.getElementById(options.elements.rootContainerId);
         if (!rootContainerElement) {
-            console.log('cratedigger.js - Init failed : can not find root container element.');
+            console.error('cratedigger.js - Init failed : can not find root container element.');
             return;
         }
-        canvasContainerElement  = document.getElementById(options.canvasContainerId);
-        if (!rootContainerElement) {
-            console.log('cratedigger.js - Init failed : can not find canvas container element.');
+        canvasContainerElement  = document.getElementById(options.elements.canvasContainerId);
+        if (!canvasContainerElement) {
+            console.error('cratedigger.js - Init failed : can not find canvas container element.');
             return;
         }
-        loadingContainerElement = document.getElementById(options.loadingContainerId);
-        if (!rootContainerElement) {
-            console.log('cratedigger.js - Init failed : can not find loading container element.');
+        loadingContainerElement = document.getElementById(options.elements.loadingContainerId);
+        if (!loadingContainerElement) {
+            console.error('cratedigger.js - Init failed : can not find loading container element.');
             return;
         }
-        infosContainerElement   = document.getElementById(options.infosContainerId);
-        if (!rootContainerElement) {
-            console.log('cratedigger.js - Init failed : can not find infos container element.');
+        infosContainerElement   = document.getElementById(options.elements.infosContainerId);
+        if (!infosContainerElement) {
+            console.error('cratedigger.js - Init failed : can not find infos container element.');
+            return;
+        }
+        titleInfosElement       = document.getElementById(options.elements.titleContainerId);
+        if (!titleInfosElement) {
+            console.error('cratedigger.js - Init failed : can not find record title container element.');
+            return;
+        }
+        artistInfosElement       = document.getElementById(options.elements.artistContainerId);
+        if (!artistInfosElement) {
+            console.error('cratedigger.js - Init failed : can not find record artist container element.');
+            return;
+        }
+        coverInfosElement       = document.getElementById(options.elements.coverContainerId);
+        if (!coverInfosElement) {
+            console.error('cratedigger.js - Init failed : can not find cover image container element.');
             return;
         }
 
-        canvasWidth  = options.canvasWidth  ? options.canvasWidth  : rootContainerElement.offsetWidth;
-        canvasHeight = options.canvasHeight ? options.canvasHeight : rootContainerElement.offsetHeight;
+        calculateCanvasSize();
+
         initScene();
     };
-    exports.selectVinyl = function (id) {
+    exports.selectRecord = function (id) {
         if (id < 0) {
-            resetShownVinyl();
-        } else if (id > loadedVinyls) {
-            selectedVinyl = loadedVinyls - 1;
+            resetShownRecord();
+        } else if (id > loadedRecords) {
+            selectedRecord = loadedRecords - 1;
         } else {
-            selectedVinyl = id;
+            selectedRecord = id;
         }
     };
     exports.startRender = function () {
@@ -886,9 +949,9 @@
     exports.stopRender = function () {
         doRender = false;
     };
-    exports.loadVinyls = loadVinyls;
-    exports.unloadVinyls = unloadVinyls;
-    exports.resetShownVinyl = resetShownVinyl;
+    exports.loadRecords = loadRecords;
+    exports.unloadRecords = unloadRecords;
+    exports.resetShownRecord = resetShownRecord;
     exports.canvas = function () {
         return renderer.domElement;
     };
@@ -900,3 +963,4 @@
     return exports;
 
 });
+
