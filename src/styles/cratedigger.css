@@ -5,8 +5,8 @@ html, body {
 }
 
 #cratedigger {
-    width: 960px;
-    height: 768px;
+    width: 800px;
+    height: 600px;
     position: relative;
     -webkit-touch-callout: none;
     -webkit-user-select: none;

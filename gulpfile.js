@@ -80,6 +80,8 @@ gulp.task('move-demo-files', function () {
         .pipe(gulp.dest('demo/scripts'))
     gulp.src('src/img/*')
         .pipe(gulp.dest('demo/img'))
+    gulp.src('src/*.js')
+        .pipe(gulp.dest('demo/'))
 });
 
 gulp.task('bower-install-demo', function () {

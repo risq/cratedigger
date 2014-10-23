@@ -25,3 +25,5 @@ bower_components
 
 #demo
 demo/
+
+.idea/
