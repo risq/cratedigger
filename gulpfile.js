@@ -41,7 +41,7 @@ gulp.task('build-scripts', function() {
     .pipe(gulp.dest('dist/scripts'))
     .pipe(rename({ suffix: '.min' }))
     .pipe(uglify())
-    .pipe(gulp.dest('dist/scripts'))
+    .pipe(gulp.dest('dist/scripts'));
 });
 
 // Styles
@@ -52,12 +52,12 @@ gulp.task('build-styles', function() {
     .pipe(gulp.dest('dist/styles'))
     .pipe(cssmin())
     .pipe(rename({ suffix: '.min' }))
-    .pipe(gulp.dest('dist/styles'))
+    .pipe(gulp.dest('dist/styles'));
 });
 
 gulp.task('build-imgs', function() {
     return gulp.src('src/img/*')
-        .pipe(gulp.dest('dist/img'))
+        .pipe(gulp.dest('dist/img'));
 });
 
 // Clean
@@ -75,21 +75,21 @@ gulp.task('build-demo', function () {
 
 gulp.task('move-demo-files', function () {
     gulp.src('dist/styles/*.css')
-        .pipe(gulp.dest('demo/styles'))
+        .pipe(gulp.dest('demo/styles'));
     gulp.src('dist/scripts/*.js')
-        .pipe(gulp.dest('demo/scripts'))
+        .pipe(gulp.dest('demo/scripts'));
     gulp.src('src/img/*')
-        .pipe(gulp.dest('demo/img'))
+        .pipe(gulp.dest('demo/img'));
     gulp.src('src/*.js')
-        .pipe(gulp.dest('demo/'))
+        .pipe(gulp.dest('demo/'));
 });
 
 gulp.task('bower-install-demo', function () {
     gulp.src('./')
         .pipe(shell([
             'cp -r src/bower_components demo/bower_components'
-        ]))
-})
+        ]));
+});
 
 gulp.task('default', ['connect']);
 

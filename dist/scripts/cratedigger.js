@@ -1,34 +1,34 @@
 /*
- _____              _____              _____             _______
- /\    \            /\    \            /\    \           /::\    \
- /::\    \          /::\    \          /::\    \         /::::\    \
- /::::\    \         \:::\    \        /::::\    \       /::::::\    \
- /::::::\    \         \:::\    \      /::::::\    \     /::::::::\    \
- /:::/\:::\    \         \:::\    \    /:::/\:::\    \   /:::/~~\:::\    \
- /:::/__\:::\    \         \:::\    \  /:::/__\:::\    \ /:::/    \:::\    \
- /::::\   \:::\    \        /::::\    \ \:::\   \:::\    \:::/    / \:::\    \
- /::::::\   \:::\    \__    /::::::\    \_\:::\   \:::\    \:/____/   \:::\____\
- /:::/\:::\   \:::\____\ \  /:::/\:::\    \ \:::\   \:::\    \    |     |:::|    |
- /:::/  \:::\   \:::|    | \/:::/  \:::\____\ \:::\   \:::\____\___|     |:::|____|
- \::/   |::::\  /:::|____| /:::/    \::/    /  \:::\   \::/    /   _\___/:::/    /
- \/____|:::::\/:::/    /\/:::/    / \/____/\   \:::\   \/____/:\ |::| /:::/    /
- |:::::::::/    /:::::/    /      \:::\   \:::\    \  \:::\|::|/:::/    /
- |::|\::::/    /\::::/____/        \:::\   \:::\____\  \::::::::::/    /
- |::| \::/____/  \:::\    \         \:::\  /:::/    /   \::::::::/    /
- |::|  ~|         \:::\    \         \:::\/:::/    /     \::::::/    /
- |::|   |          \:::\    \         \::::::/    /       \::::/____/
- \::|   |           \:::\____\         \::::/    /         |::|    |
- \:|   |            \::/    /          \::/    /          |::|____|
- \|___|             \/____/            \/____/            ~~
+                  _____              _____              _____             _______
+                 /\    \            /\    \            /\    \           /::\    \
+                /::\    \          /::\    \          /::\    \         /::::\    \
+               /::::\    \         \:::\    \        /::::\    \       /::::::\    \
+              /::::::\    \         \:::\    \      /::::::\    \     /::::::::\    \
+             /:::/\:::\    \         \:::\    \    /:::/\:::\    \   /:::/~~\:::\    \
+            /:::/__\:::\    \         \:::\    \  /:::/__\:::\    \ /:::/    \:::\    \
+           /::::\   \:::\    \        /::::\    \ \:::\   \:::\    \:::/    / \:::\    \
+          /::::::\   \:::\    \__    /::::::\    \_\:::\   \:::\    \:/____/   \:::\____\
+         /:::/\:::\   \:::\____\ \  /:::/\:::\    \ \:::\   \:::\    \    |     |:::|    |
+        /:::/  \:::\   \:::|    | \/:::/  \:::\____\ \:::\   \:::\____\___|     |:::|____|
+        \::/   |::::\  /:::|____| /:::/    \::/    /  \:::\   \::/    /   _\___/:::/    /
+         \/____|:::::\/:::/    /\/:::/    / \/____/\   \:::\   \/____/:\ |::| /:::/    /
+               |:::::::::/    /:::::/    /      \:::\   \:::\    \  \:::\|::|/:::/    /
+               |::|\::::/    /\::::/____/        \:::\   \:::\____\  \::::::::::/    /
+               |::| \::/____/  \:::\    \         \:::\  /:::/    /   \::::::::/    /
+               |::|  ~|         \:::\    \         \:::\/:::/    /     \::::::/    /
+               |::|   |          \:::\    \         \::::::/    /       \::::/____/
+               \::|   |           \:::\____\         \::::/    /         |::|    |
+                \:|   |            \::/    /          \::/    /          |::|____|
+                 \|___|             \/____/            \/____/            ~~
 
- __             .___.__                                   __
- ________________ _/  |_  ____   __| _/|__| ____   ____   ___________       |__| ______
- _/ ___\_  __ \__  \\   __\/ __ \ / __ | |  |/ ___\ / ___\_/ __ \_  __ \      |  |/  ___/
- \  \___|  | \// __ \|  | \  ___// /_/ | |  / /_/  > /_/  >  ___/|  | \/      |  |\___ \
- \___  >__|  (____  /__|  \___  >____ | |__\___  /\___  / \___  >__|  /\ /\__|  /____  >
- \/           \/          \/     \/   /_____//_____/      \/      \/ \______|    \/
+                          __             .___.__                                   __
+       ________________ _/  |_  ____   __| _/|__| ____   ____   ___________       |__| ______
+     _/ ___\_  __ \__  \\   __\/ __ \ / __ | |  |/ ___\ / ___\_/ __ \_  __ \      |  |/  ___/
+     \  \___|  | \// __ \|  | \  ___// /_/ | |  / /_/  > /_/  >  ___/|  | \/      |  |\___ \
+      \___  >__|  (____  /__|  \___  >____ | |__\___  /\___  / \___  >__|  /\ /\__|  /____  >
+          \/           \/          \/     \/   /_____//_____/      \/      \/ \______|    \/
 
- */
+*/
 
 /**
  *
@@ -37,7 +37,8 @@
  *
  */
 
-(function (root, factory) {
+
+(function(root, factory) {
     'use strict';
     if (typeof define === 'function' && define.amd) {
         define(factory);
@@ -46,7 +47,7 @@
     } else {
         root.cratedigger = factory(root);
     }
-})(this, function (root) {
+})(this, function(root) {
 
     'use strict';
 
@@ -58,7 +59,7 @@
     var options = {},
         exports = {}, // Object for public APIs
 
-    // DOM container elements
+        // DOM container elements
         rootContainerElement,
         canvasContainerElement,
         loadingContainerElement,
@@ -67,7 +68,7 @@
         artistInfosElement,
         coverInfosElement,
 
-    // Three.js objects
+        // Three.js objects
         stats,
         scene,
         camera,
@@ -78,19 +79,19 @@
         leftLight,
         rightLight,
 
-    // Feature test
+        // Feature test
         supports = !!document.querySelector && !!root.addEventListener,
 
-    // Objects arrays
+        // Objects arrays
         crates = [],
         records = [],
 
-    // Three.js objects containers
+        // Three.js objects containers
         rootContainer,
         cratesContainer,
         recordsContainer,
 
-    // States, util vars
+        // States, util vars
         canvasWidth,
         canvasHeight,
         scrollRecordsTimeout,
@@ -114,10 +115,10 @@
         shownRecord = -1,
         loadedRecords = 0,
 
-    // Materials
-        wood_material,
+        // Materials
+        wood_material, 
 
-    // Default settings
+        // Default settings
         defaults = {
             debug: true,
             canvasWidth: null,
@@ -132,16 +133,16 @@
             closeInfoPanelOnScroll: true,
             infoPanelOpacity: 0.9,
             updateCanvasSizeOnWindowResize: false,
-            callbackBefore: function () {},
-            callbackAfter: function () {},
+            callbackBefore: function() {},
+            callbackAfter: function() {},
             elements: {
-                rootContainerId     : 'cratedigger',
-                canvasContainerId   : 'cratedigger-canvas',
-                loadingContainerId  : 'cratedigger-loading',
-                infosContainerId    : 'cratedigger-infos',
-                titleContainerId    : 'cratedigger-record-title',
-                artistContainerId   : 'cratedigger-record-artist',
-                coverContainerId    : 'cratedigger-record-cover'
+                rootContainerId: 'cratedigger',
+                canvasContainerId: 'cratedigger-canvas',
+                loadingContainerId: 'cratedigger-loading',
+                infosContainerId: 'cratedigger-infos',
+                titleContainerId: 'cratedigger-record-title',
+                artistContainerId: 'cratedigger-record-artist',
+                coverContainerId: 'cratedigger-record-cover'
             },
             constants: {
                 recordMoveTime: 1000,
@@ -168,7 +169,7 @@
     /*
      *  Classes
      */
-    var Record = function (id, crateId, pos) {
+    var Record = function(id, crateId, pos) {
         this.id = id;
         this.crateId = crateId;
         this.pos = pos;
@@ -184,13 +185,13 @@
         this.pushRecord();
     };
 
-    Record.prototype.log = function () {
+    Record.prototype.log = function() {
         console.log("Record n°", this.id,
             "crateId =", this.crateId,
             "pos =", this.pos);
     };
 
-    Record.prototype.showRecord = function () {
+    Record.prototype.showRecord = function() {
         if (this.state !== 'shown') {
             this.state = 'shown';
             this.absolutePosition.setFromMatrixPosition(this.mesh.matrixWorld);
@@ -225,7 +226,7 @@
         }
     };
 
-    Record.prototype.pushRecord = function () {
+    Record.prototype.pushRecord = function() {
         if (this.state != 'pushed') {
             this.state = 'pushed';
             new TWEEN.Tween(this.mesh.position)
@@ -243,7 +244,7 @@
         }
     };
 
-    Record.prototype.pullRecord = function () {
+    Record.prototype.pullRecord = function() {
         if (this.state !== 'pulled') {
             this.state = 'pulled';
             new TWEEN.Tween(this.mesh.position)
@@ -261,7 +262,7 @@
         }
     };
 
-    Record.prototype.flipRecord = function (done) {
+    Record.prototype.flipRecord = function(done) {
         this.state = 'flipped';
         new TWEEN.Tween(this.mesh.position)
             .to({
@@ -286,7 +287,7 @@
             .onComplete(done);
     };
 
-    Record.prototype.flipBackRecord = function (done) {
+    Record.prototype.flipBackRecord = function(done) {
         if (this.state === 'flipped') {
             new TWEEN.Tween(this.mesh.position)
                 .delay(options.constants.infosOpenTime / 2)
@@ -316,7 +317,7 @@
     /*
      *  Base Methods
      */
-    var extend = function (defaults, options) {
+    var extend = function(defaults, options) {
         for (var key in options) {
             if (Object.prototype.hasOwnProperty.call(options, key)) {
                 defaults[key] = options[key];
@@ -325,7 +326,7 @@
         return defaults;
     };
 
-    var animate = function () {
+    var animate = function() {
         if (doRender) {
             requestAnimationFrame(animate);
             render();
@@ -335,7 +336,7 @@
         }
     };
 
-    var render = function () {
+    var render = function() {
         //        rootContainer.rotation.y += 0.01;
 
         TWEEN.update();
@@ -354,7 +355,7 @@
     /*
      * Loading methods
      */
-    var unloadRecords = function () {
+    var unloadRecords = function() {
         for (var i = 0; i < records.length; i++) {
             records[i].data = null;
             records[i].mesh.visible = false;
@@ -363,7 +364,7 @@
     };
 
 
-    var loadRecords = function (recordsData) {
+    var loadRecords = function(recordsData) {
         if (loadedRecords > 0) {
             unloadRecords();
         }
@@ -380,7 +381,7 @@
     /*
      * Records select methods
      */
-    var selectRecord = function (id) {
+    var selectRecord = function(id) {
         if (infosPanelState === 'opened') {
             flipBackSelectedRecord();
         } else if (infosPanelState !== 'opening' && infosPanelState !== 'closing') {
@@ -388,10 +389,10 @@
         }
     };
 
-    var flipSelectedRecord = function () {
+    var flipSelectedRecord = function() {
         fillInfosPanel(records[selectedRecord]);
         infosPanelState = 'opening';
-        records[selectedRecord].flipRecord(function () {
+        records[selectedRecord].flipRecord(function() {
             infosPanelState = 'opened';
         });
         setTimeout(function() {
@@ -399,17 +400,17 @@
         }, 300);
     };
 
-    var flipBackSelectedRecord = function () {
+    var flipBackSelectedRecord = function() {
         if (infosPanelState === 'opened') {
             fadeOut(infosContainerElement);
             infosPanelState = 'closing';
-            records[selectedRecord].flipBackRecord(function () {
+            records[selectedRecord].flipBackRecord(function() {
                 infosPanelState = 'closed';
             });
         }
     };
 
-    var updateShownRecord = function () {
+    var updateShownRecord = function() {
         if (infosPanelState === 'closed' && shownRecord != selectedRecord) {
             //console.log('updateShownRecord..');
             shownRecord = selectedRecord;
@@ -429,7 +430,7 @@
         }
     };
 
-    var resetShownRecord = function () {
+    var resetShownRecord = function() {
         if (infosPanelState === 'opened') {
             flipBackSelectedRecord();
         } else if (infosPanelState !== 'opening' && infosPanelState !== 'closing') {
@@ -452,7 +453,7 @@
         }
     };
 
-    var selectPrevRecord = function () {
+    var selectPrevRecord = function() {
         if (selectedRecord == -1) {
             selectRecord(loadedRecords - 1);
         } else if (selectedRecord < loadedRecords - 1) {
@@ -462,7 +463,7 @@
         }
     };
 
-    var selectNextRecord = function () {
+    var selectNextRecord = function() {
         if (selectedRecord == -1) {
             selectRecord(0);
         } else if (selectedRecord > 0) {
@@ -487,7 +488,7 @@
     /*
      * Events handling
      */
-    var onMouseMoveEvent = function (e) {
+    var onMouseMoveEvent = function(e) {
         var m_posx = 0,
             m_posy = 0,
             e_posx = 0,
@@ -503,37 +504,36 @@
             m_posy = e.pageY;
         } else if (e.clientX || e.clientY) {
             m_posx = e.clientX + document.body.scrollLeft +
-            document.documentElement.scrollLeft;
+                document.documentElement.scrollLeft;
             m_posy = e.clientY + document.body.scrollTop +
-            document.documentElement.scrollTop;
+                document.documentElement.scrollTop;
         }
         //get parent element position in document
         if (obj.offsetParent) {
             do {
                 e_posx += obj.offsetLeft;
                 e_posy += obj.offsetTop;
-            } while (obj = obj.offsetParent);
+            } while (obj = obj.offsetParent); // jshint ignore:line
         }
         // mouse position minus elm position is mouseposition relative to element:
         mouse.x = m_posx - e_posx;
         mouse.y = m_posy - e_posy;
     };
 
-    var onScrollEvent = function (e) {
+    var onScrollEvent = function(e) {
         if (infosPanelState === 'closed') {
             if (wheelDirection(e) < 0) {
                 selectPrevRecord();
             } else {
                 selectNextRecord();
             }
-        }
-        else if (infosPanelState === 'opened' && options.closeInfoPanelOnScroll) {
+        } else if (infosPanelState === 'opened' && options.closeInfoPanelOnScroll) {
             flipBackSelectedRecord();
         }
         return false;
     };
 
-    var onClickEvent = function (mouseDownPos) {
+    var onClickEvent = function(mouseDownPos) {
         if (infosPanelState === 'closed') {
             var vector = new THREE.Vector3(
                 ((mouseDownPos.x - renderer.domElement.offsetLeft) / renderer.domElement.width) * 2 - 1, -((mouseDownPos.y - renderer.domElement.offsetTop) / renderer.domElement.height) * 2 + 1,
@@ -556,7 +556,7 @@
         }
     };
 
-    var onMouseDownEvent = function (e) {
+    var onMouseDownEvent = function(e) {
         clearInterval(scrollRecordsTimeout);
         if (infosPanelState === 'closed') {
             scrollRecords(mouse.y);
@@ -564,13 +564,12 @@
                 x: mouse.x,
                 y: mouse.y
             };
-        }
-        else if (infosPanelState === 'opened' && options.closeInfoPanelOnClick) {
+        } else if (infosPanelState === 'opened' && options.closeInfoPanelOnClick) {
             flipBackSelectedRecord();
         }
     };
 
-    var onMouseUpEvent = function (e) {
+    var onMouseUpEvent = function(e) {
         clearInterval(scrollRecordsTimeout);
         classie.remove(renderer.domElement, 'grab');
         if (coordsEqualsApprox(mouseDownPos, mouse, options.constants.grabSensitivity)) {
@@ -578,8 +577,8 @@
         }
     };
 
-    var scrollRecords = function (baseY) {
-        scrollRecordsTimeout = setTimeout(function () {
+    var scrollRecords = function(baseY) {
+        scrollRecordsTimeout = setTimeout(function() {
             classie.add(renderer.domElement, 'grab');
             var delta = (baseY - mouse.y) / canvasHeight;
             if (delta > 0) {
@@ -598,14 +597,14 @@
         setCanvasDimensions();
 
         renderer.setSize(canvasWidth, canvasHeight);
-        camera.aspect	= window.innerWidth / window.innerHeight;
+        camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
     };
 
     /*
      *  INITIALISATION
      */
-    var initScene = function () {
+    var initScene = function() {
         // scene, renderer, camera,...
         scene = new THREE.Scene();
 
@@ -666,16 +665,16 @@
         //        renderer.domElement.addEventListener('click', onClickEvent, false);
 
         // DOM setup
-        rootContainerElement.style.position     = 'relative';
-        canvasContainerElement.style.position   = 'absolute';
-        infosContainerElement.style.position    = 'absolute';
-        loadingContainerElement.style.position  = 'absolute';
+        rootContainerElement.style.position = 'relative';
+        canvasContainerElement.style.position = 'absolute';
+        infosContainerElement.style.position = 'absolute';
+        loadingContainerElement.style.position = 'absolute';
 
         console.log(canvasHeight);
 
         setCanvasDimensions();
 
-        infosContainerElement.style.display  = 'none';
+        infosContainerElement.style.display = 'none';
         fadeOut(loadingContainerElement);
 
         if (options.debug) {
@@ -685,7 +684,7 @@
         animate();
     };
 
-    var initDebug = function () {
+    var initDebug = function() {
         stats = new Stats();
         stats.domElement.style.position = 'absolute';
         stats.domElement.style.left = "0";
@@ -702,7 +701,7 @@
 
     };
 
-    var initCrates = function () {
+    var initCrates = function() {
         for (var crateId = 0; crateId < options.nbCrates; crateId++) {
             var crate = createCrate(crateId);
             cratesContainer.add(crate);
@@ -710,7 +709,7 @@
         cratesContainer.position.z = -(110 - (110 * options.nbCrates)) / 2;
     };
 
-    var createCrate = function (id) {
+    var createCrate = function(id) {
         crates[id] = new THREE.Object3D();
 
         var box_bottom = new THREE.Mesh(new THREE.BoxGeometry(200, 10, 100), wood_material);
@@ -742,7 +741,7 @@
         return crates[id];
     };
 
-    var initRecords = function () {
+    var initRecords = function() {
         var currentRecordId = 0;
         for (var crateId = 0; crateId < crates.length; crateId++) {
             for (var pos = 0; pos < options.recordsPerCrate; pos++) {
@@ -752,13 +751,13 @@
         }
     };
 
-    var createRecord = function (id, crateId, pos) {
+    var createRecord = function(id, crateId, pos) {
         var record = new Record(id, crateId, pos);
         crates[crateId].add(record.mesh);
         records.push(record);
     };
 
-    var getRecordMaterial = function (src, hasSleeve) {
+    var getRecordMaterial = function(src, hasSleeve) {
         var img = new Image();
         img.crossOrigin = "Anonymous";
         img.src = src ? src : '';
@@ -771,12 +770,12 @@
 
         var texture = new THREE.Texture(mapCanvas);
 
-        img.onload = function () {
+        img.onload = function() {
             if (hasSleeve) {
                 var sleeve = new Image();
                 sleeve.src = 'img/sleeve.png';
 
-                sleeve.onload = function () {
+                sleeve.onload = function() {
                     var ctx = mapCanvas.getContext('2d');
                     ctx.translate(imgWidth / 2, imgHeight / 2);
                     ctx.rotate(Math.PI / 2);
@@ -817,7 +816,7 @@
     /*
      *  Utils
      */
-    var wheelDistance = function (e) {
+    var wheelDistance = function(e) {
         if (!e) e = event;
         var w = e.wheelDelta,
             d = e.detail;
@@ -827,29 +826,28 @@
         } else return w / 120; // IE/Safari/Chrome
     };
 
-    var wheelDirection = function (e) {
+    var wheelDirection = function(e) {
         if (!e) e = event;
         return (e.detail < 0) ? 1 : (e.wheelDelta > 0) ? 1 : -1;
     };
 
-    var coordsEqualsApprox = function (coord1, coord2, range) {
+    var coordsEqualsApprox = function(coord1, coord2, range) {
         return (Math.abs(coord1.x - coord2.x) <= range) && (Math.abs(coord1.y - coord2.y) <= range);
     };
 
-    var fadeOut = function (element) {
+    var fadeOut = function(element) {
         if (element.style.opacity <= 0) {
             element.style.display = 'none';
             element.style.opacity = 0;
-        }
-        else {
+        } else {
             element.style.opacity -= 0.1;
-            setTimeout(function () {
+            setTimeout(function() {
                 fadeOut(element);
             }, 10);
         }
     };
 
-    var fadeIn = function (element, op) {
+    var fadeIn = function(element, op) {
         if (element.style.opacity < options.infoPanelOpacity) {
             if (element.style.display == 'none') {
                 element.style.display = 'block';
@@ -857,48 +855,47 @@
             }
             op += 0.03;
             element.style.opacity = op;
-            setTimeout(function () {
+            setTimeout(function() {
                 fadeIn(element, op);
             }, 10);
-        }
-        else {
+        } else {
             element.style.opacity = options.infoPanelOpacity;
         }
     };
 
     var calculateCanvasSize = function() {
-        canvasWidth  = options.canvasWidth  ? options.canvasWidth  : rootContainerElement.clientWidth;
+        canvasWidth = options.canvasWidth ? options.canvasWidth : rootContainerElement.clientWidth;
         canvasHeight = options.canvasHeight ? options.canvasHeight : rootContainerElement.clientHeight;
     };
 
     var setCanvasDimensions = function() {
         //rootContainerElement.style.height     = canvasHeight + 'px';
-        canvasContainerElement.style.height   = canvasHeight + 'px';
-        infosContainerElement.style.height    = canvasHeight + 'px';
-        loadingContainerElement.style.height  = canvasHeight + 'px';
+        canvasContainerElement.style.height = canvasHeight + 'px';
+        infosContainerElement.style.height = canvasHeight + 'px';
+        loadingContainerElement.style.height = canvasHeight + 'px';
 
         //rootContainerElement.style.width     = canvasWidth + 'px';
-        canvasContainerElement.style.width   = canvasWidth + 'px';
-        infosContainerElement.style.width    = canvasWidth + 'px';
-        loadingContainerElement.style.width  = canvasWidth + 'px';
+        canvasContainerElement.style.width = canvasWidth + 'px';
+        infosContainerElement.style.width = canvasWidth + 'px';
+        loadingContainerElement.style.width = canvasWidth + 'px';
     };
 
     /*
      *  Exports
      */
-    exports.init = function (params) {
+    exports.init = function(params) {
         options = extend(defaults, params);
         // feature test
         if (!supports || !Modernizr.webgl) return;
         console.log('initializing...');
         console.log('options:', options);
 
-        rootContainerElement    = document.getElementById(options.elements.rootContainerId);
+        rootContainerElement = document.getElementById(options.elements.rootContainerId);
         if (!rootContainerElement) {
             console.error('cratedigger.js - Init failed : can not find root container element.');
             return;
         }
-        canvasContainerElement  = document.getElementById(options.elements.canvasContainerId);
+        canvasContainerElement = document.getElementById(options.elements.canvasContainerId);
         if (!canvasContainerElement) {
             console.error('cratedigger.js - Init failed : can not find canvas container element.');
             return;
@@ -908,22 +905,22 @@
             console.error('cratedigger.js - Init failed : can not find loading container element.');
             return;
         }
-        infosContainerElement   = document.getElementById(options.elements.infosContainerId);
+        infosContainerElement = document.getElementById(options.elements.infosContainerId);
         if (!infosContainerElement) {
             console.error('cratedigger.js - Init failed : can not find infos container element.');
             return;
         }
-        titleInfosElement       = document.getElementById(options.elements.titleContainerId);
+        titleInfosElement = document.getElementById(options.elements.titleContainerId);
         if (!titleInfosElement) {
             console.error('cratedigger.js - Init failed : can not find record title container element.');
             return;
         }
-        artistInfosElement       = document.getElementById(options.elements.artistContainerId);
+        artistInfosElement = document.getElementById(options.elements.artistContainerId);
         if (!artistInfosElement) {
             console.error('cratedigger.js - Init failed : can not find record artist container element.');
             return;
         }
-        coverInfosElement       = document.getElementById(options.elements.coverContainerId);
+        coverInfosElement = document.getElementById(options.elements.coverContainerId);
         if (!coverInfosElement) {
             console.error('cratedigger.js - Init failed : can not find cover image container element.');
             return;
@@ -933,7 +930,7 @@
 
         initScene();
     };
-    exports.selectRecord = function (id) {
+    exports.selectRecord = function(id) {
         if (id < 0) {
             resetShownRecord();
         } else if (id > loadedRecords) {
@@ -942,25 +939,23 @@
             selectedRecord = id;
         }
     };
-    exports.startRender = function () {
+    exports.startRender = function() {
         doRender = true;
         animate();
     };
-    exports.stopRender = function () {
+    exports.stopRender = function() {
         doRender = false;
     };
     exports.loadRecords = loadRecords;
     exports.unloadRecords = unloadRecords;
     exports.resetShownRecord = resetShownRecord;
-    exports.canvas = function () {
+    exports.canvas = function() {
         return renderer.domElement;
     };
 
     //
-    // Public APIs
+    // Public API
     //
 
     return exports;
-
 });
-
