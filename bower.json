@@ -22,8 +22,8 @@
   "dependencies": {
     "modernizr": "~2.8.2",
     "tween.js": "https://github.com/sole/tween.js.git",
-    "stats.js": "git@github.com:mrdoob/stats.js.git",
+    "stats.js": "r12",
     "classie": "~1.0.1",
-    "three.js": "*"
+    "threejs": "r69"
   }
 }
