@@ -28,14 +28,14 @@
       \___  >__|  (____  /__|  \___  >____ | |__\___  /\___  / \___  >__|  /\ /\__|  /____  >
           \/           \/          \/     \/   /_____//_____/      \/      \/ \______|    \/
 
+
 */
 
-/**
- *
- * cratedigger.js v0.0.1
- * By risq.
- *
- */
+
+
+/*=======================================================
+=            cratedigger.js v0.0.1 - by risq            =
+=======================================================*/
 
 
 (function(root, factory) {
@@ -51,15 +51,19 @@
 
     'use strict';
 
-    /*
-     *  Variables
-     */
 
+    /*=================================
+    =            VARIABLES            =
+    =================================*/
+    
+    
     // Plugin
     var options = {},
         exports = {}, // Object for public APIs
 
-        // DOM container elements
+
+        /*==========  DOM container elements  ==========*/
+        
         rootContainerElement,
         canvasContainerElement,
         loadingContainerElement,
@@ -68,7 +72,9 @@
         artistInfosElement,
         coverInfosElement,
 
-        // Three.js objects
+
+        /*==========  Three.js objects  ==========*/
+        
         stats,
         scene,
         camera,
@@ -79,19 +85,28 @@
         leftLight,
         rightLight,
 
-        // Feature test
+
+        /*==========  Feature test  ==========*/
+        
         supports = !!document.querySelector && !!root.addEventListener,
 
-        // Objects arrays
+        
+        /*==========  Objects & data arrays  ==========*/
+        
         crates = [],
         records = [],
+        recordsDataList = [],
 
-        // Three.js objects containers
+
+        /*==========  Three.js objects containers  ==========*/
+        
         rootContainer,
         cratesContainer,
         recordsContainer,
 
-        // States, util vars
+        
+        /*==========  States, util vars  ==========*/
+        
         canvasWidth,
         canvasHeight,
         scrollRecordsTimeout,
@@ -115,10 +130,14 @@
         shownRecord = -1,
         loadedRecords = 0,
 
-        // Materials
-        wood_material, 
+        
+        /*==========  Materials  ==========*/
+        
+        wood_material,
 
-        // Default settings
+
+        /*==========  Default settings  ==========*/
+        
         defaults = {
             debug: true,
             canvasWidth: null,
@@ -166,9 +185,14 @@
             }
         };
 
-    /*
-     *  Classes
-     */
+
+    /*===============================
+    =            CLASSES            =
+    ===============================*/
+    
+
+    /*==========  Record Class  ==========*/
+    
     var Record = function(id, crateId, pos) {
         this.id = id;
         this.crateId = crateId;
@@ -314,9 +338,12 @@
         }
     };
 
-    /*
-     *  Base Methods
-     */
+    
+    /*====================================
+    =            BASE METHODS            =
+    ====================================*/
+    
+
     var extend = function(defaults, options) {
         for (var key in options) {
             if (Object.prototype.hasOwnProperty.call(options, key)) {
@@ -361,6 +388,7 @@
             records[i].mesh.visible = false;
         }
         loadedRecords = 0;
+        recordsDataList = [];
     };
 
 
@@ -374,13 +402,22 @@
             records[i].mesh.material.materials = getRecordMaterial(recordsData[i].cover, recordsData[i].hasSleeve);
         }
         loadedRecords = recordsData.length < records.length ? recordsData.length : records.length;
+        recordsDataList = recordsData;
         console.log('loadedRecords', loadedRecords);
     };
 
+    var shuffleRecords = function() {
+        var shuffledRecords = recordsDataList;
+        shuffledRecords = shuffle(shuffledRecords);
+        loadRecords(shuffledRecords);
+    };
 
-    /*
-     * Records select methods
-     */
+
+    /*=================================================
+    =            RECORDS SELECTION METHODS            =
+    =================================================*/
+    
+    
     var selectRecord = function(id) {
         if (infosPanelState === 'opened') {
             flipBackSelectedRecord();
@@ -485,9 +522,12 @@
         }
     };
 
-    /*
-     * Events handling
-     */
+    
+    /*=======================================
+    =            EVENTS HANDLING            =
+    =======================================*/
+    
+     
     var onMouseMoveEvent = function(e) {
         var m_posx = 0,
             m_posy = 0,
@@ -601,9 +641,12 @@
         camera.updateProjectionMatrix();
     };
 
-    /*
-     *  INITIALISATION
-     */
+    
+    /*======================================
+    =            INITIALISATION            =
+    ======================================*/
+    
+     
     var initScene = function() {
         // scene, renderer, camera,...
         scene = new THREE.Scene();
@@ -813,9 +856,12 @@
         return materials;
     };
 
-    /*
-     *  Utils
-     */
+    
+    /*=============================
+    =            UTILS            =
+    =============================*/
+    
+    
     var wheelDistance = function(e) {
         if (!e) e = event;
         var w = e.wheelDelta,
@@ -880,9 +926,19 @@
         loadingContainerElement.style.width = canvasWidth + 'px';
     };
 
-    /*
-     *  Exports
-     */
+    function shuffle(v) { // Jonas Raoni Soares Silva - http://jsfromhell.com/array/shuffle [rev. #1]
+        for (var j, x, i = v.length; i; j = parseInt(Math.random() * i), x = v[--i], v[i] = v[j], v[j] = x);
+        return v;
+    }
+
+    
+    /*===============================
+    =            EXPORTS            =
+    ===============================*/
+
+    
+    /*==========  Public Methods  ==========*/
+    
     exports.init = function(params) {
         options = extend(defaults, params);
         // feature test
@@ -946,16 +1002,31 @@
     exports.stopRender = function() {
         doRender = false;
     };
-    exports.loadRecords = loadRecords;
-    exports.unloadRecords = unloadRecords;
-    exports.resetShownRecord = resetShownRecord;
+
+
+    /*==========  Public attributes  ==========*/    
+
     exports.canvas = function() {
         return renderer.domElement;
     };
+    exports.recordsDataList = function() {
+        return recordsDataList;
+    };
 
-    //
-    // Public API
-    //
+
+    /*==========  Methods accessors  ==========*/
+
+    exports.loadRecords = loadRecords;
+    exports.unloadRecords = unloadRecords;
+    exports.resetShownRecord = resetShownRecord;
+    exports.shuffleRecords = shuffleRecords;
+
+
+    /*==================================
+    =            PUBLIC API            =
+    ==================================*/
 
     return exports;
+
+
 });

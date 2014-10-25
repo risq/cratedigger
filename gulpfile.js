@@ -12,6 +12,7 @@ var gulp = require('gulp'),
     shell = require('gulp-shell'),
     open = require("gulp-open"),
     del = require('del');
+    ghPages = require('gulp-gh-pages');
 
 
 gulp.task('connect', function() {
@@ -82,6 +83,15 @@ gulp.task('move-demo-files', function () {
         .pipe(gulp.dest('demo/img'));
     gulp.src('src/*.js')
         .pipe(gulp.dest('demo/'));
+});
+
+gulp.task('deploy-demo', function () {
+    return gulp.src('./demo/**/*')
+        .pipe(ghPages());
+});
+
+gulp.task('deploy', function () {
+    runSequence('clean', 'build', 'build-demo', 'deploy-demo');
 });
 
 gulp.task('bower-install-demo', function () {

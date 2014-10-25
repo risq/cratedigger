@@ -23,7 +23,4 @@ build/Release
 node_modules
 bower_components
 
-#demo
-demo/
-
 .idea/
