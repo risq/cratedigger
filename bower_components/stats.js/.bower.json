@@ -1,13 +1,13 @@
 {
   "name": "stats.js",
   "homepage": "https://github.com/mrdoob/stats.js",
-  "_release": "7258c52834",
+  "_release": "r12",
   "_resolution": {
-    "type": "branch",
-    "branch": "master",
-    "commit": "7258c5283434e9efa3fcfca08095cf9374555242"
+    "type": "tag",
+    "tag": "r12",
+    "commit": "44ad2918f86add4544e0cb01de82c24ac6678f3a"
   },
-  "_source": "git@github.com:mrdoob/stats.js.git",
-  "_target": "*",
-  "_originalSource": "git@github.com:mrdoob/stats.js.git"
+  "_source": "git://github.com/mrdoob/stats.js.git",
+  "_target": "r12",
+  "_originalSource": "stats.js"
 }

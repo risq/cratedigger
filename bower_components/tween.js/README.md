@@ -1,4 +1,4 @@
-# tween.js (r14)
+# tween.js (r15dev) [![Travis tests](https://travis-ci.org/sole/tween.js.svg?branch=master)](https://travis-ci.org/sole/tween.js)
 
 **JavaScript tweening engine for easy animations**
 
@@ -12,41 +12,48 @@ Super simple, fast and easy to use tweening engine which incorporates optimised 
 
 ## Examples
 
-[![Custom functions](./assets/examples/03_graphs.png)](./examples/12_graphs_custom_functions.html)
-[![Stop all chained tweens](./assets/examples/11_stop_all_chained_tweens.png)](./examples/11_stop_all_chained_tweens.html)
-[![Yoyo](./assets/examples/10_yoyo.png)](./examples/10_yoyo.html)
-[![Relative values](./assets/examples/09_relative.png)](./examples/09_relative_values.html)
-[![Repeat](./assets/examples/08_repeat.png)](./examples/08_repeat.html)
-[![Dynamic to](./assets/examples/07_dynamic_to.png)](./examples/07_dynamic_to.html)
-[![Array interpolation](./assets/examples/03_graphs.png)](./examples/06_array_interpolation.html)
-[![Video and time](./assets/examples/06_video_and_time.png)](./examples/05_video_and_time.html)
-[![Simplest possible example](./assets/examples/04_simplest.png)](./examples/04_simplest.html)
-[![Graphs](./assets/examples/03_graphs.png)](./examples/03_graphs.html)
-[![Black and red](./assets/examples/02_black_and_red.png)](./examples/02_black_and_red.html)
-[![Bars](./assets/examples/01_bars.png)](./examples/01_bars.html)
-[![hello world](./assets/examples/00_hello_world.png)](./examples/00_hello_world.html)
+[![Custom functions](http://sole.github.io/tween.js/assets/examples/03_graphs.png)](http://sole.github.io/tween.js/examples/12_graphs_custom_functions.html)
+[source](./examples/12_graphs_custom_functions.html)
+[![Stop all chained tweens](http://sole.github.io/tween.js/assets/examples/11_stop_all_chained_tweens.png)](http://sole.github.io/tween.js/examples/11_stop_all_chained_tweens.html) [source](./examples/11_stop_all_chained_tweens.html)
+[![Yoyo](http://sole.github.io/tween.js/assets/examples/10_yoyo.png)](http://sole.github.io/tween.js/examples/10_yoyo.html) [source](./examples/10_yoyo.html)
+[![Relative values](http://sole.github.io/tween.js/assets/examples/09_relative.png)](http://sole.github.io/tween.js/examples/09_relative_values.html) [source](./examples/09_relative_values.html)
+[![Repeat](http://sole.github.io/tween.js/assets/examples/08_repeat.png)](http://sole.github.io/tween.js/examples/08_repeat.html) [source](./examples/08_repeat.html)
+[![Dynamic to](http://sole.github.io/tween.js/assets/examples/07_dynamic_to.png)](http://sole.github.io/tween.js/examples/07_dynamic_to.html) [source](./examples/07_dynamic_to.html)
+[![Array interpolation](http://sole.github.io/tween.js/assets/examples/03_graphs.png)](http://sole.github.io/tween.js/examples/06_array_interpolation.html) [source](./examples/06_array_interpolation.html)
+[![Video and time](http://sole.github.io/tween.js/assets/examples/06_video_and_time.png)](http://sole.github.io/tween.js/examples/05_video_and_time.html) [source](./examples/05_video_and_time.html)
+[![Simplest possible example](http://sole.github.io/tween.js/assets/examples/04_simplest.png)](http://sole.github.io/tween.js/examples/04_simplest.html) [source](./examples/04_simplest.html)
+[![Graphs](http://sole.github.io/tween.js/assets/examples/03_graphs.png)](http://sole.github.io/tween.js/examples/03_graphs.html) [source](./examples/03_graphs.html)
+[![Black and red](http://sole.github.io/tween.js/assets/examples/02_black_and_red.png)](http://sole.github.io/tween.js/examples/02_black_and_red.html) [source](./examples/02_black_and_red.html)
+[![Bars](http://sole.github.io/tween.js/assets/examples/01_bars.png)](http://sole.github.io/tween.js/examples/01_bars.html) [source](./examples/01_bars.html)
+[![hello world](http://sole.github.io/tween.js/assets/examples/00_hello_world.png)](http://sole.github.io/tween.js/examples/00_hello_world.html) [source](./examples/00_hello_world.html)
 
 ## Projects using tween.js
 
-[![MOMA Inventing Abstraction 1910-1925](./assets/projects/09_moma.png)](http://www.moma.org/interactives/exhibitions/2012/inventingabstraction/)
-[![Web Lab](./assets/projects/08_web_lab.png)](http://www.chromeweblab.com/)
-[![MACCHINA I](./assets/projects/07_macchina.png)](http://5013.es/toys/macchina)
-[![Minesweeper 3D](./assets/projects/06_minesweeper3d.png)](http://egraether.com/mine3d/)
-[![ROME](./assets/projects/05_rome.png)](http://ro.me)
-[![WebGL Globe](./assets/projects/04_webgl_globe.png)](http://data-arts.appspot.com/globe)
-[![Androidify](./assets/projects/03_androidify.png)](http://www.androidify.com/)
-[![The Wilderness Downtown](./assets/projects/01_wilderness.png)](http://thewildernessdowntown.com/)
-[![Linechart](./assets/projects/00_linechart.png)](http://dejavis.org/linechart)
+[![MOMA Inventing Abstraction 1910-1925](http://sole.github.io/tween.js/assets/projects/09_moma.png)](http://www.moma.org/interactives/exhibitions/2012/inventingabstraction/)
+[![Web Lab](http://sole.github.io/tween.js/assets/projects/08_web_lab.png)](http://www.chromeweblab.com/)
+[![MACCHINA I](http://sole.github.io/tween.js/assets/projects/07_macchina.png)](http://5013.es/toys/macchina)
+[![Minesweeper 3D](http://sole.github.io/tween.js/assets/projects/06_minesweeper3d.png)](http://egraether.com/mine3d/)
+[![ROME](http://sole.github.io/tween.js/assets/projects/05_rome.png)](http://ro.me)
+[![WebGL Globe](http://sole.github.io/tween.js/assets/projects/04_webgl_globe.png)](http://data-arts.appspot.com/globe)
+[![Androidify](http://sole.github.io/tween.js/assets/projects/03_androidify.png)](http://www.androidify.com/)
+[![The Wilderness Downtown](http://sole.github.io/tween.js/assets/projects/01_wilderness.png)](http://thewildernessdowntown.com/)
+[![Linechart](http://sole.github.io/tween.js/assets/projects/00_linechart.png)](http://dejavis.org/linechart)
 
 ## Getting it
 
-Download the [minified library](https://github.com/sole/tween.js/raw/master/build/tween.min.js) and include it in your html. Or use the [unminified version](https://raw.githubusercontent.com/sole/tween.js/master/src/Tween.js) for better debugging.
+Download the [minified library](https://raw.githubusercontent.com/sole/tween.js/r14/build/tween.min.js) and include it in your html. Or use the [unminified version](https://raw.githubusercontent.com/sole/tween.js/r14/src/Tween.js) for better debugging.
 
 ```html
 <script src="js/tween.min.js"></script>
 ```
 
 ### More advanced users might want to...
+
+#### Use development version
+
+The steps above are for getting the latest stable version (tagged with a release tag in git). If you want to check the latest and greatest, simply check out the repository as it is, or download either
+* [tween.min.js](https://raw.githubusercontent.com/sole/tween.js/master/build/tween.min.js)
+* [tween.js](https://raw.githubusercontent.com/sole/tween.js/master/src/Tween.js)
 
 #### Use `npm`
 
@@ -132,6 +139,16 @@ Have a look at that folder to discover more functionalities of the library, or r
 Also, Jerome Etienne has written a [tutorial](http://learningthreejs.com/blog/2011/08/17/tweenjs-for-smooth-animation/) demonstrating how to use tween.js with three.js, and it's also great for understanding how tweens work!
 
 Finally, if you need to use tweens in C/C++ code, you now have an option! Check out [libtween](https://github.com/jsm174/libtween) which is a port of tween.js to C by [jsm174](https://github.com/jsm174)!
+
+## Running the tests
+
+You need to install `npm` first--this comes with node.js, so install that one first. Then, cd to `tween.js`'s directory and run:
+
+```bash
+npm test
+```
+
+If you want to add any feature or change existing features, you *must* run the tests to make sure you didn't break anything else. If you send a PR to add something new and it doesn't have tests, the PR won't be accepted (unless it's seriously good). See [contributing](CONTRIBUTING.md) for more info.
 
 ## Change log
 
