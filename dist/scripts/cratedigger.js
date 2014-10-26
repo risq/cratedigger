@@ -55,15 +55,15 @@
     /*=================================
     =            VARIABLES            =
     =================================*/
-    
-    
+
+
     // Plugin
     var options = {},
         exports = {}, // Object for public APIs
 
 
         /*==========  DOM container elements  ==========*/
-        
+
         rootContainerElement,
         canvasContainerElement,
         loadingContainerElement,
@@ -74,7 +74,7 @@
 
 
         /*==========  Three.js objects  ==========*/
-        
+
         stats,
         scene,
         camera,
@@ -84,29 +84,37 @@
         light,
         leftLight,
         rightLight,
+        composer,
+        FXAA,
+        dof,
+        gui,
+        depthTarget,
+        depthShader,
+        depthUniforms,
+        depthMaterial,
 
 
         /*==========  Feature test  ==========*/
-        
+
         supports = !!document.querySelector && !!root.addEventListener,
 
-        
+
         /*==========  Objects & data arrays  ==========*/
-        
+
         crates = [],
         records = [],
         recordsDataList = [],
 
 
         /*==========  Three.js objects containers  ==========*/
-        
+
         rootContainer,
         cratesContainer,
         recordsContainer,
 
-        
+
         /*==========  States, util vars  ==========*/
-        
+
         canvasWidth,
         canvasHeight,
         scrollRecordsTimeout,
@@ -130,14 +138,14 @@
         shownRecord = -1,
         loadedRecords = 0,
 
-        
+
         /*==========  Materials  ==========*/
-        
+
         wood_material,
 
 
         /*==========  Default settings  ==========*/
-        
+
         defaults = {
             debug: true,
             canvasWidth: null,
@@ -151,7 +159,9 @@
             closeInfoPanelOnClick: true,
             closeInfoPanelOnScroll: true,
             infoPanelOpacity: 0.9,
-            updateCanvasSizeOnWindowResize: false,
+            postprocessing: true,
+            blurAmount: 0.6,
+            updateCanvasSizeOnWindowResize: false, //does not work with postprocessing enabled
             callbackBefore: function() {},
             callbackAfter: function() {},
             elements: {
@@ -189,10 +199,10 @@
     /*===============================
     =            CLASSES            =
     ===============================*/
-    
+
 
     /*==========  Record Class  ==========*/
-    
+
     var Record = function(id, crateId, pos) {
         this.id = id;
         this.crateId = crateId;
@@ -338,11 +348,11 @@
         }
     };
 
-    
+
     /*====================================
     =            BASE METHODS            =
     ====================================*/
-    
+
 
     var extend = function(defaults, options) {
         for (var key in options) {
@@ -364,8 +374,6 @@
     };
 
     var render = function() {
-        //        rootContainer.rotation.y += 0.01;
-
         TWEEN.update();
         updateShownRecord();
         if (options.cameraMouseMove) {
@@ -376,7 +384,15 @@
         }
         camera.lookAt(target.position);
 
-        renderer.render(scene, camera);
+        if (options.postprocessing) {
+            scene.overrideMaterial = depthMaterial;
+            renderer.render(scene, camera, depthTarget);
+            scene.overrideMaterial = null;
+            composer.render();
+        }
+        else {
+            renderer.render(scene, camera);
+        }
     };
 
     /*
@@ -392,9 +408,12 @@
     };
 
 
-    var loadRecords = function(recordsData) {
+    var loadRecords = function(recordsData, shuffleBeforeLoading) {
         if (loadedRecords > 0) {
             unloadRecords();
+        }
+        if (shuffleBeforeLoading) {
+            recordsData = shuffle(recordsData);
         }
         for (var i = 0; i < records.length && i < recordsData.length; i++) {
             records[i].data = recordsData[i];
@@ -416,8 +435,8 @@
     /*=================================================
     =            RECORDS SELECTION METHODS            =
     =================================================*/
-    
-    
+
+
     var selectRecord = function(id) {
         if (infosPanelState === 'opened') {
             flipBackSelectedRecord();
@@ -522,12 +541,12 @@
         }
     };
 
-    
+
     /*=======================================
     =            EVENTS HANDLING            =
     =======================================*/
-    
-     
+
+
     var onMouseMoveEvent = function(e) {
         var m_posx = 0,
             m_posy = 0,
@@ -637,16 +656,20 @@
         setCanvasDimensions();
 
         renderer.setSize(canvasWidth, canvasHeight);
-        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.aspect = canvasWidth / canvasHeight;
         camera.updateProjectionMatrix();
+
+        dof.uniforms.tDepth.value = depthTarget;
+        dof.uniforms.size.value.set(canvasWidth, canvasHeight);
+        dof.uniforms.textel.value.set(1.0 / canvasWidth, 1.0 / canvasHeight);
     };
 
-    
+
     /*======================================
     =            INITIALISATION            =
     ======================================*/
-    
-     
+
+
     var initScene = function() {
         // scene, renderer, camera,...
         scene = new THREE.Scene();
@@ -661,6 +684,9 @@
         renderer.setClearColor(options.backgroundColor, 1);
 
         camera = new THREE.PerspectiveCamera(45, canvasWidth / canvasHeight, 0.1, 20000);
+        camera.focalLength = 45;
+        camera.frameSize = 32;
+        camera.setLens(camera.focalLength, camera.frameSize);
 
         target = new THREE.Object3D();
         //        target = new THREE.Mesh(new THREE.BoxGeometry(10, 10, 10, 1, 1, 1));
@@ -695,6 +721,10 @@
         rightLight.position.set(-100, 300, -1000);
         scene.add(rightLight);
 
+        if (options.postprocessing) {
+            initPostProcessing();
+        }
+
         rootContainerElement.addEventListener('DOMMouseScroll', onScrollEvent, false);
         rootContainerElement.addEventListener('mousewheel', onScrollEvent, false);
         rootContainerElement.addEventListener('mousemove', onMouseMoveEvent, false);
@@ -722,9 +752,76 @@
 
         if (options.debug) {
             initDebug();
+            initGUI();
         }
         resetShownRecord();
         animate();
+    };
+
+    var initPostProcessing = function() {
+        depthShader = THREE.ShaderLib.depthRGBA;
+        depthUniforms = THREE.UniformsUtils.clone(depthShader.uniforms);
+
+        depthMaterial = new THREE.ShaderMaterial({
+            fragmentShader: depthShader.fragmentShader,
+            vertexShader: depthShader.vertexShader,
+            uniforms: depthUniforms
+        });
+        depthMaterial.blending = THREE.NoBlending;
+
+        depthTarget = new THREE.WebGLRenderTarget(canvasWidth, canvasHeight, {
+            minFilter: THREE.NearestFilter,
+            magFilter: THREE.NearestFilter,
+            format: THREE.RGBAFormat
+        });
+
+        composer = new THREE.EffectComposer(renderer);
+        composer.addPass(new THREE.RenderPass(scene, camera));
+
+
+        /*==========  Depth of field shader  ==========*/
+        
+        dof = new THREE.ShaderPass(THREE.DoFShader);
+        dof.uniforms.tDepth.value = depthTarget;
+        dof.uniforms.size.value.set(canvasWidth, canvasHeight);
+        dof.uniforms.textel.value.set(1.0 / canvasWidth, 1.0 / canvasHeight);
+
+        //make sure that these two values are the same for your camera, otherwise distances will be wrong.
+        dof.uniforms.znear.value = camera.near; //camera clipping start
+        dof.uniforms.zfar.value = camera.far; //camera clipping end
+
+        dof.uniforms.focalDepth.value = 5; //focal distance value in meters, but you may use autofocus option below
+        dof.uniforms.focalLength.value = camera.focalLength; //focal length in mm
+        dof.uniforms.fstop.value = 8.0; //f-stop value
+        dof.uniforms.showFocus.value = false; //show debug focus point and focal range (orange = focal point, blue = focal range)
+
+        dof.uniforms.manualdof.value = true; //manual dof calculation
+        dof.uniforms.ndofstart.value = 11; //near dof blur start
+        dof.uniforms.ndofdist.value = 80; //near dof blur falloff distance    
+        dof.uniforms.fdofstart.value = 0; //far dof blur start
+        dof.uniforms.fdofdist.value = 100; //far dof blur falloff distance 
+
+        dof.uniforms.CoC.value = 0.03; //circle of confusion size in mm (35mm film = 0.03mm)    
+
+        dof.uniforms.vignetting.value = false; //use optical lens vignetting?
+
+        dof.uniforms.autofocus.value = true; //use autofocus in shader? disable if you use external focalDepth value
+        dof.uniforms.focus.value.set(0.35, 0.35); // autofocus point on screen (0.0,0.0 - left lower corner, 1.0,1.0 - upper right) 
+        dof.uniforms.maxblur.value = options.blurAmount; //clamp value of max blur (0.0 = no blur,1.0 default)    
+
+        dof.uniforms.threshold.value = 0; //highlight threshold;
+        dof.uniforms.gain.value = 0; //highlight gain;
+
+        dof.uniforms.bias.value = 0; //bokeh edge bias        
+        dof.uniforms.fringe.value = 0; //bokeh chromatic aberration/fringing
+
+        FXAA = new THREE.ShaderPass(THREE.FXAAShader);
+
+        FXAA.uniforms.resolution.value.set(1 / canvasWidth, 1 / canvasHeight);
+        FXAA.renderToScreen = true;
+
+        composer.addPass(dof);
+        composer.addPass(FXAA);
     };
 
     var initDebug = function() {
@@ -741,7 +838,65 @@
             light.position.z
         );
         scene.add(debug);
+    };
 
+    var initGUI = function() {
+        var cameraFolder,
+            cameraFocalLength,
+            dofFolder,
+            _last;
+
+        gui = new dat.GUI();
+
+        if (options.postprocessing) {
+            cameraFolder = gui.addFolder('Camera');
+            cameraFocalLength = cameraFolder.add(camera, 'focalLength', 28, 200).name('Focal Length');
+            cameraFocalLength.onChange(updateCamera);
+
+            dofFolder = gui.addFolder('Depth of Field');
+            dofFolder.add(dof.uniforms.focalDepth, 'value', 0, 10).name('Focal Depth');
+            dofFolder.add(dof.uniforms.fstop, 'value', 0, 22).name('F Stop');
+            dofFolder.add(dof.uniforms.maxblur, 'value', 0, 3).name('max blur');
+
+            dofFolder.add(dof.uniforms.showFocus, 'value').name('Show Focal Range');
+
+            dofFolder.add(dof.uniforms.manualdof, 'value').name('Manual DoF');
+            dofFolder.add(dof.uniforms.ndofstart, 'value', 0, 200).name('near start');
+            dofFolder.add(dof.uniforms.ndofdist, 'value', 0, 200).name('near falloff');
+            dofFolder.add(dof.uniforms.fdofstart, 'value', 0, 200).name('far start');
+            dofFolder.add(dof.uniforms.fdofdist, 'value', 0, 200).name('far falloff');
+
+            dofFolder.add(dof.uniforms.CoC, 'value', 0, 0.1).step(0.001).name('circle of confusion');
+
+            dofFolder.add(dof.uniforms.vignetting, 'value').name('Vignetting');
+            dofFolder.add(dof.uniforms.vignout, 'value', 0, 2).name('outer border');
+            dofFolder.add(dof.uniforms.vignin, 'value', 0, 1).step(0.01).name('inner border');
+            dofFolder.add(dof.uniforms.vignfade, 'value', 0, 22).name('fade at');
+
+            dofFolder.add(dof.uniforms.autofocus, 'value').name('Autofocus');
+            dofFolder.add(dof.uniforms.focus.value, 'x', 0, 1).name('focus x');
+            dofFolder.add(dof.uniforms.focus.value, 'y', 0, 1).name('focus y');
+
+            dofFolder.add(dof.uniforms.threshold, 'value', 0, 1).step(0.01).name('threshold');
+            dofFolder.add(dof.uniforms.gain, 'value', 0, 100).name('gain');
+
+            dofFolder.add(dof.uniforms.bias, 'value', 0, 4).step(0.01).name('bias');
+            dofFolder.add(dof.uniforms.fringe, 'value', 0, 5).step(0.01).name('fringe');
+
+            dofFolder.add(dof.uniforms.noise, 'value').name('Use Noise');
+            dofFolder.add(dof.uniforms.namount, 'value', 0, 0.001).step(0.0001).name('dither');
+
+            dofFolder.add(dof.uniforms.depthblur, 'value').name('Blur Depth');
+            dofFolder.add(dof.uniforms.dbsize, 'value', 0, 5).name('blur size');
+        }
+
+        gui.close();
+    };
+
+    var updateCamera = function() {
+        camera.setLens(camera.focalLength, camera.frameSize);
+        camera.updateProjectionMatrix();
+        dof.uniforms.focalLength.value = camera.focalLength;
     };
 
     var initCrates = function() {
@@ -856,12 +1011,12 @@
         return materials;
     };
 
-    
+
     /*=============================
     =            UTILS            =
     =============================*/
-    
-    
+
+
     var wheelDistance = function(e) {
         if (!e) e = event;
         var w = e.wheelDelta,
@@ -931,14 +1086,14 @@
         return v;
     }
 
-    
+
     /*===============================
     =            EXPORTS            =
     ===============================*/
 
-    
+
     /*==========  Public Methods  ==========*/
-    
+
     exports.init = function(params) {
         options = extend(defaults, params);
         // feature test
@@ -1004,7 +1159,7 @@
     };
 
 
-    /*==========  Public attributes  ==========*/    
+    /*==========  Public attributes  ==========*/
 
     exports.canvas = function() {
         return renderer.domElement;
