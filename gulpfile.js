@@ -71,7 +71,7 @@ gulp.task('build', function () {
 });
 
 gulp.task('build-demo', function () {
-    runSequence('clean', ['build-scripts', 'build-styles'], 'move-demo-files', 'bower-install-demo');
+    runSequence('build', 'move-demo-files', 'bower-install-demo');
 });
 
 gulp.task('move-demo-files', function () {
