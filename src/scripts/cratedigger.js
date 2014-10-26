@@ -162,8 +162,8 @@
             postprocessing: true,
             blurAmount: 0.6,
             updateCanvasSizeOnWindowResize: false, //does not work with postprocessing enabled
-            callbackBefore: function() {},
-            callbackAfter: function() {},
+            infoPannelOpened: function() {},
+            infoPannelClosed: function() {},
             elements: {
                 rootContainerId: 'cratedigger',
                 canvasContainerId: 'cratedigger-canvas',
@@ -327,9 +327,8 @@
 
             new TWEEN.Tween(camera.position)
                 .to({
-                    x: this.recordXPos + options.constants.cameraFocusPosition.x + 90,
+                    x: this.recordXPos + options.constants.cameraFocusPosition.x + 80,
                     y: options.constants.cameraFocusPosition.y - 50,
-                    z: this.absolutePosition.z + options.constants.cameraFocusPosition.z
                 }, options.constants.cameraMoveTime)
                 .easing(TWEEN.Easing.Quartic.Out).start();
     };
@@ -363,7 +362,6 @@
                 .to({
                     x: this.recordXPos + options.constants.cameraFocusPosition.x,
                     y: options.constants.cameraFocusPosition.y,
-                    z: this.absolutePosition.z + options.constants.cameraFocusPosition.z
                 }, options.constants.cameraMoveTime)
                 .easing(TWEEN.Easing.Quartic.Out).start();
         }
@@ -472,6 +470,7 @@
         records[selectedRecord].flipRecord(function() {
             infosPanelState = 'opened';
         });
+        infoPannelOpened();
         setTimeout(function() {
             fadeIn(infosContainerElement);
         }, 300);
@@ -483,6 +482,7 @@
             infosPanelState = 'closing';
             records[selectedRecord].flipBackRecord(function() {
                 infosPanelState = 'closed';
+                infoPannelClosed();
             });
         }
     };
