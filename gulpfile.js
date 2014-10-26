@@ -79,16 +79,12 @@ gulp.task('clean', function() {
     del.sync('dist');
 });
 
-gulp.task('clean-demo', function() {
-    del.sync('demo/scripts/*');
-});
-
 gulp.task('build', function () {
     runSequence('clean', ['build-scripts', 'build-styles', 'build-imgs', 'build-threejs-modules']);
 });
 
 gulp.task('build-demo', function () {
-    runSequence('clean-demo', 'build', 'move-demo-files', 'bower-install-demo');
+    runSequence('build', 'move-demo-files', 'bower-install-demo');
 });
 
 gulp.task('move-demo-files', function () {
@@ -97,12 +93,12 @@ gulp.task('move-demo-files', function () {
 });
 
 gulp.task('deploy-demo', function () {
-    return gulp.src('./demo/**/*')
+    return gulp.src('demo/**/*')
         .pipe(ghPages());
 });
 
 gulp.task('deploy', function () {
-    runSequence('clean', 'build', 'build-demo', 'deploy-demo');
+    runSequence('clean', 'build-demo', 'deploy-demo');
 });
 
 gulp.task('bower-install-demo', function () {

@@ -179,13 +179,18 @@
                 infosOpenTime: 800,
                 recordShownY: 25,
                 recordFlippedY: 110,
+                targetBasePosition: {
+                    x: -20,
+                    y: 10,
+                    z: 0
+                },
                 cameraBasePosition: {
-                    x: 270,
-                    y: 180,
-                    z: 110
+                    x: 280,
+                    y: 200,
+                    z: 180
                 },
                 cameraFocusPosition: {
-                    x: 140,
+                    x: 150,
                     y: 180,
                     z: 80
                 },
@@ -319,6 +324,14 @@
             }, options.constants.infosOpenTime)
             .easing(TWEEN.Easing.Quartic.Out).start()
             .onComplete(done);
+
+            new TWEEN.Tween(camera.position)
+                .to({
+                    x: this.recordXPos + options.constants.cameraFocusPosition.x + 90,
+                    y: options.constants.cameraFocusPosition.y - 50,
+                    z: this.absolutePosition.z + options.constants.cameraFocusPosition.z
+                }, options.constants.cameraMoveTime)
+                .easing(TWEEN.Easing.Quartic.Out).start();
     };
 
     Record.prototype.flipBackRecord = function(done) {
@@ -344,6 +357,14 @@
                     y: 75,
                     z: this.absolutePosition.z
                 }, options.constants.infosOpenTime)
+                .easing(TWEEN.Easing.Quartic.Out).start();
+
+            new TWEEN.Tween(camera.position)
+                .to({
+                    x: this.recordXPos + options.constants.cameraFocusPosition.x,
+                    y: options.constants.cameraFocusPosition.y,
+                    z: this.absolutePosition.z + options.constants.cameraFocusPosition.z
+                }, options.constants.cameraMoveTime)
                 .easing(TWEEN.Easing.Quartic.Out).start();
         }
     };
@@ -493,9 +514,9 @@
             selectedRecord = -1;
             new TWEEN.Tween(target.position)
                 .to({
-                    x: 0,
-                    y: 0,
-                    z: 0
+                    x: options.constants.targetBasePosition.x,
+                    y: options.constants.targetBasePosition.y,
+                    z: options.constants.targetBasePosition.z
                 }, options.constants.cameraMoveTime)
                 .easing(TWEEN.Easing.Quartic.Out).start();
 
