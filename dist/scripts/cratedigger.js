@@ -162,8 +162,8 @@
             postprocessing: true,
             blurAmount: 0.6,
             updateCanvasSizeOnWindowResize: false, //does not work with postprocessing enabled
-            infoPannelOpened: function() {},
-            infoPannelClosed: function() {},
+            infoPanelOpened: function() {},
+            infoPanelClosed: function() {},
             elements: {
                 rootContainerId: 'cratedigger',
                 canvasContainerId: 'cratedigger-canvas',
@@ -470,7 +470,7 @@
         records[selectedRecord].flipRecord(function() {
             infosPanelState = 'opened';
         });
-        infoPannelOpened();
+        options.infoPanelOpened();
         setTimeout(function() {
             fadeIn(infosContainerElement);
         }, 300);
@@ -482,7 +482,7 @@
             infosPanelState = 'closing';
             records[selectedRecord].flipBackRecord(function() {
                 infosPanelState = 'closed';
-                infoPannelClosed();
+                options.infoPanelClosed();
             });
         }
     };
