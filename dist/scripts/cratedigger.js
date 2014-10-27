@@ -628,7 +628,12 @@
 
                 // Get the first visible record intersected
                 for (var i = 0; i < intersects.length; i++) {
-                    if (intersects[i].object.visible && intersects[i].object.recordId >= 0) {
+
+                    // If intercept a mesh which is not a record, break
+                    if(!intersects[i].object.recordId) {
+                        break;
+                    }
+                    else if (intersects[i].object.visible && intersects[i].object.recordId >= 0) {
                         clickedRecord = records[intersects[i].object.recordId];
                         break;
                     }
@@ -1202,11 +1207,14 @@
 
     /*==========  Public attributes  ==========*/
 
-    exports.canvas = function() {
+    exports.getCanvas = function() {
         return renderer.domElement;
     };
-    exports.recordsDataList = function() {
+    exports.getRecordsDataList = function() {
         return recordsDataList;
+    };
+    exports.getSelectedRecord = function() {
+        return records[selectedRecord];
     };
 
 
