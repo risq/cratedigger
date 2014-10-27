@@ -160,7 +160,7 @@
             closeInfoPanelOnScroll: true,
             infoPanelOpacity: 0.9,
             postprocessing: true,
-            blurAmount: 0.6,
+            blurAmount: 0.4,
             updateCanvasSizeOnWindowResize: false, //does not work with postprocessing enabled
             infoPanelOpened: function() {},
             infoPanelClosed: function() {},
