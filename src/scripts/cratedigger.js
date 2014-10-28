@@ -1187,6 +1187,7 @@
 
         initScene();
     };
+
     exports.selectRecord = function(id) {
         if (id < 0) {
             resetShownRecord();
@@ -1196,16 +1197,25 @@
             selectedRecord = id;
         }
     };
+
     exports.startRender = function() {
         doRender = true;
         animate();
     };
+
     exports.stopRender = function() {
         doRender = false;
     };
 
+    exports.enablePostprocessing = function() {
+        options.postprocessing = true;
+    };
 
-    /*==========  Public attributes  ==========*/
+    exports.disablePostprocessing = function() {
+        options.postprocessing = false;
+    };
+
+    /*==========  Public getters  ==========*/
 
     exports.getCanvas = function() {
         return renderer.domElement;
