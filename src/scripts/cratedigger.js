@@ -67,10 +67,10 @@
         rootContainerElement,
         canvasContainerElement,
         loadingContainerElement,
-        infosContainerElement,
-        titleInfosElement,
-        artistInfosElement,
-        coverInfosElement,
+        infoContainerElement,
+        titleInfoElement,
+        artistInfoElement,
+        coverInfoElement,
 
 
         /*==========  Three.js objects  ==========*/
@@ -120,7 +120,7 @@
         dpr,
         scrollRecordsTimeout,
         isLoading = false,
-        infosPanelState = "closed",
+        infoPanelState = "closed",
         isScrolling = false,
         doRender = true,
         mouse = {
@@ -169,7 +169,7 @@
                 rootContainerId: 'cratedigger',
                 canvasContainerId: 'cratedigger-canvas',
                 loadingContainerId: 'cratedigger-loading',
-                infosContainerId: 'cratedigger-infos',
+                infoContainerId: 'cratedigger-info',
                 titleContainerId: 'cratedigger-record-title',
                 artistContainerId: 'cratedigger-record-artist',
                 coverContainerId: 'cratedigger-record-cover'
@@ -177,7 +177,7 @@
             constants: {
                 recordMoveTime: 1000,
                 cameraMoveTime: 800,
-                infosOpenTime: 800,
+                infoOpenTime: 800,
                 recordShownY: 25,
                 recordFlippedY: 110,
                 targetBasePosition: {
@@ -191,9 +191,9 @@
                     z: 180
                 },
                 cameraFocusPosition: {
-                    x: 150,
-                    y: 180,
-                    z: 80
+                    x: 160,
+                    y: 190,
+                    z: 85
                 },
                 cameraMouseMoveSpeedY: 0.07,
                 cameraMouseMoveSpeedZ: 0.03,
@@ -307,14 +307,14 @@
         new TWEEN.Tween(this.mesh.position)
             .to({
                 y: options.constants.recordFlippedY
-            }, options.constants.infosOpenTime)
+            }, options.constants.infoOpenTime)
             .easing(TWEEN.Easing.Quartic.Out).start();
 
         new TWEEN.Tween(this.mesh.rotation)
-            .delay(options.constants.infosOpenTime / 4)
+            .delay(options.constants.infoOpenTime / 4)
             .to({
                 y: Math.PI
-            }, options.constants.infosOpenTime)
+            }, options.constants.infoOpenTime)
             .easing(TWEEN.Easing.Quartic.Out).start();
 
         new TWEEN.Tween(target.position)
@@ -322,7 +322,7 @@
                 x: this.recordXPos,
                 y: options.constants.recordFlippedY + 50,
                 z: this.absolutePosition.z
-            }, options.constants.infosOpenTime)
+            }, options.constants.infoOpenTime)
             .easing(TWEEN.Easing.Quartic.Out).start()
             .onComplete(done);
 
@@ -337,26 +337,26 @@
     Record.prototype.flipBackRecord = function(done) {
         if (this.state === 'flipped') {
             new TWEEN.Tween(this.mesh.position)
-                .delay(options.constants.infosOpenTime / 2)
+                .delay(options.constants.infoOpenTime / 2)
                 .to({
                     y: 0
-                }, options.constants.infosOpenTime)
+                }, options.constants.infoOpenTime)
                 .easing(TWEEN.Easing.Quartic.Out).start();
 
             new TWEEN.Tween(this.mesh.rotation)
                 .to({
                     y: 0
-                }, options.constants.infosOpenTime / 2)
+                }, options.constants.infoOpenTime / 2)
                 .easing(TWEEN.Easing.Quartic.Out).start()
                 .onComplete(done);
 
             new TWEEN.Tween(target.position)
-                .delay(options.constants.infosOpenTime / 2)
+                .delay(options.constants.infoOpenTime / 2)
                 .to({
                     x: this.recordXPos,
                     y: 75,
                     z: this.absolutePosition.z
-                }, options.constants.infosOpenTime)
+                }, options.constants.infoOpenTime)
                 .easing(TWEEN.Easing.Quartic.Out).start();
 
             new TWEEN.Tween(camera.position)
@@ -449,7 +449,7 @@
             console.log('records', records.length);
             setTimeout(function() {
                 fadeOut(loadingContainerElement);
-            }, 1000);
+            }, 2000);
         });
     };
 
@@ -466,38 +466,40 @@
 
 
     var selectRecord = function(id) {
-        if (infosPanelState === 'opened') {
+        if (infoPanelState === 'opened') {
             flipBackSelectedRecord();
-        } else if (infosPanelState !== 'opening' && infosPanelState !== 'closing') {
+        } else if (infoPanelState !== 'opening' && infoPanelState !== 'closing') {
             selectedRecord = id;
         }
     };
 
     var flipSelectedRecord = function() {
-        fillInfosPanel(records[selectedRecord]);
-        infosPanelState = 'opening';
-        records[selectedRecord].flipRecord(function() {
-            infosPanelState = 'opened';
-        });
-        options.infoPanelOpened();
-        setTimeout(function() {
-            fadeIn(infosContainerElement, options.infoPanelOpacity);
-        }, 300);
+        if (records[selectedRecord]) {
+            fillInfoPanel(records[selectedRecord]);
+            infoPanelState = 'opening';
+            records[selectedRecord].flipRecord(function() {
+                infoPanelState = 'opened';
+            });
+            options.infoPanelOpened();
+            setTimeout(function() {
+                fadeIn(infoContainerElement, options.infoPanelOpacity);
+            }, 300);
+        }
     };
 
     var flipBackSelectedRecord = function() {
-        if (infosPanelState === 'opened') {
-            fadeOut(infosContainerElement);
-            infosPanelState = 'closing';
+        if (infoPanelState === 'opened') {
+            fadeOut(infoContainerElement);
+            infoPanelState = 'closing';
             records[selectedRecord].flipBackRecord(function() {
-                infosPanelState = 'closed';
+                infoPanelState = 'closed';
                 options.infoPanelClosed();
             });
         }
     };
 
     var updateShownRecord = function() {
-        if (infosPanelState === 'closed' && shownRecord != selectedRecord) {
+        if (infoPanelState === 'closed' && shownRecord != selectedRecord) {
             //console.log('updateShownRecord..');
             shownRecord = selectedRecord;
             for (var recordId = 0; recordId < loadedRecords; recordId++) {
@@ -517,9 +519,9 @@
     };
 
     var resetShownRecord = function() {
-        if (infosPanelState === 'opened') {
+        if (infoPanelState === 'opened') {
             flipBackSelectedRecord();
-        } else if (infosPanelState !== 'opening' && infosPanelState !== 'closing') {
+        } else if (infoPanelState !== 'opening' && infoPanelState !== 'closing') {
             selectedRecord = -1;
             new TWEEN.Tween(target.position)
                 .to({
@@ -551,7 +553,7 @@
 
     var selectNextRecord = function() {
         if (selectedRecord == -1) {
-            selectRecord(0);
+            selectRecord(loadedRecords - 1);
         } else if (selectedRecord > 0) {
             selectRecord(selectedRecord - 1);
         } else {
@@ -559,15 +561,15 @@
         }
     };
 
-    var fillInfosPanel = function(record) {
+    var fillInfoPanel = function(record) {
         if (record.data.title) {
-            titleInfosElement.innerHTML = record.data.title;
+            titleInfoElement.innerHTML = record.data.title;
         }
         if (record.data.artist) {
-            artistInfosElement.innerHTML = record.data.artist;
+            artistInfoElement.innerHTML = record.data.artist;
         }
         if (record.data.cover) {
-            coverInfosElement.style.backgroundImage = 'url(' + record.data.cover + ')';
+            coverInfoElement.style.backgroundImage = 'url(' + record.data.cover + ')';
         }
     };
 
@@ -610,20 +612,20 @@
     };
 
     var onScrollEvent = function(e) {
-        if (infosPanelState === 'closed') {
+        if (infoPanelState === 'closed') {
             if (wheelDirection(e) < 0) {
                 selectPrevRecord();
             } else {
                 selectNextRecord();
             }
-        } else if (infosPanelState === 'opened' && options.closeInfoPanelOnScroll) {
+        } else if (infoPanelState === 'opened' && options.closeInfoPanelOnScroll) {
             flipBackSelectedRecord();
         }
         return false;
     };
 
     var onClickEvent = function(mouseDownPos) {
-        if (infosPanelState === 'closed') {
+        if (infoPanelState === 'closed') {
             var vector = new THREE.Vector3(
                 ((mouseDownPos.x - renderer.domElement.offsetLeft) / renderer.domElement.width) * 2 - 1, -((mouseDownPos.y - renderer.domElement.offsetTop) / renderer.domElement.height) * 2 + 1,
                 0.5
@@ -673,13 +675,13 @@
 
     var onMouseDownEvent = function(e) {
         clearInterval(scrollRecordsTimeout);
-        if (infosPanelState === 'closed') {
+        if (infoPanelState === 'closed') {
             scrollRecords(mouse.y);
             mouseDownPos = {
                 x: mouse.x,
                 y: mouse.y
             };
-        } else if (infosPanelState === 'opened' && options.closeInfoPanelOnClick) {
+        } else if (infoPanelState === 'opened' && options.closeInfoPanelOnClick) {
             flipBackSelectedRecord();
         }
     };
@@ -692,7 +694,13 @@
         }
     };
 
-    var scrollRecords = function(baseY) {
+    var scrollRecords = function(baseY, oldDelta) {
+        oldDelta = !oldDelta || Math.abs(oldDelta) > 0.5 ? 0.5 : Math.abs(oldDelta);
+        var inverseDelta = 1 - oldDelta;
+        var scrollSpeed = inverseDelta * inverseDelta * inverseDelta * 300;
+
+
+        console.log(scrollSpeed);
         scrollRecordsTimeout = setTimeout(function() {
             classie.add(renderer.domElement, 'grab');
             var delta = (baseY - mouse.y) / canvasHeight;
@@ -703,8 +711,8 @@
                 selectPrevRecord();
                 //console.log("PREV RECORD " + delta);
             }
-            scrollRecords(baseY);
-        }, 75);
+            scrollRecords(baseY, delta);
+        }, scrollSpeed );
     };
 
     var onWindowResizeEvent = function(e) {
@@ -797,14 +805,14 @@
         // DOM setup
         rootContainerElement.style.position = 'relative';
         canvasContainerElement.style.position = 'absolute';
-        infosContainerElement.style.position = 'absolute';
+        infoContainerElement.style.position = 'absolute';
         loadingContainerElement.style.position = 'absolute';
 
         console.log(canvasHeight);
 
         setCanvasDimensions();
 
-        infosContainerElement.style.display = 'none';
+        infoContainerElement.style.display = 'none';
 
         if (options.debug) {
             initDebug();
@@ -1138,12 +1146,12 @@
     var setCanvasDimensions = function() {
         //rootContainerElement.style.height     = canvasHeight + 'px';
         canvasContainerElement.style.height = canvasHeight + 'px';
-        infosContainerElement.style.height = canvasHeight + 'px';
+        infoContainerElement.style.height = canvasHeight + 'px';
         loadingContainerElement.style.height = canvasHeight + 'px';
 
         //rootContainerElement.style.width     = canvasWidth + 'px';
         canvasContainerElement.style.width = canvasWidth + 'px';
-        infosContainerElement.style.width = canvasWidth + 'px';
+        infoContainerElement.style.width = canvasWidth + 'px';
         loadingContainerElement.style.width = canvasWidth + 'px';
     };
 
@@ -1193,23 +1201,23 @@
             console.error('cratedigger.js - Init failed : can not find loading container element.');
             return;
         }
-        infosContainerElement = document.getElementById(options.elements.infosContainerId);
-        if (!infosContainerElement) {
-            console.error('cratedigger.js - Init failed : can not find infos container element.');
+        infoContainerElement = document.getElementById(options.elements.infoContainerId);
+        if (!infoContainerElement) {
+            console.error('cratedigger.js - Init failed : can not find info container element.');
             return;
         }
-        titleInfosElement = document.getElementById(options.elements.titleContainerId);
-        if (!titleInfosElement) {
+        titleInfoElement = document.getElementById(options.elements.titleContainerId);
+        if (!titleInfoElement) {
             console.error('cratedigger.js - Init failed : can not find record title container element.');
             return;
         }
-        artistInfosElement = document.getElementById(options.elements.artistContainerId);
-        if (!artistInfosElement) {
+        artistInfoElement = document.getElementById(options.elements.artistContainerId);
+        if (!artistInfoElement) {
             console.error('cratedigger.js - Init failed : can not find record artist container element.');
             return;
         }
-        coverInfosElement = document.getElementById(options.elements.coverContainerId);
-        if (!coverInfosElement) {
+        coverInfoElement = document.getElementById(options.elements.coverContainerId);
+        if (!coverInfoElement) {
             console.error('cratedigger.js - Init failed : can not find cover image container element.');
             return;
         }
@@ -1261,10 +1269,13 @@
 
     /*==========  Methods accessors  ==========*/
 
-    exports.loadRecords = loadRecords;
-    exports.unloadRecords = unloadRecords;
-    exports.resetShownRecord = resetShownRecord;
-    exports.shuffleRecords = shuffleRecords;
+    exports.loadRecords         = loadRecords;
+    exports.unloadRecords       = unloadRecords;
+    exports.resetShownRecord    = resetShownRecord;
+    exports.shuffleRecords      = shuffleRecords;
+    exports.flipSelectedRecord  = flipSelectedRecord;
+    exports.selectPrevRecord    = selectPrevRecord;
+    exports.selectNextRecord    = selectNextRecord;
 
 
     /*==================================

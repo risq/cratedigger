@@ -89,6 +89,8 @@ gulp.task('build-demo', function () {
 gulp.task('move-demo-files', function () {
     gulp.src('src/*.js')
         .pipe(gulp.dest('demo/'));
+    gulp.src('src/styles/*.css')
+        .pipe(gulp.dest('demo/styles/'));
 });
 
 gulp.task('deploy-demo', function () {
