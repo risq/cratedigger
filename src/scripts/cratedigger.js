@@ -427,20 +427,29 @@
 
 
     var loadRecords = function(recordsData, shuffleBeforeLoading) {
-        if (loadedRecords > 0) {
-            unloadRecords();
-        }
-        if (shuffleBeforeLoading) {
-            recordsData = shuffle(recordsData);
-        }
-        for (var i = 0; i < records.length && i < recordsData.length; i++) {
-            records[i].data = recordsData[i];
-            records[i].mesh.visible = true;
-            records[i].mesh.material.materials = getRecordMaterial(recordsData[i].cover, recordsData[i].hasSleeve);
-        }
-        loadedRecords = recordsData.length < records.length ? recordsData.length : records.length;
-        recordsDataList = recordsData;
-        console.log('loadedRecords', loadedRecords);
+        fadeIn(loadingContainerElement, 1, function() {
+            if (loadedRecords > 0) {
+                unloadRecords();
+            }
+            if (shuffleBeforeLoading) {
+                recordsData = shuffle(recordsData);
+            }
+            for (var i = 0; i < records.length && i < recordsData.length; i++) {
+                records[i].data = recordsData[i];
+                records[i].mesh.visible = true;
+                records[i].mesh.material.materials = getRecordMaterial(recordsData[i].cover, recordsData[i].hasSleeve);
+            }
+            // why ??
+            // loadedRecords = recordsData.length < records.length ? recordsData.length : records.length;
+            loadedRecords = records.length;
+            recordsDataList = recordsData;
+            console.log('loadedRecords', loadedRecords);
+            console.log('recordsData', recordsData.length);
+            console.log('records', records.length);
+            setTimeout(function() {
+                fadeOut(loadingContainerElement);
+            }, 1000);
+        });
     };
 
     var shuffleRecords = function() {
@@ -471,7 +480,7 @@
         });
         options.infoPanelOpened();
         setTimeout(function() {
-            fadeIn(infosContainerElement);
+            fadeIn(infosContainerElement, options.infoPanelOpacity);
         }, 300);
     };
 
@@ -794,7 +803,6 @@
         setCanvasDimensions();
 
         infosContainerElement.style.display = 'none';
-        fadeOut(loadingContainerElement);
 
         if (options.debug) {
             initDebug();
@@ -1082,31 +1090,41 @@
         return (Math.abs(coord1.x - coord2.x) <= range) && (Math.abs(coord1.y - coord2.y) <= range);
     };
 
-    var fadeOut = function(element) {
-        if (element.style.opacity <= 0) {
+    var fadeOut = function(element, done) {
+        if (element.style.opacity <= 0.1) {
             element.style.display = 'none';
             element.style.opacity = 0;
+            if (isFunction(done)) {
+                done();
+            }
         } else {
             element.style.opacity -= 0.1;
             setTimeout(function() {
-                fadeOut(element);
+                fadeOut(element, done);
             }, 10);
         }
     };
 
-    var fadeIn = function(element, op) {
-        if (element.style.opacity < options.infoPanelOpacity) {
+    var fadeIn = function(element, fadeTo, done, op) {
+        if (!element.style.opacity || element.style.opacity && element.style.opacity < fadeTo) {
             if (element.style.display == 'none') {
                 element.style.display = 'block';
                 op = 0;
             }
+            else if (!element.style.display) {
+                op = element.style.opacity || 1;
+            }
             op += 0.03;
             element.style.opacity = op;
             setTimeout(function() {
-                fadeIn(element, op);
+                fadeIn(element, fadeTo, done, op);
             }, 10);
         } else {
-            element.style.opacity = options.infoPanelOpacity;
+            element.style.opacity = fadeTo;
+
+            if (isFunction(done)) {
+                done();
+            }
         }
     };
 
@@ -1130,6 +1148,10 @@
     function shuffle(v) { // Jonas Raoni Soares Silva - http://jsfromhell.com/array/shuffle [rev. #1]
         for (var j, x, i = v.length; i; j = parseInt(Math.random() * i), x = v[--i], v[i] = v[j], v[j] = x);
         return v;
+    }
+
+    function isFunction(obj) {
+      return typeof obj == 'function' || false;
     }
 
 
