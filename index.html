@@ -1,31 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <title>cratedigger.js</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="styles/cratedigger.css" />
-    <link rel="stylesheet" href="styles/demo.css" />
+    <link rel="stylesheet" href="styles/main.css" />
+
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+
     <!-- HTML5 Shim for IE -->
     <!--[if IE]>
-        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+            <![endif]-->
+
 </head>
 
 <body>
-    <div id="cratedigger-container">
-        <div id="cratedigger">
-            <div id="cratedigger-canvas"></div>
-            <div id="cratedigger-loading"></div>
-            <div id="cratedigger-infos">
-                <div class="infos-container">
-                    <div class="vertical-center">
-                        <div id="cratedigger-record-artist"></div>
-                        <div id="cratedigger-record-title"></div>
-                        <div id="cratedigger-record-cover"></div>
-                    </div>
+    <div id="cratedigger">
+        <div id="cratedigger-canvas"></div>
+        <div id="cratedigger-loading">
+            <div class="info-container">
+                <div class="vertical-center">
+                    <span class="loading-label">Loading records...</span>
                 </div>
             </div>
+        </div>
+        <div id="cratedigger-info">
+            <div class="info-container">
+                <div class="vertical-center">
+                    <div id="cratedigger-record-artist"></div>
+                    <div id="cratedigger-record-title"></div>
+                    <div id="cratedigger-record-cover"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="bottom-bar" class="noselect">
+        <div id="button-prev" class="bottom-bar-item">
+            PREVIOUS
+        </div>
+        <div id="button-show" class="bottom-bar-item">
+            SHOW
+        </div>
+        <div id="button-next" class="bottom-bar-item">
+            NEXT
         </div>
     </div>
 
@@ -42,6 +63,6 @@
     <script src="scripts/cratedigger.min.js"></script>
     
     <script src="main.js"></script>
-
 </body>
+
 </html>
