@@ -117,6 +117,7 @@
 
         canvasWidth,
         canvasHeight,
+        dpr,
         scrollRecordsTimeout,
         isLoading = false,
         infosPanelState = "closed",
@@ -161,7 +162,7 @@
             infoPanelOpacity: 0.9,
             postprocessing: true,
             blurAmount: 0.4,
-            updateCanvasSizeOnWindowResize: false, //does not work with postprocessing enabled
+            updateCanvasSizeOnWindowResize: true,
             infoPanelOpened: function() {},
             infoPanelClosed: function() {},
             elements: {
@@ -717,6 +718,7 @@
         dof.uniforms.tDepth.value = depthTarget;
         dof.uniforms.size.value.set(canvasWidth, canvasHeight);
         dof.uniforms.textel.value.set(1.0 / canvasWidth, 1.0 / canvasHeight);
+        FXAA.uniforms.resolution.value.set(1 / (canvasWidth * dpr), 1 / (canvasHeight * dpr));
     };
 
 
@@ -871,7 +873,7 @@
 
         FXAA = new THREE.ShaderPass(THREE.FXAAShader);
 
-        FXAA.uniforms.resolution.value.set(1 / canvasWidth, 1 / canvasHeight);
+        FXAA.uniforms.resolution.value.set(1 / (canvasWidth * dpr), 1 / (canvasHeight * dpr));
         FXAA.renderToScreen = true;
 
         composer.addPass(dof);
@@ -1168,6 +1170,13 @@
         if (!supports || !Modernizr.webgl) return;
         console.log('initializing...');
         console.log('options:', options);
+
+        if (window.devicePixelRatio !== undefined) {
+            dpr = window.devicePixelRatio;
+        }
+        else {
+            dpr = 1;
+        }
 
         rootContainerElement = document.getElementById(options.elements.rootContainerId);
         if (!rootContainerElement) {
