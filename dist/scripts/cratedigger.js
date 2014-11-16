@@ -626,10 +626,13 @@
 
     var onClickEvent = function(mouseDownPos) {
         if (infoPanelState === 'closed') {
-            var vector = new THREE.Vector3(
-                ((mouseDownPos.x - renderer.domElement.offsetLeft) / renderer.domElement.width) * 2 - 1, -((mouseDownPos.y - renderer.domElement.offsetTop) / renderer.domElement.height) * 2 + 1,
-                0.5
-            );
+            var vectorPos = {
+                x: (((mouseDownPos.x - renderer.domElement.offsetLeft / dpr) / (renderer.domElement.width / dpr)) * 2 - 1),
+                y: (-((mouseDownPos.y - renderer.domElement.offsetTop / dpr) / (renderer.domElement.height / dpr)) * 2 + 1),
+                z: 0.5
+            };
+
+            var vector = new THREE.Vector3(vectorPos.x, vectorPos.y, vectorPos.z);
             vector.unproject(camera);
             var raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
             var intersects = raycaster.intersectObjects(cratesContainer.children, true);
@@ -699,8 +702,6 @@
         var inverseDelta = 1 - oldDelta;
         var scrollSpeed = inverseDelta * inverseDelta * inverseDelta * 300;
 
-
-        console.log(scrollSpeed);
         scrollRecordsTimeout = setTimeout(function() {
             classie.add(renderer.domElement, 'grab');
             var delta = (baseY - mouse.y) / canvasHeight;
