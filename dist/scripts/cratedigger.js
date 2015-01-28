@@ -504,8 +504,7 @@
             // loadedRecords = recordsData.length < records.length ? recordsData.length : records.length;
             loadedRecords = records.length;
             recordsDataList = recordsData;
-            console.log( 'loadedRecords', loadedRecords );
-            console.log( 'recordsData', recordsData.length );
+            
             console.log( 'records', records.length );
 
             setTimeout( function () {
@@ -1012,8 +1011,6 @@
         infoContainerElement.style.position = 'absolute';
         loadingContainerElement.style.position = 'absolute';
 
-        console.log( canvasHeight );
-
         setCanvasDimensions();
 
         infoContainerElement.style.display = 'none';
@@ -1257,6 +1254,7 @@
         mapCanvas.width = mapCanvas.height = 400;
 
         var texture = new THREE.Texture( mapCanvas );
+        texture.minFilter = THREE.LinearFilter;
 
         img.onload = function () {
 
