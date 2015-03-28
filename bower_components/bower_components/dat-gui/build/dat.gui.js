@@ -106,8 +106,9 @@ dat.utils.common = (function () {
     
     each: function(obj, itr, scope) {
 
-      
-      if (ARR_EACH && obj.forEach === ARR_EACH) { 
+      if (!obj) return;
+
+      if (ARR_EACH && obj.forEach && obj.forEach === ARR_EACH) { 
         
         obj.forEach(itr, scope);
         
@@ -779,6 +780,8 @@ dat.controllers.NumberController = (function (Controller, common) {
          */
         step: function(v) {
           this.__step = v;
+          this.__impliedStep = v;
+          this.__precision = numDecimals(v);
           return this;
         }
 
@@ -1081,10 +1084,10 @@ dat.controllers.FunctionController = (function (Controller, dom, common) {
           if (this.__onChange) {
             this.__onChange.call(this);
           }
+          this.getValue().call(this.object);
           if (this.__onFinishChange) {
             this.__onFinishChange.call(this, this.getValue());
           }
-          this.getValue().call(this.object);
         }
       }
 
@@ -1671,6 +1674,8 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
         SUPPORTS_LOCAL_STORAGE &&
             localStorage.getItem(getLocalStorageHash(this, 'isLocal')) === 'true';
 
+    var saveToLocalStorage;
+
     Object.defineProperties(this,
 
         /** @lends dat.gui.GUI.prototype */
@@ -1926,9 +1931,14 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
       addResizeHandle(this);
     }
 
-    function saveToLocalStorage() {
-      localStorage.setItem(getLocalStorageHash(_this, 'gui'), JSON.stringify(_this.getSaveObject()));
+    saveToLocalStorage = function () {
+      if (SUPPORTS_LOCAL_STORAGE && localStorage.getItem(getLocalStorageHash(_this, 'isLocal')) === 'true') {
+        localStorage.setItem(getLocalStorageHash(_this, 'gui'), JSON.stringify(_this.getSaveObject()));
+      }
     }
+
+    // expose this method publicly
+    this.saveToLocalStorageIfPossible = saveToLocalStorage;
 
     var root = _this.getRoot();
     function resetWidth() {
@@ -2029,7 +2039,7 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
 
           // TODO listening?
           this.__ul.removeChild(controller.__li);
-          this.__controllers.slice(this.__controllers.indexOf(controller), 1);
+          this.__controllers.splice(this.__controllers.indexOf(controller), 1);
           var _this = this;
           common.defer(function() {
             _this.onResize();
@@ -2226,6 +2236,7 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
 
           this.load.remembered[this.preset] = getCurrentPreset(this);
           markPresetModified(this, false);
+          this.saveToLocalStorageIfPossible();
 
         },
 
@@ -2242,6 +2253,7 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
           this.load.remembered[presetName] = getCurrentPreset(this);
           this.preset = presetName;
           addPresetOption(this, presetName, true);
+          this.saveToLocalStorageIfPossible();
 
         },
 
@@ -3567,7 +3579,8 @@ dat.dom.CenteredDiv = (function (dom, common) {
       display: 'none',
       zIndex: '1000',
       opacity: 0,
-      WebkitTransition: 'opacity 0.2s linear'
+      WebkitTransition: 'opacity 0.2s linear',
+      transition: 'opacity 0.2s linear'
     });
 
     dom.makeFullscreen(this.backgroundElement);
@@ -3579,7 +3592,8 @@ dat.dom.CenteredDiv = (function (dom, common) {
       display: 'none',
       zIndex: '1001',
       opacity: 0,
-      WebkitTransition: '-webkit-transform 0.2s ease-out, opacity 0.2s linear'
+      WebkitTransition: '-webkit-transform 0.2s ease-out, opacity 0.2s linear',
+      transition: 'transform 0.2s ease-out, opacity 0.2s linear'
     });
 
 
@@ -3597,8 +3611,6 @@ dat.dom.CenteredDiv = (function (dom, common) {
   CenteredDiv.prototype.show = function() {
 
     var _this = this;
-    
-
 
     this.backgroundElement.style.display = 'block';
 
