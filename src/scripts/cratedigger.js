@@ -157,6 +157,8 @@
             cameraMouseMove: true,
             backgroundColor: 0x111111,
             sleeveColor: 0x0d0702,
+            sleeveMaskTexture: 'img/sleeve.png',
+            crateTexture: 'img/wood.png',
             closeInfoPanelOnClick: true,
             closeInfoPanelOnScroll: true,
             infoPanelOpacity: 0.9,
@@ -221,8 +223,9 @@
         this.mesh.position.set( this.recordXPos, 0, 0 );
         this.mesh.rotation.z = Math.PI / 2;
         this.mesh.recordId = id;
-        this.mesh.visible = false;
         this.absolutePosition = new THREE.Vector3();
+
+        this.setUnactive();
         this.pushRecord();
 
     };
@@ -232,6 +235,20 @@
         console.log( "Record n°", this.id,
             "crateId =", this.crateId,
             "pos =", this.pos );
+
+    };
+
+    Record.prototype.setActive = function () {
+
+        this.active = true;
+        this.mesh.visible = true;
+
+    };
+
+    Record.prototype.setUnactive = function () {
+
+        this.active = false;
+        this.mesh.visible = false;
 
     };
 
@@ -464,7 +481,7 @@
         for ( var i = 0; i < records.length; i++ ) {
 
             records[ i ].data = null;
-            records[ i ].mesh.visible = false;
+            records[ i ].setUnactive();
 
         }
 
@@ -493,9 +510,8 @@
             }
 
             for ( var i = 0; i < records.length && i < recordsData.length; i++ ) {
-
                 records[ i ].data = recordsData[ i ];
-                records[ i ].mesh.visible = true;
+                records[ i ].setActive();
                 records[ i ].mesh.material.materials = getRecordMaterial( recordsData[ i ].cover, recordsData[ i ].hasSleeve );
 
             }
@@ -505,8 +521,6 @@
             loadedRecords = records.length;
             recordsDataList = recordsData;
             
-            console.log( 'records', records.length );
-
             setTimeout( function () {
 
                 hideLoading( loadingContainerElement );
@@ -646,37 +660,55 @@
 
     var selectPrevRecord = function () {
 
-        if ( selectedRecord == -1 ) {
-
-            selectRecord( loadedRecords - 1 );
-
-        } else if ( selectedRecord < loadedRecords - 1 ) {
-
-            selectRecord( selectedRecord + 1 );
-
-        } else {
-
-            selectRecord( 0 );
-
-        }
+        selectRecord(getPrevAvailableRecord(selectedRecord));
+        
     };
 
     var selectNextRecord = function () {
 
-        if ( selectedRecord == -1 ) {
+        selectRecord(getNextAvailableRecord(selectedRecord));
 
-            selectRecord( loadedRecords - 1 );
+    };
 
-        } else if ( selectedRecord > 0 ) {
+    var getPrevAvailableRecord = function (fromRecord) {
 
-            selectRecord( selectedRecord - 1 );
+        if ( fromRecord == -1 ) {
+
+            fromRecord = loadedRecords - 1;
+
+        } else if ( fromRecord < loadedRecords - 1 ) {
+
+            fromRecord = fromRecord + 1;
 
         } else {
 
-            selectRecord( loadedRecords - 1 );
+            fromRecord = 0;
 
         }
-    };
+
+        return records[ fromRecord ].active ? fromRecord : getPrevAvailableRecord(fromRecord);
+        
+    }
+
+    var getNextAvailableRecord = function (fromRecord) {
+
+        if ( fromRecord == -1 ) {
+
+            fromRecord = loadedRecords - 1;
+
+        } else if ( fromRecord > 0 ) {
+
+            fromRecord = fromRecord - 1;
+
+        } else {
+
+            fromRecord = loadedRecords - 1;
+
+        }
+
+        return records[ fromRecord ].active ? fromRecord : getNextAvailableRecord(fromRecord);
+
+    }
 
     var fillInfoPanel = function ( record ) {
 
@@ -797,11 +829,12 @@
                 for ( var i = 0; i < intersects.length; i++ ) {
 
                     // If intercept a mesh which is not a record, break
-                    if ( !intersects[ i ].object.recordId ) {
+                    if ( typeof(intersects[ i ].object.recordId) === 'undefined' ) {
 
                         break;
 
                     } else if ( intersects[ i ].object.visible && intersects[ i ].object.recordId >= 0 ) {
+
                         clickedRecord = records[ intersects[ i ].object.recordId ];
 
                         break;
@@ -961,7 +994,7 @@
 
         projector = new THREE.Projector();
 
-        var wood_texture = THREE.ImageUtils.loadTexture( 'img/wood.jpg' );
+        var wood_texture = THREE.ImageUtils.loadTexture( options.crateTexture );
         wood_texture.anisotropy = renderer.getMaxAnisotropy();
         wood_material = new THREE.MeshLambertMaterial( {
             map: wood_texture
@@ -1261,7 +1294,7 @@
             if ( hasSleeve ) {
 
                 var sleeve = new Image();
-                sleeve.src = 'img/sleeve.png';
+                sleeve.src = options.sleeveMaskTexture;
 
                 sleeve.onload = function () {
 
