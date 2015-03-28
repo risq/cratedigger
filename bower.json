@@ -24,7 +24,7 @@
     "tween.js": "https://github.com/sole/tween.js.git",
     "stats.js": "r12",
     "classie": "~1.0.1",
-    "threejs": "r70",
+    "threejs": "r71",
     "dat-gui": "~0.5.0"
   }
 }

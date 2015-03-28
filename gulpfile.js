@@ -105,7 +105,7 @@ gulp.task('deploy', function () {
 gulp.task('bower-install-demo', function () {
     gulp.src('./')
         .pipe(shell([
-            'cp -r src/bower_components demo/bower_components'
+            'cp -rf src/bower_components demo/bower_components'
         ]));
 });
 

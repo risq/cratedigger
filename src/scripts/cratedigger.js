@@ -158,7 +158,7 @@
             backgroundColor: 0x111111,
             sleeveColor: 0x0d0702,
             sleeveMaskTexture: 'img/sleeve.png',
-            crateTexture: 'img/wood.png',
+            crateTexture: 'img/wood.jpg',
             closeInfoPanelOnClick: true,
             closeInfoPanelOnScroll: true,
             infoPanelOpacity: 0.9,
@@ -688,7 +688,7 @@
 
         return records[ fromRecord ].active ? fromRecord : getPrevAvailableRecord(fromRecord);
         
-    }
+    };
 
     var getNextAvailableRecord = function (fromRecord) {
 
@@ -708,7 +708,7 @@
 
         return records[ fromRecord ].active ? fromRecord : getNextAvailableRecord(fromRecord);
 
-    }
+    };
 
     var fillInfoPanel = function ( record ) {
 
@@ -1473,8 +1473,7 @@
         options = extend( defaults, params );
         // feature test
         if ( !supports || !Modernizr.webgl ) return;
-        console.log( 'initializing...' );
-        console.log( 'options:', options );
+        console.log( 'Initializing cratedigger.js...' );
 
         if ( window.devicePixelRatio !== undefined ) {
 
