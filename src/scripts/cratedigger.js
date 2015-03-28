@@ -180,6 +180,7 @@
                 recordMoveTime: 1000,
                 cameraMoveTime: 800,
                 infoOpenTime: 800,
+                recordBaseY: 5,
                 recordShownY: 25,
                 recordFlippedY: 110,
                 targetBasePosition: {
@@ -220,7 +221,7 @@
         this.recordXPos = -62 + ( 135 / options.recordsPerCrate ) * pos;
         this.mesh = new THREE.Mesh( new THREE.BoxGeometry( 100, 1.5, 100, 1, 1, 1 ), new THREE.MeshFaceMaterial( getRecordMaterial( null, false ) ) );
         this.mesh.geometry.applyMatrix( new THREE.Matrix4().makeTranslation( 50, 0, 0 ) );
-        this.mesh.position.set( this.recordXPos, 0, 0 );
+        this.mesh.position.set( this.recordXPos, options.constants.recordBaseY, 0 );
         this.mesh.rotation.z = Math.PI / 2;
         this.mesh.recordId = id;
         this.absolutePosition = new THREE.Vector3();
@@ -298,7 +299,7 @@
 
             new TWEEN.Tween( this.mesh.position )
                 .to( {
-                    y: 0
+                    y: options.constants.recordBaseY
                 }, options.constants.recordMoveTime )
                 .easing( TWEEN.Easing.Quartic.Out ).start();
 
@@ -319,7 +320,7 @@
 
             new TWEEN.Tween( this.mesh.position )
                 .to( {
-                    y: 0
+                    y: options.constants.recordBaseY
                 }, options.constants.recordMoveTime )
                 .easing( TWEEN.Easing.Quartic.Out ).start();
 
@@ -374,7 +375,7 @@
             new TWEEN.Tween( this.mesh.position )
                 .delay( options.constants.infoOpenTime / 2 )
                 .to( {
-                    y: 0
+                    y: options.constants.recordBaseY
                 }, options.constants.infoOpenTime )
                 .easing( TWEEN.Easing.Quartic.Out ).start();
 
