@@ -1020,11 +1020,7 @@
         rightLight.position.set( -100, 300, -1000 );
         scene.add( rightLight );
 
-        if ( options.postprocessing ) {
-
-            initPostProcessing();
-
-        }
+        initPostProcessing();
 
         rootContainerElement.addEventListener( 'DOMMouseScroll', onScrollEvent, false );
         rootContainerElement.addEventListener( 'mousewheel', onScrollEvent, false );
