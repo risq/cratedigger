@@ -51,8 +51,9 @@ html, body {
     display: inline-block;
     width: 400px;
     height: 400px;
-    -webkit-background-size: contain;
-    background-size: contain;
+    -webkit-background-size: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
     background-position: center center;
     margin: 25px 0 50px;
 }
