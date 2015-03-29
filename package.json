@@ -28,7 +28,7 @@
     "gulp-open": "^0.2.8",
     "gulp-rename": "^1.2.0",
     "gulp-shell": "^0.2.7",
-    "gulp-uglify": "^0.3.1",
-    "run-sequence": "^0.3.6"
+    "gulp-uglify": "^0.3.2",
+    "run-sequence": "^0.3.7"
   }
 }
