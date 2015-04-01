@@ -26,6 +26,8 @@ html, body {
 #cratedigger-loading {
     background-color: #111111;
     z-index: 10;
+    height: 100%;
+    width: 100%;
 }
 
 #cratedigger-info {

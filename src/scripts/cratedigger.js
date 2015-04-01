@@ -1586,11 +1586,19 @@
         return renderer.domElement;
 
     };
+
     exports.getRecordsDataList = function () {
 
         return recordsDataList;
 
     };
+
+    exports.getLoadedRecords = function () {
+
+        return loadedRecords;
+
+    };
+
     exports.getSelectedRecord = function () {
 
         return records[ selectedRecord ];
