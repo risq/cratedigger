@@ -492,7 +492,7 @@
     };
 
 
-    var loadRecords = function ( recordsData, shuffleBeforeLoading ) {
+    var loadRecords = function ( recordsData, shuffleBeforeLoading, done ) {
 
         resetShownRecord( true );
 
@@ -511,6 +511,7 @@
             }
 
             for ( var i = 0; i < records.length && i < recordsData.length; i++ ) {
+                
                 records[ i ].data = recordsData[ i ];
                 records[ i ].setActive();
                 records[ i ].mesh.material.materials = getRecordMaterial( recordsData[ i ].cover, recordsData[ i ].hasSleeve );
@@ -525,6 +526,12 @@
             setTimeout( function () {
 
                 hideLoading( loadingContainerElement );
+
+                if ( done ) {
+
+                    done();
+
+                }
 
             }, 2000 );
         } );
