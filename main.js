@@ -17,11 +17,11 @@ cratedigger.init({
         coverContainerId    : 'cratedigger-record-cover'
     },
 
-    infoPanelOpened: function() {
+    onInfoPanelOpened: function() {
     	classie.add(bottomBar, 'closed');
     },
 
-	infoPanelClosed: function() {
+	onInfoPanelClosed: function() {
 		classie.remove(bottomBar, 'closed');
 	}
 });
