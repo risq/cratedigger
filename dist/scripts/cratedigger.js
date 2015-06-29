@@ -165,8 +165,9 @@
             postprocessing: true,
             blurAmount: 0.4,
             updateCanvasSizeOnWindowResize: true,
-            infoPanelOpened: function () {},
-            infoPanelClosed: function () {},
+            onInfoPanelOpened: function () {},
+            onInfoPanelClosed: function () {},
+            onLoadingEnd: function () {},
             elements: {
                 rootContainerId: 'cratedigger',
                 canvasContainerId: 'cratedigger-canvas',
@@ -526,6 +527,7 @@
             setTimeout( function () {
 
                 hideLoading( loadingContainerElement );
+                options.onLoadingEnd();
 
                 if ( done ) {
 
@@ -577,7 +579,7 @@
 
             } );
 
-            options.infoPanelOpened();
+            options.onInfoPanelOpened();
 
             setTimeout( function () {
 
@@ -597,7 +599,7 @@
             records[ selectedRecord ].flipBackRecord( function () {
 
                 infoPanelState = 'closed';
-                options.infoPanelClosed();
+                options.onInfoPanelClosed();
 
             }, force );
         }
@@ -818,8 +820,8 @@
         if ( infoPanelState === 'closed' ) {
 
             var vectorPos = {
-                x: ( ( ( mouseDownPos.x - renderer.domElement.offsetLeft / dpr ) / ( renderer.domElement.width / dpr ) ) * 2 - 1 ),
-                y: ( -( ( mouseDownPos.y - renderer.domElement.offsetTop / dpr ) / ( renderer.domElement.height / dpr ) ) * 2 + 1 ),
+                x: ( ( ( mouseDownPos.x - renderer.domElement.offsetLeft ) / ( renderer.domElement.width ) ) * 2 - 1 ),
+                y: ( -( ( mouseDownPos.y - renderer.domElement.offsetTop ) / ( renderer.domElement.height ) ) * 2 + 1 ),
                 z: 0.5
             };
 
@@ -946,7 +948,7 @@
         dof.uniforms.tDepth.value = depthTarget;
         dof.uniforms.size.value.set( canvasWidth, canvasHeight );
         dof.uniforms.textel.value.set( 1.0 / canvasWidth, 1.0 / canvasHeight );
-        FXAA.uniforms.resolution.value.set( 1 / ( canvasWidth * dpr ), 1 / ( canvasHeight * dpr ) );
+        FXAA.uniforms.resolution.value.set( 1 / canvasWidth, 1 / canvasHeight );
 
     };
 
@@ -1123,7 +1125,7 @@
 
         FXAA = new THREE.ShaderPass( THREE.FXAAShader );
 
-        FXAA.uniforms.resolution.value.set( 1 / ( canvasWidth * dpr ), 1 / ( canvasHeight * dpr ) );
+        FXAA.uniforms.resolution.value.set( 1 / canvasWidth, 1 / canvasHeight );
         FXAA.renderToScreen = true;
 
         composer.addPass( dof );
