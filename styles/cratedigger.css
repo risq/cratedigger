@@ -37,15 +37,15 @@ html, body {
 
 #cratedigger-record-title {
     color: #fefefe;
-    font-size: 50px;
-    line-height: 50px;
+    font-size: 40px;
+    line-height: 45px;
     font-weight: 700;
     text-transform: uppercase;
 }
 
 #cratedigger-record-artist {
     color: #fefefe;
-    font-size: 35px;
+    font-size: 26px;
     font-weight: 700;
 }
 
