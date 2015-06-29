@@ -165,8 +165,9 @@
             postprocessing: true,
             blurAmount: 0.4,
             updateCanvasSizeOnWindowResize: true,
-            infoPanelOpened: function () {},
-            infoPanelClosed: function () {},
+            onInfoPanelOpened: function () {},
+            onInfoPanelClosed: function () {},
+            onLoadingEnd: function () {},
             elements: {
                 rootContainerId: 'cratedigger',
                 canvasContainerId: 'cratedigger-canvas',
@@ -526,6 +527,7 @@
             setTimeout( function () {
 
                 hideLoading( loadingContainerElement );
+                options.onLoadingEnd();
 
                 if ( done ) {
 
@@ -577,7 +579,7 @@
 
             } );
 
-            options.infoPanelOpened();
+            options.onInfoPanelOpened();
 
             setTimeout( function () {
 
@@ -597,7 +599,7 @@
             records[ selectedRecord ].flipBackRecord( function () {
 
                 infoPanelState = 'closed';
-                options.infoPanelClosed();
+                options.onInfoPanelClosed();
 
             }, force );
         }
