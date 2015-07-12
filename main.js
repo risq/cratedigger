@@ -40,7 +40,11 @@ buttonPrev.addEventListener('click', function(e) {
 }, false);
 
 buttonShow.addEventListener('click', function(e) {
-	cratedigger.flipSelectedRecord();
+	if (cratedigger.getSelectedRecord()) {
+		cratedigger.flipSelectedRecord();
+	} else {
+		cratedigger.selectNextRecord();
+	}
     return false;
 }, false);
 
