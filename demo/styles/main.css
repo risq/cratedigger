@@ -1,0 +1,45 @@
+#bottom-bar {
+    position: absolute;
+    z-index: 8;
+    background-color: rgba(17, 17, 17, 0.5);
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 60px;
+    width: 100%;
+    display: table;
+    color: #fff;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+    table-layout: fixed;
+}
+
+#bottom-bar.closed {
+    bottom: -60px;
+}
+
+#bottom-bar .bottom-bar-item {
+    display: table-cell;
+    text-align: center;
+    text-transform: uppercase;
+    line-height: 60px;
+    font-size: 30px;
+    transition: all 0.15s ease-in-out;
+    overflow: hidden;
+    color: #fff;
+    cursor: pointer;
+}
+
+#bottom-bar .bottom-bar-item:hover {
+    background-color: #fff;
+    color: #111;
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}

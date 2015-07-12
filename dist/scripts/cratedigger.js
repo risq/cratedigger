@@ -720,6 +720,49 @@
 
     };
 
+    var navigateRecords = function ( direction ) {
+
+        if ( infoPanelState === 'closed' ) {
+
+            if ( direction === 'prev' ) {
+
+                selectPrevRecord();
+
+            } else {
+
+                selectNextRecord();
+
+            }
+
+        } else if ( infoPanelState === 'opened' && options.closeInfoPanelOnScroll ) {
+
+            flipBackSelectedRecord();
+
+        }
+
+    };
+
+    var scrollRecords = function ( baseY, oldDelta ) {
+
+        oldDelta = !oldDelta || Math.abs( oldDelta ) > 0.5 ? 0.5 : Math.abs( oldDelta );
+        var inverseDelta = 1 - oldDelta;
+        var scrollSpeed = inverseDelta * inverseDelta * inverseDelta * 300;
+
+        scrollRecordsTimeout = setTimeout( function () {
+            classie.add( renderer.domElement, 'grab' );
+            var delta = ( baseY - mouse.y ) / canvasHeight;
+            if ( delta > 0 ) {
+                selectNextRecord();
+                //console.log("NEXT RECORD " + delta);
+            } else if ( delta < 0 ) {
+                selectPrevRecord();
+                //console.log("PREV RECORD " + delta);
+            }
+            scrollRecords( baseY, delta );
+        }, scrollSpeed );
+
+    };
+
     var fillInfoPanel = function ( record ) {
 
         if ( record.data.title ) {
@@ -794,21 +837,14 @@
 
     var onScrollEvent = function ( e ) {
 
-        if ( infoPanelState === 'closed' ) {
 
-            if ( wheelDirection( e ) < 0 ) {
+        if ( wheelDirection( e ) < 0 ) {
 
-                selectPrevRecord();
+            navigateRecords( 'prev' );
 
-            } else {
+        } else {
 
-                selectNextRecord();
-
-            }
-
-        } else if ( infoPanelState === 'opened' && options.closeInfoPanelOnScroll ) {
-
-            flipBackSelectedRecord();
+            navigateRecords( 'next' );
 
         }
 
@@ -910,30 +946,24 @@
         classie.remove( renderer.domElement, 'grab' );
 
         if ( coordsEqualsApprox( mouseDownPos, mouse, options.constants.grabSensitivity ) ) {
+
             onClickEvent( mouseDownPos );
+
         }
 
     };
 
-    var scrollRecords = function ( baseY, oldDelta ) {
+    var onKeyDownEvent = function ( e ) {
 
-        oldDelta = !oldDelta || Math.abs( oldDelta ) > 0.5 ? 0.5 : Math.abs( oldDelta );
-        var inverseDelta = 1 - oldDelta;
-        var scrollSpeed = inverseDelta * inverseDelta * inverseDelta * 300;
+        if ( e.keyCode === 37 || e.keyCode === 38 ) {
 
-        scrollRecordsTimeout = setTimeout( function () {
-            classie.add( renderer.domElement, 'grab' );
-            var delta = ( baseY - mouse.y ) / canvasHeight;
-            if ( delta > 0 ) {
-                selectNextRecord();
-                //console.log("NEXT RECORD " + delta);
-            } else if ( delta < 0 ) {
-                selectPrevRecord();
-                //console.log("PREV RECORD " + delta);
-            }
-            scrollRecords( baseY, delta );
-        }, scrollSpeed );
+            navigateRecords( 'next' );
 
+        } else if ( e.keyCode === 39 || e.keyCode === 40 ) {
+
+            navigateRecords( 'prev' );
+
+        }
     };
 
     var onWindowResizeEvent = function ( e ) {
@@ -1037,6 +1067,8 @@
         rootContainerElement.addEventListener( 'mousemove', onMouseMoveEvent, false );
         rootContainerElement.addEventListener( 'mousedown', onMouseDownEvent, false );
         rootContainerElement.addEventListener( 'mouseup', onMouseUpEvent, false );
+
+        window.addEventListener( 'keydown', onKeyDownEvent, false ); 
 
         if ( options.updateCanvasSizeOnWindowResize ) {
 
