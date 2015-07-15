@@ -3,7 +3,7 @@ var src = './src';
 
 module.exports = {
   bower: {
-    src: src + "/bower_components/**",
+    src: "./bower_components/**",
     dest: dest + "/bower_components"
   },
   browserSync: {
