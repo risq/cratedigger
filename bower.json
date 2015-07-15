@@ -21,8 +21,6 @@
   ],
   "dependencies": {
     "modernizr": "~2.8.2",
-    "tween.js": "https://github.com/sole/tween.js.git",
-    "stats.js": "r12",
     "threejs": "r71",
     "dat-gui": "~0.5.0"
   }

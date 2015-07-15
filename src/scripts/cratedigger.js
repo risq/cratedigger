@@ -40,8 +40,9 @@
 
 'use strict';
 
-var THREE = require('three');//,
-    //Modernizr = require('modernizr');
+var THREE = require('three'),
+    TWEEN = require('tween.js'),
+    Stats = require('stats-js');
 
 /*==========  Inject all external modules to THREE.js ==========*/
 

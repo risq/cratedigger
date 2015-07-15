@@ -15,10 +15,7 @@
   "bugs": {
     "url": "https://github.com/risq/cratedigger.js/issues"
   },
-  "browser": {
-    "underscore": "backbone/node_modules/underscore",
-    "plugin": "./src/javascript/vendor/jquery-plugin.js"
-  },
+  "browser": {},
   "browserify": {
     "transform": [
       "browserify-shim"
@@ -60,5 +57,8 @@
     "vinyl-source-stream": "~1.0.0",
     "watchify": "^2.4.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "stats-js": "^1.0.0-alpha1",
+    "tween.js": "^0.14.0"
+  }
 }
