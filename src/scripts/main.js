@@ -21,11 +21,11 @@ cratedigger.init({
     },
 
     onInfoPanelOpened: function() {
-    	classie.add(bottomBar, 'closed');
+    	bottomBar.classList.add('closed');
     },
 
 	onInfoPanelClosed: function() {
-		classie.remove(bottomBar, 'closed');
+		bottomBar.classList.remove('closed');
 	}
 });
 

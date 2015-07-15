@@ -33,12 +33,15 @@
 
 
 
-/*=======================================================
-=            cratedigger.js v0.0.1 - by risq            =
-=======================================================*/
+/*===========================================================================
+=            cratedigger.js v0.0.1 - by risq (Valentin Ledrapier)           =
+===========================================================================*/
+
+
 'use strict';
 
-var THREE = require('three');
+var THREE = require('three');//,
+    //Modernizr = require('modernizr');
 
 /*==========  Inject all external modules to THREE.js ==========*/
 
@@ -87,11 +90,6 @@ var options = {},
     depthShader,
     depthUniforms,
     depthMaterial,
-
-
-    /*==========  Feature test  ==========*/
-
-    // TODO: to fix - supports = !!document.querySelector && !!root.addEventListener,
 
 
     /*==========  Objects & data arrays  ==========*/
@@ -1502,8 +1500,10 @@ function isFunction( obj ) {
 exports.init = function ( params ) {
 
     options = extend( defaults, params );
+
     // feature test
-    // TODO: to fix - if ( !supports || !Modernizr.webgl ) return;
+    if ( !Modernizr.webgl ) return;
+
     console.log( 'Initializing cratedigger.js...' );
 
     if ( window.devicePixelRatio !== undefined ) {
