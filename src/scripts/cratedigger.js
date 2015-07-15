@@ -57,6 +57,7 @@ require('./threejs_modules/EffectComposer')(THREE);
 var options = {},
     exports = {}, // Object for public APIs
 
+
     /*==========  DOM container elements  ==========*/
 
     rootContainerElement,
@@ -743,7 +744,7 @@ var scrollRecords = function ( baseY, oldDelta ) {
     var scrollSpeed = inverseDelta * inverseDelta * inverseDelta * 300;
 
     scrollRecordsTimeout = setTimeout( function () {
-        classie.add( renderer.domElement, 'grab' );
+        renderer.domElement.classList.add('grab');
         var delta = ( baseY - mouse.y ) / canvasHeight;
         if ( delta > 0 ) {
             selectNextRecord();
@@ -937,7 +938,7 @@ var onMouseDownEvent = function ( e ) {
 var onMouseUpEvent = function ( e ) {
 
     clearInterval( scrollRecordsTimeout );
-    classie.remove( renderer.domElement, 'grab' );
+    renderer.domElement.classList.remove('grab');
 
     if ( coordsEqualsApprox( mouseDownPos, mouse, options.constants.grabSensitivity ) ) {
 
