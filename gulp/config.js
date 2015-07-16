@@ -42,7 +42,7 @@ module.exports = {
       outputName: 'main.js'
     }]
   },
-  production: {
+  build: {
     cssSrc: dest + '/*.css',
     jsSrc: dest + '/*.js',
     dest: dest

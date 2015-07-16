@@ -2,7 +2,7 @@
   "name": "cratedigger.js",
   "version": "0.0.1",
   "description": "cratedigger.js\r ===========",
-  "main": "build/cratedigger.js",
+  "main": "src/scripts/cratedigger.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

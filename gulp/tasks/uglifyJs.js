@@ -1,5 +1,5 @@
 var gulp    = require('gulp');
-var config  = require('../config').production;
+var config  = require('../config').build;
 var size    = require('gulp-filesize');
 var uglify = require('gulp-uglify');
 
