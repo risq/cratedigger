@@ -16,6 +16,9 @@ module.exports = {
     src: src + "/styles/*.css",
     dest: dest + "/"
   },
+  deploy: {
+    files: dest + "/**"
+  },
   images: {
     src: src + "/img/**",
     dest: dest + "/img"

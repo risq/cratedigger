@@ -42,7 +42,9 @@
 
 var THREE = require('three'),
     TWEEN = require('tween.js'),
-    Stats = require('stats-js');
+    Stats = require('stats-js'),
+    Modernizr = require('Modernizr'),
+    dat = require('dat-gui');
 
 /*==========  Inject all external modules to THREE.js ==========*/
 
