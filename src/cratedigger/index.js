@@ -44,7 +44,11 @@ var THREE = require('three'),
     TWEEN = require('tween.js'),
     Stats = require('stats-js'),
     Modernizr = require('Modernizr'),
-    dat = require('dat-gui');
+    dat = require('dat-gui'),
+
+    Record = require('./Record'),
+    CameraManager = require('./CameraManager'),
+    Constants = require('./Constants');
 
 /*==========  Inject all external modules to THREE.js ==========*/
 
@@ -60,8 +64,7 @@ require('./threejs_modules/EffectComposer')(THREE);
 =            VARIABLES            =
 =================================*/
 
-var options = {},
-    exports = {}, // Object for public APIs
+var exports = {}, // Object for public APIs
 
 
     /*==========  DOM container elements  ==========*/
@@ -138,293 +141,12 @@ var options = {},
 
     /*==========  Materials  ==========*/
 
-    wood_material,
-
-
-    /*==========  Default settings  ==========*/
-
-    defaults = {
-        debug: true,
-        canvasWidth: null,
-        canvasHeight: null,
-        nbCrates: 2,
-        recordsPerCrate: 24,
-        lightIntensity: 1,
-        cameraMouseMove: true,
-        backgroundColor: 0x111111,
-        sleeveColor: 0x0d0702,
-        sleeveMaskTexture: 'img/sleeve.png',
-        crateTexture: 'img/wood.jpg',
-        closeInfoPanelOnClick: true,
-        closeInfoPanelOnScroll: true,
-        infoPanelOpacity: 0.9,
-        postprocessing: false,
-        blurAmount: 0.4,
-        updateCanvasSizeOnWindowResize: true,
-        onInfoPanelOpened: function () {},
-        onInfoPanelClosed: function () {},
-        onLoadingEnd: function () {},
-        elements: {
-            rootContainerId: 'cratedigger',
-            canvasContainerId: 'cratedigger-canvas',
-            loadingContainerId: 'cratedigger-loading',
-            infoContainerId: 'cratedigger-info',
-            titleContainerId: 'cratedigger-record-title',
-            artistContainerId: 'cratedigger-record-artist',
-            coverContainerId: 'cratedigger-record-cover'
-        },
-        constants: {
-            recordMoveTime: 1000,
-            cameraMoveTime: 800,
-            infoOpenTime: 800,
-            recordBaseY: 5,
-            recordShownY: 25,
-            recordFlippedY: 110,
-            targetBasePosition: {
-                x: -20,
-                y: 10,
-                z: 0
-            },
-            cameraBasePosition: {
-                x: 280,
-                y: 200,
-                z: 180
-            },
-            cameraFocusPosition: {
-                x: 160,
-                y: 190,
-                z: 85
-            },
-            cameraMouseMoveSpeedY: 0.07,
-            cameraMouseMoveSpeedZ: 0.03,
-            grabSensitivity: 6
-        }
-    };
-
-
-/*===============================
-=            CLASSES            =
-===============================*/
-
-
-/*==========  Record Class  ==========*/
-
-var Record = function ( id, crateId, pos ) {
-
-    this.id = id;
-    this.crateId = crateId;
-    this.pos = pos;
-    this.state = 'out';
-    this.recordXPos = -62 + ( 135 / options.recordsPerCrate ) * pos;
-    this.mesh = new THREE.Mesh( new THREE.BoxGeometry( 100, 1.5, 100, 1, 1, 1 ), new THREE.MeshFaceMaterial( getRecordMaterial( null, false ) ) );
-    this.mesh.geometry.applyMatrix( new THREE.Matrix4().makeTranslation( 50, 0, 0 ) );
-    this.mesh.position.set( this.recordXPos, options.constants.recordBaseY, 0 );
-    this.mesh.rotation.z = Math.PI / 2;
-    this.mesh.recordId = id;
-    this.absolutePosition = new THREE.Vector3();
-
-    this.setUnactive();
-    this.pushRecord();
-
-};
-
-Record.prototype.log = function () {
-
-    console.log( "Record n°", this.id,
-        "crateId =", this.crateId,
-        "pos =", this.pos );
-
-};
-
-Record.prototype.setActive = function () {
-
-    this.active = true;
-    this.mesh.visible = true;
-
-};
-
-Record.prototype.setUnactive = function () {
-
-    this.active = false;
-    this.mesh.visible = false;
-
-};
-
-Record.prototype.showRecord = function () {
-
-    if ( this.state !== 'shown' ) {
-
-        this.state = 'shown';
-        this.absolutePosition.setFromMatrixPosition( this.mesh.matrixWorld );
-
-        new TWEEN.Tween( this.mesh.position )
-            .to( {
-                y: options.constants.recordShownY
-            }, options.constants.recordMoveTime )
-            .easing( TWEEN.Easing.Quartic.Out ).start();
-
-        new TWEEN.Tween( this.mesh.rotation )
-            .to( {
-                z: Math.PI / 2
-            }, options.constants.recordMoveTime )
-            .easing( TWEEN.Easing.Quartic.Out ).start();
-
-        new TWEEN.Tween( target.position )
-            .to( {
-                x: this.recordXPos,
-                y: 50 + options.constants.recordShownY,
-                z: this.absolutePosition.z
-            }, options.constants.cameraMoveTime )
-            .easing( TWEEN.Easing.Quartic.Out ).start();
-
-        new TWEEN.Tween( camera.position )
-            .to( {
-                x: this.recordXPos + options.constants.cameraFocusPosition.x,
-                y: options.constants.cameraFocusPosition.y,
-                z: this.absolutePosition.z + options.constants.cameraFocusPosition.z
-            }, options.constants.cameraMoveTime )
-            .easing( TWEEN.Easing.Quartic.Out ).start();
-
-    }
-};
-
-Record.prototype.pushRecord = function () {
-
-    if ( this.state != 'pushed' ) {
-
-        this.state = 'pushed';
-
-        new TWEEN.Tween( this.mesh.position )
-            .to( {
-                y: options.constants.recordBaseY
-            }, options.constants.recordMoveTime )
-            .easing( TWEEN.Easing.Quartic.Out ).start();
-
-        new TWEEN.Tween( this.mesh.rotation )
-            .to( {
-                z: Math.PI / 2 + Math.PI / 7
-            }, options.constants.recordMoveTime )
-            .easing( TWEEN.Easing.Quartic.Out ).start();
-
-    }
-};
-
-Record.prototype.pullRecord = function () {
-
-    if ( this.state !== 'pulled' ) {
-
-        this.state = 'pulled';
-
-        new TWEEN.Tween( this.mesh.position )
-            .to( {
-                y: options.constants.recordBaseY
-            }, options.constants.recordMoveTime )
-            .easing( TWEEN.Easing.Quartic.Out ).start();
-
-        new TWEEN.Tween( this.mesh.rotation )
-            .to( {
-                z: Math.PI / 2 - Math.PI / 7
-            }, options.constants.recordMoveTime )
-            .easing( TWEEN.Easing.Quartic.Out ).start();
-
-    }
-};
-
-Record.prototype.flipRecord = function ( done ) {
-
-    this.state = 'flipped';
-
-    new TWEEN.Tween( this.mesh.position )
-        .to( {
-            y: options.constants.recordFlippedY
-        }, options.constants.infoOpenTime )
-        .easing( TWEEN.Easing.Quartic.Out ).start();
-
-    new TWEEN.Tween( this.mesh.rotation )
-        .delay( options.constants.infoOpenTime / 4 )
-        .to( {
-            y: Math.PI
-        }, options.constants.infoOpenTime )
-        .easing( TWEEN.Easing.Quartic.Out ).start();
-
-    new TWEEN.Tween( target.position )
-        .to( {
-            x: this.recordXPos,
-            y: options.constants.recordFlippedY + 50,
-            z: this.absolutePosition.z
-        }, options.constants.infoOpenTime )
-        .easing( TWEEN.Easing.Quartic.Out ).start()
-        .onComplete( done );
-
-    new TWEEN.Tween( camera.position )
-        .to( {
-            x: this.recordXPos + options.constants.cameraFocusPosition.x + 80,
-            y: options.constants.cameraFocusPosition.y - 50,
-        }, options.constants.cameraMoveTime )
-        .easing( TWEEN.Easing.Quartic.Out ).start();
-
-};
-
-Record.prototype.flipBackRecord = function ( done , noCameraTween ) {
-
-    if ( this.state === 'flipped' ) {
-
-        new TWEEN.Tween( this.mesh.position )
-            .delay( options.constants.infoOpenTime / 2 )
-            .to( {
-                y: options.constants.recordBaseY
-            }, options.constants.infoOpenTime )
-            .easing( TWEEN.Easing.Quartic.Out ).start();
-
-        new TWEEN.Tween( this.mesh.rotation )
-            .to( {
-                y: 0
-            }, options.constants.infoOpenTime / 2 )
-            .easing( TWEEN.Easing.Quartic.Out ).start()
-            .onComplete( done );
-
-        if (!noCameraTween) {
-            
-            new TWEEN.Tween( target.position )
-                .delay( options.constants.infoOpenTime / 2 )
-                .to( {
-                    x: this.recordXPos,
-                    y: 75,
-                    z: this.absolutePosition.z
-                }, options.constants.infoOpenTime )
-                .easing( TWEEN.Easing.Quartic.Out ).start();
-
-            new TWEEN.Tween( camera.position )
-                .to( {
-                    x: this.recordXPos + options.constants.cameraFocusPosition.x,
-                    y: options.constants.cameraFocusPosition.y,
-                }, options.constants.cameraMoveTime )
-                .easing( TWEEN.Easing.Quartic.Out ).start();
-            
-        }
-
-    }
-};
+    wood_material;
 
 
 /*====================================
 =            BASE METHODS            =
 ====================================*/
-
-
-var extend = function ( defaults, options ) {
-
-    for ( var key in options ) {
-
-        if ( Object.prototype.hasOwnProperty.call( options, key ) ) {
-
-            defaults[ key ] = options[ key ];
-
-        }
-    }
-
-    return defaults;
-};
 
 var animate = function () {
 
@@ -433,7 +155,7 @@ var animate = function () {
         requestAnimationFrame( animate );
         render();
 
-        if ( options.debug ) {
+        if ( Constants.debug ) {
 
             stats.update();
 
@@ -446,27 +168,27 @@ var render = function () {
     TWEEN.update();
     updateShownRecord();
 
-    if ( options.cameraMouseMove ) {
+    if ( Constants.cameraMouseMove ) {
 
         targetCameraPos.x = ( mouse.x / canvasWidth - 0.5 ) * 0.25; // inverse axis?
         targetCameraPos.y = ( mouse.y / canvasWidth - 0.5 ) * 0.25;
-        rootContainer.rotation.y += options.constants.cameraMouseMoveSpeedY * ( targetCameraPos.x - rootContainer.rotation.y );
-        rootContainer.rotation.z += options.constants.cameraMouseMoveSpeedZ * ( targetCameraPos.y - rootContainer.rotation.z );
+        rootContainer.rotation.y += Constants.scene.cameraMouseMoveSpeedY * ( targetCameraPos.x - rootContainer.rotation.y );
+        rootContainer.rotation.z += Constants.scene.cameraMouseMoveSpeedZ * ( targetCameraPos.y - rootContainer.rotation.z );
 
     }
 
-    camera.lookAt( target.position );
+    CameraManager.getCamera().lookAt( CameraManager.getTarget().position );
 
-    if ( options.postprocessing ) {
+    if ( Constants.postprocessing ) {
 
         scene.overrideMaterial = depthMaterial;
-        renderer.render( scene, camera, depthTarget );
+        renderer.render( scene, CameraManager.getCamera(), depthTarget );
         scene.overrideMaterial = null;
         composer.render();
 
     } else {
 
-        renderer.render( scene, camera );
+        renderer.render( scene, CameraManager.getCamera() );
 
     }
 };
@@ -523,7 +245,7 @@ var loadRecords = function ( recordsData, shuffleBeforeLoading, done ) {
         setTimeout( function () {
 
             hideLoading( loadingContainerElement );
-            options.onLoadingEnd();
+            Constants.onLoadingEnd();
 
             if ( done ) {
 
@@ -575,17 +297,19 @@ var flipSelectedRecord = function () {
 
         } );
 
-        options.onInfoPanelOpened();
+        Constants.onInfoPanelOpened();
 
         setTimeout( function () {
 
-            fadeIn( infoContainerElement, options.infoPanelOpacity );
+            fadeIn( infoContainerElement, Constants.infoPanelOpacity );
 
         }, 300 );
     }
 };
 
 var flipBackSelectedRecord = function (force) {
+
+    console.log('flipback');
 
     if ( infoPanelState === 'opened' ) {
 
@@ -595,7 +319,7 @@ var flipBackSelectedRecord = function (force) {
         records[ selectedRecord ].flipBackRecord( function () {
 
             infoPanelState = 'closed';
-            options.onInfoPanelClosed();
+            Constants.onInfoPanelClosed();
 
         }, force );
     }
@@ -615,8 +339,8 @@ var updateShownRecord = function () {
                 records[ recordId ].pushRecord();
 
             } else if ( recordId > selectedRecord &&
-                recordId > records[ selectedRecord ].crateId * options.recordsPerCrate &&
-                recordId < ( records[ selectedRecord ].crateId * options.recordsPerCrate ) + options.recordsPerCrate ) {
+                recordId > records[ selectedRecord ].crateId * Constants.recordsPerCrate &&
+                recordId < ( records[ selectedRecord ].crateId * Constants.recordsPerCrate ) + Constants.recordsPerCrate ) {
 
                 records[ recordId ].pullRecord();
 
@@ -646,20 +370,20 @@ var resetShownRecord = function ( force ) {
         }
 
         selectedRecord = -1;
-        new TWEEN.Tween( target.position )
+        new TWEEN.Tween( CameraManager.getTarget().position )
             .to( {
-                x: options.constants.targetBasePosition.x,
-                y: options.constants.targetBasePosition.y,
-                z: options.constants.targetBasePosition.z
-            }, options.constants.cameraMoveTime )
+                x: Constants.scene.targetBasePosition.x,
+                y: Constants.scene.targetBasePosition.y,
+                z: Constants.scene.targetBasePosition.z
+            }, Constants.scene.cameraMoveTime )
             .easing( TWEEN.Easing.Quartic.Out ).start();
 
-        new TWEEN.Tween( camera.position )
+        new TWEEN.Tween( CameraManager.getCamera().position )
             .to( {
-                x: options.constants.cameraBasePosition.x,
-                y: options.constants.cameraBasePosition.y,
-                z: options.constants.cameraBasePosition.z
-            }, options.constants.cameraMoveTime )
+                x: Constants.scene.cameraBasePosition.x,
+                y: Constants.scene.cameraBasePosition.y,
+                z: Constants.scene.cameraBasePosition.z
+            }, Constants.scene.cameraMoveTime )
             .easing( TWEEN.Easing.Quartic.Out ).start();
     }
 };
@@ -730,7 +454,7 @@ var navigateRecords = function ( direction ) {
 
         }
 
-    } else if ( infoPanelState === 'opened' && options.closeInfoPanelOnScroll ) {
+    } else if ( infoPanelState === 'opened' && Constants.closeInfoPanelOnScroll ) {
 
         flipBackSelectedRecord();
 
@@ -858,8 +582,8 @@ var onClickEvent = function ( mouseDownPos ) {
         };
 
         var vector = new THREE.Vector3( vectorPos.x, vectorPos.y, vectorPos.z );
-        vector.unproject( camera );
-        var raycaster = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
+        vector.unproject( CameraManager.getCamera() );
+        var raycaster = new THREE.Raycaster( CameraManager.getCamera().position, vector.sub( CameraManager.getCamera().position ).normalize() );
         var intersects = raycaster.intersectObjects( cratesContainer.children, true );
 
         // If intersect something
@@ -919,6 +643,8 @@ var onClickEvent = function ( mouseDownPos ) {
 
 var onMouseDownEvent = function ( e ) {
 
+    console.log('onMouseDownEvent', infoPanelState)
+
     clearInterval( scrollRecordsTimeout );
 
     if ( infoPanelState === 'closed' ) {
@@ -929,7 +655,7 @@ var onMouseDownEvent = function ( e ) {
             y: mouse.y
         };
 
-    } else if ( infoPanelState === 'opened' && options.closeInfoPanelOnClick ) {
+    } else if ( infoPanelState === 'opened' && Constants.closeInfoPanelOnClick ) {
 
         flipBackSelectedRecord();
 
@@ -941,7 +667,7 @@ var onMouseUpEvent = function ( e ) {
     clearInterval( scrollRecordsTimeout );
     renderer.domElement.classList.remove('grab');
 
-    if ( coordsEqualsApprox( mouseDownPos, mouse, options.constants.grabSensitivity ) ) {
+    if ( coordsEqualsApprox( mouseDownPos, mouse, Constants.scene.grabSensitivity ) ) {
 
         onClickEvent( mouseDownPos );
 
@@ -968,8 +694,8 @@ var onWindowResizeEvent = function ( e ) {
     setCanvasDimensions();
 
     renderer.setSize( canvasWidth, canvasHeight );
-    camera.aspect = canvasWidth / canvasHeight;
-    camera.updateProjectionMatrix();
+    CameraManager.getCamera().aspect = canvasWidth / canvasHeight;
+    CameraManager.getCamera().updateProjectionMatrix();
 
     dof.uniforms.tDepth.value = depthTarget;
     dof.uniforms.size.value.set( canvasWidth, canvasHeight );
@@ -1016,19 +742,12 @@ var initScene = function () {
 
     canvasContainerElement.appendChild( renderer.domElement );
     renderer.domElement.id = "context";
-    renderer.setClearColor( options.backgroundColor, 1 );
+    renderer.setClearColor( Constants.backgroundColor, 1 );
 
-    camera = new THREE.PerspectiveCamera( 45, canvasWidth / canvasHeight, 0.1, 20000 );
-    camera.focalLength = 45;
-    camera.frameSize = 32;
-    camera.setLens( camera.focalLength, camera.frameSize );
+    CameraManager.init(canvasWidth / canvasHeight);
+    console.log(CameraManager.getTarget());
 
-    target = new THREE.Object3D();
-    //        target = new THREE.Mesh(new THREE.BoxGeometry(10, 10, 10, 1, 1, 1));
-    //        scene.add(target);
-    camera.lookAt( target.position );
-
-    var wood_texture = THREE.ImageUtils.loadTexture( options.crateTexture );
+    var wood_texture = THREE.ImageUtils.loadTexture( Constants.crateTexture );
     wood_texture.anisotropy = renderer.getMaxAnisotropy();
     wood_material = new THREE.MeshLambertMaterial( {
         map: wood_texture
@@ -1042,15 +761,15 @@ var initScene = function () {
     initCrates();
     initRecords();
 
-    light = new THREE.PointLight( 0xFFFFFF, options.lightIntensity * 1.1 );
+    light = new THREE.PointLight( 0xFFFFFF, Constants.lightIntensity * 1.1 );
     light.position.set( 300, 80, 0 );
     scene.add( light );
 
-    leftLight = new THREE.PointLight( 0xFFFFFF, options.lightIntensity * 0.6 );
+    leftLight = new THREE.PointLight( 0xFFFFFF, Constants.lightIntensity * 0.6 );
     leftLight.position.set( -100, 300, 1000 );
     scene.add( leftLight );
 
-    rightLight = new THREE.PointLight( 0xFFFFFF, options.lightIntensity * 0.6 );
+    rightLight = new THREE.PointLight( 0xFFFFFF, Constants.lightIntensity * 0.6 );
     rightLight.position.set( -100, 300, -1000 );
     scene.add( rightLight );
 
@@ -1064,7 +783,7 @@ var initScene = function () {
 
     window.addEventListener( 'keydown', onKeyDownEvent, false ); 
 
-    if ( options.updateCanvasSizeOnWindowResize ) {
+    if ( Constants.updateCanvasSizeOnWindowResize ) {
 
         window.addEventListener( 'resize', onWindowResizeEvent, false );
 
@@ -1080,7 +799,7 @@ var initScene = function () {
 
     infoContainerElement.style.display = 'none';
 
-    if ( options.debug ) {
+    if ( Constants.debug ) {
 
         initDebug();
         initGUI();
@@ -1110,7 +829,7 @@ var initPostProcessing = function () {
     } );
 
     composer = new THREE.EffectComposer( renderer );
-    composer.addPass( new THREE.RenderPass( scene, camera ) );
+    composer.addPass( new THREE.RenderPass( scene, CameraManager.getCamera() ) );
 
 
     /*==========  Depth of field shader  ==========*/
@@ -1121,11 +840,11 @@ var initPostProcessing = function () {
     dof.uniforms.textel.value.set( 1.0 / canvasWidth, 1.0 / canvasHeight );
 
     //make sure that these two values are the same for your camera, otherwise distances will be wrong.
-    dof.uniforms.znear.value = camera.near; //camera clipping start
-    dof.uniforms.zfar.value = camera.far; //camera clipping end
+    dof.uniforms.znear.value = CameraManager.getCamera().near; //camera clipping start
+    dof.uniforms.zfar.value = CameraManager.getCamera().far; //camera clipping end
 
     dof.uniforms.focalDepth.value = 5; //focal distance value in meters, but you may use autofocus option below
-    dof.uniforms.focalLength.value = camera.focalLength; //focal length in mm
+    dof.uniforms.focalLength.value = CameraManager.getCamera().focalLength; //focal length in mm
     dof.uniforms.fstop.value = 8.0; //f-stop value
     dof.uniforms.showFocus.value = false; //show debug focus point and focal range (orange = focal point, blue = focal range)
 
@@ -1141,7 +860,7 @@ var initPostProcessing = function () {
 
     dof.uniforms.autofocus.value = true; //use autofocus in shader? disable if you use external focalDepth value
     dof.uniforms.focus.value.set( 0.35, 0.35 ); // autofocus point on screen (0.0,0.0 - left lower corner, 1.0,1.0 - upper right) 
-    dof.uniforms.maxblur.value = options.blurAmount; //clamp value of max blur (0.0 = no blur,1.0 default)    
+    dof.uniforms.maxblur.value = Constants.blurAmount; //clamp value of max blur (0.0 = no blur,1.0 default)    
 
     dof.uniforms.threshold.value = 0; //highlight threshold;
     dof.uniforms.gain.value = 0; //highlight gain;
@@ -1186,10 +905,10 @@ var initGUI = function () {
 
     gui = new dat.GUI();
 
-    if ( options.postprocessing ) {
+    if ( Constants.postprocessing ) {
 
         cameraFolder = gui.addFolder( 'Camera' );
-        cameraFocalLength = cameraFolder.add( camera, 'focalLength', 28, 200 ).name( 'Focal Length' );
+        cameraFocalLength = cameraFolder.add( CameraManager.getCamera(), 'focalLength', 28, 200 ).name( 'Focal Length' );
         cameraFocalLength.onChange( updateCamera );
 
         dofFolder = gui.addFolder( 'Depth of Field' );
@@ -1236,19 +955,19 @@ var initGUI = function () {
 
 var updateCamera = function () {
 
-    camera.setLens( camera.focalLength, camera.frameSize );
-    camera.updateProjectionMatrix();
-    dof.uniforms.focalLength.value = camera.focalLength;
+    CameraManager.getCamera().setLens( CameraManager.getCamera().focalLength, CameraManager.getCamera().frameSize );
+    CameraManager.getCamera().updateProjectionMatrix();
+    dof.uniforms.focalLength.value = CameraManager.getCamera().focalLength;
 
 };
 
 var initCrates = function () {
 
-    for ( var crateId = 0; crateId < options.nbCrates; crateId++ ) {
+    for ( var crateId = 0; crateId < Constants.nbCrates; crateId++ ) {
         var crate = createCrate( crateId );
         cratesContainer.add( crate );
     }
-    cratesContainer.position.z = -( 110 - ( 110 * options.nbCrates ) ) / 2;
+    cratesContainer.position.z = -( 110 - ( 110 * Constants.nbCrates ) ) / 2;
 
 };
 
@@ -1291,7 +1010,7 @@ var initRecords = function () {
     var currentRecordId = 0;
     for ( var crateId = 0; crateId < crates.length; crateId++ ) {
 
-        for ( var pos = 0; pos < options.recordsPerCrate; pos++ ) {
+        for ( var pos = 0; pos < Constants.recordsPerCrate; pos++ ) {
             createRecord( currentRecordId, crateId, pos );
             currentRecordId++;
         }
@@ -1326,7 +1045,7 @@ var getRecordMaterial = function ( src, hasSleeve ) {
         if ( hasSleeve ) {
 
             var sleeve = new Image();
-            sleeve.src = options.sleeveMaskTexture;
+            sleeve.src = Constants.sleeveMaskTexture;
 
             sleeve.onload = function () {
 
@@ -1354,7 +1073,7 @@ var getRecordMaterial = function ( src, hasSleeve ) {
 
     var sleeveMaterial = new THREE.MeshLambertMaterial( {
 
-        color: options.sleeveColor
+        color: Constants.sleeveColor
 
     } );
 
@@ -1460,8 +1179,8 @@ var fadeIn = function ( element, fadeTo, done, op ) {
 
 var calculateCanvasSize = function () {
 
-    canvasWidth = options.canvasWidth ? options.canvasWidth : rootContainerElement.clientWidth;
-    canvasHeight = options.canvasHeight ? options.canvasHeight : rootContainerElement.clientHeight;
+    canvasWidth = Constants.canvasWidth ? Constants.canvasWidth : rootContainerElement.clientWidth;
+    canvasHeight = Constants.canvasHeight ? Constants.canvasHeight : rootContainerElement.clientHeight;
 
 };
 
@@ -1502,7 +1221,7 @@ function isFunction( obj ) {
 
 exports.init = function ( params ) {
 
-    options = extend( defaults, params );
+    Constants.extend(params);
 
     // feature test
     if ( !Modernizr.webgl ) return;
@@ -1517,49 +1236,49 @@ exports.init = function ( params ) {
 
     }
 
-    rootContainerElement = document.getElementById( options.elements.rootContainerId );
+    rootContainerElement = document.getElementById( Constants.elements.rootContainerId );
     if ( !rootContainerElement ) {
 
         console.error( 'cratedigger.js - Init failed : can not find root container element.' );
         return;
 
     }
-    canvasContainerElement = document.getElementById( options.elements.canvasContainerId );
+    canvasContainerElement = document.getElementById( Constants.elements.canvasContainerId );
     if ( !canvasContainerElement ) {
 
         console.error( 'cratedigger.js - Init failed : can not find canvas container element.' );
         return;
 
     }
-    loadingContainerElement = document.getElementById( options.elements.loadingContainerId );
+    loadingContainerElement = document.getElementById( Constants.elements.loadingContainerId );
     if ( !loadingContainerElement ) {
 
         console.error( 'cratedigger.js - Init failed : can not find loading container element.' );
         return;
 
     }
-    infoContainerElement = document.getElementById( options.elements.infoContainerId );
+    infoContainerElement = document.getElementById( Constants.elements.infoContainerId );
     if ( !infoContainerElement ) {
 
         console.error( 'cratedigger.js - Init failed : can not find info container element.' );
         return;
 
     }
-    titleInfoElement = document.getElementById( options.elements.titleContainerId );
+    titleInfoElement = document.getElementById( Constants.elements.titleContainerId );
     if ( !titleInfoElement ) {
 
         console.error( 'cratedigger.js - Init failed : can not find record title container element.' );
         return;
 
     }
-    artistInfoElement = document.getElementById( options.elements.artistContainerId );
+    artistInfoElement = document.getElementById( Constants.elements.artistContainerId );
     if ( !artistInfoElement ) {
 
         console.error( 'cratedigger.js - Init failed : can not find record artist container element.' );
         return;
 
     }
-    coverInfoElement = document.getElementById( options.elements.coverContainerId );
+    coverInfoElement = document.getElementById( Constants.elements.coverContainerId );
     if ( !coverInfoElement ) {
 
         console.error( 'cratedigger.js - Init failed : can not find cover image container element.' );
@@ -1604,13 +1323,13 @@ exports.stopRender = function () {
 
 exports.enablePostprocessing = function () {
 
-    options.postprocessing = true;
+    Constants.postprocessing = true;
 
 };
 
 exports.disablePostprocessing = function () {
 
-    options.postprocessing = false;
+    Constants.postprocessing = false;
 
 };
 
