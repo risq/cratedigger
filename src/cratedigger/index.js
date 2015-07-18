@@ -1507,8 +1507,6 @@ exports.init = function ( params ) {
     // feature test
     if ( !Modernizr.webgl ) return;
 
-    console.log( 'Initializing cratedigger.js...' );
-
     if ( window.devicePixelRatio !== undefined ) {
 
         dpr = window.devicePixelRatio;
