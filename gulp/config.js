@@ -31,13 +31,13 @@ module.exports = {
     // A separate bundle will be generated for each
     // bundle config in the list below
     bundleConfigs: [{
-      entries: src + '/scripts/cratedigger.js',
+      entries: src + '/cratedigger/index.js',
       dest: dest,
       outputName: 'cratedigger.js',
       // list of externally available modules to exclude from the bundle
       external: ['jquery', 'underscore']
     },{
-      entries: src + '/scripts/main.js',
+      entries: src + '/main.js',
       dest: dest,
       outputName: 'main.js'
     }]
