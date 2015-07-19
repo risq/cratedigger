@@ -22,8 +22,6 @@ function init(ratio) {
 
 function focusRecord(recordXPos, recordAbsolutePos) {
 
-	console.log(recordXPos, recordAbsolutePos)
-
     new TWEEN.Tween( target.position )
 	    .to( {
 	        x: recordXPos,
@@ -78,11 +76,40 @@ function zoomOutRecord(recordXPos, recordAbsolutePos) {
         .easing( TWEEN.Easing.Quartic.Out ).start();
 }
 
+function resetCamera() {
+	new TWEEN.Tween( target.position )
+        .to( {
+            x: Constants.scene.targetBasePosition.x,
+            y: Constants.scene.targetBasePosition.y,
+            z: Constants.scene.targetBasePosition.z
+        }, Constants.scene.cameraMoveTime )
+        .easing( TWEEN.Easing.Quartic.Out ).start();
+
+    new TWEEN.Tween( camera.position )
+        .to( {
+            x: Constants.scene.cameraBasePosition.x,
+            y: Constants.scene.cameraBasePosition.y,
+            z: Constants.scene.cameraBasePosition.z
+        }, Constants.scene.cameraMoveTime )
+        .easing( TWEEN.Easing.Quartic.Out ).start();
+}
+
+function updateCameraAspect(ratio) {
+	CameraManager.getCamera().aspect = ratio;
+    CameraManager.getCamera().updateProjectionMatrix();
+}
+
+function lookAtTarget() {
+	camera.lookAt( target.position );
+}
+
 module.exports = {
 	init: init,
 	focusRecord: focusRecord,
 	zoomInRecord: zoomInRecord,
 	zoomOutRecord: zoomOutRecord,
+	resetCamera: resetCamera,
+	lookAtTarget: lookAtTarget,
 	
 	getCamera: function() {
 		return camera;

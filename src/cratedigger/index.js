@@ -83,7 +83,6 @@ var exports = {}, // Object for public APIs
     stats,
     scene,
     camera,
-    target,
     renderer,
     light,
     leftLight,
@@ -177,18 +176,18 @@ var render = function () {
 
     }
 
-    CameraManager.getCamera().lookAt( CameraManager.getTarget().position );
+    CameraManager.lookAtTarget();
 
     if ( Constants.postprocessing ) {
 
         scene.overrideMaterial = depthMaterial;
-        renderer.render( scene, CameraManager.getCamera(), depthTarget );
+        renderer.render( scene, camera, depthTarget );
         scene.overrideMaterial = null;
         composer.render();
 
     } else {
 
-        renderer.render( scene, CameraManager.getCamera() );
+        renderer.render( scene, camera );
 
     }
 };
@@ -309,8 +308,6 @@ var flipSelectedRecord = function () {
 
 var flipBackSelectedRecord = function (force) {
 
-    console.log('flipback');
-
     if ( infoPanelState === 'opened' ) {
 
         fadeOut( infoContainerElement );
@@ -329,7 +326,6 @@ var updateShownRecord = function () {
 
     if ( infoPanelState === 'closed' && shownRecord != selectedRecord ) {
 
-        //console.log('updateShownRecord..');
         shownRecord = selectedRecord;
 
         for ( var recordId = 0; recordId < loadedRecords; recordId++ ) {
@@ -370,21 +366,8 @@ var resetShownRecord = function ( force ) {
         }
 
         selectedRecord = -1;
-        new TWEEN.Tween( CameraManager.getTarget().position )
-            .to( {
-                x: Constants.scene.targetBasePosition.x,
-                y: Constants.scene.targetBasePosition.y,
-                z: Constants.scene.targetBasePosition.z
-            }, Constants.scene.cameraMoveTime )
-            .easing( TWEEN.Easing.Quartic.Out ).start();
-
-        new TWEEN.Tween( CameraManager.getCamera().position )
-            .to( {
-                x: Constants.scene.cameraBasePosition.x,
-                y: Constants.scene.cameraBasePosition.y,
-                z: Constants.scene.cameraBasePosition.z
-            }, Constants.scene.cameraMoveTime )
-            .easing( TWEEN.Easing.Quartic.Out ).start();
+        
+        CameraManager.resetCamera();
     }
 };
 
@@ -471,14 +454,19 @@ var scrollRecords = function ( baseY, oldDelta ) {
     scrollRecordsTimeout = setTimeout( function () {
         renderer.domElement.classList.add('grab');
         var delta = ( baseY - mouse.y ) / canvasHeight;
+
         if ( delta > 0 ) {
+
             selectNextRecord();
-            //console.log("NEXT RECORD " + delta);
+
         } else if ( delta < 0 ) {
+
             selectPrevRecord();
-            //console.log("PREV RECORD " + delta);
+
         }
+
         scrollRecords( baseY, delta );
+
     }, scrollSpeed );
 
 };
@@ -582,8 +570,8 @@ var onClickEvent = function ( mouseDownPos ) {
         };
 
         var vector = new THREE.Vector3( vectorPos.x, vectorPos.y, vectorPos.z );
-        vector.unproject( CameraManager.getCamera() );
-        var raycaster = new THREE.Raycaster( CameraManager.getCamera().position, vector.sub( CameraManager.getCamera().position ).normalize() );
+        vector.unproject( camera );
+        var raycaster = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
         var intersects = raycaster.intersectObjects( cratesContainer.children, true );
 
         // If intersect something
@@ -643,8 +631,6 @@ var onClickEvent = function ( mouseDownPos ) {
 
 var onMouseDownEvent = function ( e ) {
 
-    console.log('onMouseDownEvent', infoPanelState)
-
     clearInterval( scrollRecordsTimeout );
 
     if ( infoPanelState === 'closed' ) {
@@ -694,8 +680,7 @@ var onWindowResizeEvent = function ( e ) {
     setCanvasDimensions();
 
     renderer.setSize( canvasWidth, canvasHeight );
-    CameraManager.getCamera().aspect = canvasWidth / canvasHeight;
-    CameraManager.getCamera().updateProjectionMatrix();
+    CameraManager.updateCameraAspect( canvasWidth / canvasHeight );
 
     dof.uniforms.tDepth.value = depthTarget;
     dof.uniforms.size.value.set( canvasWidth, canvasHeight );
@@ -745,7 +730,7 @@ var initScene = function () {
     renderer.setClearColor( Constants.backgroundColor, 1 );
 
     CameraManager.init(canvasWidth / canvasHeight);
-    console.log(CameraManager.getTarget());
+    camera = CameraManager.getCamera();
 
     var wood_texture = THREE.ImageUtils.loadTexture( Constants.crateTexture );
     wood_texture.anisotropy = renderer.getMaxAnisotropy();
@@ -829,7 +814,7 @@ var initPostProcessing = function () {
     } );
 
     composer = new THREE.EffectComposer( renderer );
-    composer.addPass( new THREE.RenderPass( scene, CameraManager.getCamera() ) );
+    composer.addPass( new THREE.RenderPass( scene, camera ) );
 
 
     /*==========  Depth of field shader  ==========*/
@@ -840,11 +825,11 @@ var initPostProcessing = function () {
     dof.uniforms.textel.value.set( 1.0 / canvasWidth, 1.0 / canvasHeight );
 
     //make sure that these two values are the same for your camera, otherwise distances will be wrong.
-    dof.uniforms.znear.value = CameraManager.getCamera().near; //camera clipping start
-    dof.uniforms.zfar.value = CameraManager.getCamera().far; //camera clipping end
+    dof.uniforms.znear.value = camera.near; //camera clipping start
+    dof.uniforms.zfar.value = camera.far; //camera clipping end
 
     dof.uniforms.focalDepth.value = 5; //focal distance value in meters, but you may use autofocus option below
-    dof.uniforms.focalLength.value = CameraManager.getCamera().focalLength; //focal length in mm
+    dof.uniforms.focalLength.value = camera.focalLength; //focal length in mm
     dof.uniforms.fstop.value = 8.0; //f-stop value
     dof.uniforms.showFocus.value = false; //show debug focus point and focal range (orange = focal point, blue = focal range)
 
@@ -908,7 +893,7 @@ var initGUI = function () {
     if ( Constants.postprocessing ) {
 
         cameraFolder = gui.addFolder( 'Camera' );
-        cameraFocalLength = cameraFolder.add( CameraManager.getCamera(), 'focalLength', 28, 200 ).name( 'Focal Length' );
+        cameraFocalLength = cameraFolder.add( camera, 'focalLength', 28, 200 ).name( 'Focal Length' );
         cameraFocalLength.onChange( updateCamera );
 
         dofFolder = gui.addFolder( 'Depth of Field' );
@@ -955,9 +940,9 @@ var initGUI = function () {
 
 var updateCamera = function () {
 
-    CameraManager.getCamera().setLens( CameraManager.getCamera().focalLength, CameraManager.getCamera().frameSize );
-    CameraManager.getCamera().updateProjectionMatrix();
-    dof.uniforms.focalLength.value = CameraManager.getCamera().focalLength;
+    camera.setLens( camera.focalLength, camera.frameSize );
+    camera.updateProjectionMatrix();
+    dof.uniforms.focalLength.value = camera.focalLength;
 
 };
 
