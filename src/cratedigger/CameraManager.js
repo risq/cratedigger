@@ -95,8 +95,8 @@ function resetCamera() {
 }
 
 function updateCameraAspect(ratio) {
-	CameraManager.getCamera().aspect = ratio;
-    CameraManager.getCamera().updateProjectionMatrix();
+	camera.aspect = ratio;
+    camera.updateProjectionMatrix();
 }
 
 function lookAtTarget() {
@@ -109,6 +109,7 @@ module.exports = {
 	zoomInRecord: zoomInRecord,
 	zoomOutRecord: zoomOutRecord,
 	resetCamera: resetCamera,
+	updateCameraAspect: updateCameraAspect,
 	lookAtTarget: lookAtTarget,
 	
 	getCamera: function() {

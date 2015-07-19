@@ -32,7 +32,7 @@ module.exports = {
     scene: {
         recordMoveTime: 1000,
         cameraMoveTime: 800,
-        infoOpenTime: 800,
+        infoOpenTime: 700,
         recordBaseY: 5,
         recordShownY: 25,
         recordFlippedY: 110,
@@ -52,7 +52,7 @@ module.exports = {
             z: 85
         },
         cameraMouseMoveSpeedY: 0.07,
-        cameraMouseMoveSpeedZ: 0.03,
+        cameraMouseMoveSpeedZ: 0.04,
         grabSensitivity: 6
     },
 
