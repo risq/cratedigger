@@ -1,38 +1,51 @@
 cratedigger.js
 ===========
 
+![cratedigger.js demo](http://risq.github.io/cratedigger.js/img/demo.gif)
 
-![cratedigger.js screenshot #1](https://raw.githubusercontent.com/risq/cratedigger.js/master/src/img/screenshot1.png)
-![cratedigger.js screenshot #2](https://raw.githubusercontent.com/risq/cratedigger.js/master/src/img/screenshot2.png)
 
-demo
+Demo : http://risq.github.io/cratedigger.js/
+
+Screenshots
 -----------
-http://risq.github.io/cratedigger.js/
+![cratedigger.js screenshot #1](http://risq.github.io/cratedigger.js/img/screenshot1.png)
+![cratedigger.js screenshot #2](http://risq.github.io/cratedigger.js/img/screenshot2.png)
 
-
-building & testing
+Using with npm
 -----------
 
-install `bower` and `gulp` (if not already installed) :
-    
-    npm install bower -g
-    npm install gulp -g
+Install cratedigger.js :
 
-clone git repo :
+    npm install --save cratedigger.js
+
+Use the library in your app :
+
+    var cratedigger = require('cratedigger.js');
+    cratedigger.init(options);
+
+Building & testing
+-----------
+
+Clone repo :
 
     git clone git@github.com:risq/cratedigger.js.git cratedigger.js
     cd cratedigger.js
 
-install dependencies :
+Install `bower` and `gulp` (if not already installed) :
+    
+    npm install bower -g
+    npm install gulp -g
+
+Install dependencies :
     
     npm install
     bower install
     
-test cratedigger.js :
+Run cratedigger.js :
     
     gulp
     
-build cratedigger.js :
+Build  :
 
     gulp build
     
