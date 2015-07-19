@@ -1,15 +1,17 @@
 cratedigger.js
 ===========
 
-![cratedigger.js demo](http://risq.github.io/cratedigger.js/img/demo.gif)
-
+![cratedigger.js demo](http://media.giphy.com/media/xTiTncWMc9deFkSDwQ/giphy.gif)
 
 Demo : http://risq.github.io/cratedigger.js/
 
+
 Screenshots
 -----------
+
 ![cratedigger.js screenshot #1](http://risq.github.io/cratedigger.js/img/screenshot1.png)
 ![cratedigger.js screenshot #2](http://risq.github.io/cratedigger.js/img/screenshot2.png)
+
 
 Using with npm
 -----------
@@ -22,6 +24,7 @@ Use the library in your app :
 
     var cratedigger = require('cratedigger.js');
     cratedigger.init(options);
+
 
 Building & testing
 -----------
