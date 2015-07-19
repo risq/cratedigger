@@ -4,17 +4,26 @@
   "description": "3D vinyl records exploration & crate digging plugin, using WebGL with Three.js",
   "main": "src/cratedigger/index.js",
   "scripts": {
+    "start": "node_modules/.bin/gulp",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/risq/cratedigger.js.git"
   },
-  "author": "risq",
+  "author": "risq <valentin.ledrapier@gmail.com>",
   "license": "GPL-2.0",
   "bugs": {
     "url": "https://github.com/risq/cratedigger.js/issues"
   },
+  "keywords": [
+    "records",
+    "music",
+    "digging",
+    "webgl",
+    "three.js",
+    "3D"
+  ],
   "browser": {},
   "browserify": {
     "transform": [
@@ -24,13 +33,7 @@
   "browserify-shim": {
     "three": "global:THREE",
     "Modernizr": "global:Modernizr",
-    "dat-gui": "global:dat",
-    "plugin": {
-      "exports": "plugin",
-      "depends": [
-        "jquery:$"
-      ]
-    }
+    "dat-gui": "global:dat"
   },
   "homepage": "https://github.com/risq/cratedigger.js",
   "devDependencies": {

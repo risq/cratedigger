@@ -50,7 +50,7 @@ Install dependencies :
     
 Run cratedigger.js :
     
-    gulp
+    npm start
     
 Build  :
 
