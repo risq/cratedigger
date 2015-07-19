@@ -24,8 +24,10 @@ Install cratedigger.js :
 
 Use the library in your app :
 
-    var cratedigger = require('cratedigger.js');
-    cratedigger.init(options);
+`````javascript
+var cratedigger = require('cratedigger.js');
+cratedigger.init(options);
+`````
 
 
 Building & testing
