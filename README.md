@@ -1,9 +1,9 @@
 cratedigger.js
 ===========
 
-![cratedigger.js demo](http://media.giphy.com/media/xTiTncWMc9deFkSDwQ/giphy.gif)
+![cratedigger.js demo](http://risq.github.io/cratedigger.js/img/demo.gif)
 
-Demo : http://risq.github.io/cratedigger.js/
+demo : http://risq.github.io/cratedigger.js/
 
 
 Screenshots
@@ -52,4 +52,4 @@ Build  :
 
     gulp build
     
-enjoy !!
+Enjoy !!
