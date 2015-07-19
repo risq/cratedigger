@@ -1,6 +1,6 @@
 module.exports = {
 
-    debug: true,
+    debug: false,
     canvasWidth: null,
     canvasHeight: null,
     nbCrates: 2,

@@ -10,6 +10,8 @@ var buttonNext = document.getElementById('button-next');
 
 cratedigger.init({
 
+	debug: true,
+
     elements: {
         rootContainerId     : 'cratedigger',
         canvasContainerId   : 'cratedigger-canvas',
