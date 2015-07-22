@@ -1355,6 +1355,7 @@ exports.unloadRecords = unloadRecords;
 exports.resetShownRecord = resetShownRecord;
 exports.shuffleRecords = shuffleRecords;
 exports.flipSelectedRecord = flipSelectedRecord;
+exports.flipBackSelectedRecord = flipBackSelectedRecord;
 exports.selectPrevRecord = selectPrevRecord;
 exports.selectNextRecord = selectNextRecord;
 exports.showLoading = showLoading;
