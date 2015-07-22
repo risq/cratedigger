@@ -626,6 +626,11 @@ var onClickEvent = function ( mouseDownPos ) {
             resetShownRecord();
 
         }
+
+    } else if ( Constants.closeInfoPanelOnClick ) {
+
+        flipBackSelectedRecord();
+
     }
 };
 
@@ -636,16 +641,13 @@ var onMouseDownEvent = function ( e ) {
     if ( infoPanelState === 'closed' ) {
 
         scrollRecords( mouse.y );
-        mouseDownPos = {
-            x: mouse.x,
-            y: mouse.y
-        };
 
-    } else if ( infoPanelState === 'opened' && Constants.closeInfoPanelOnClick ) {
+    } 
 
-        flipBackSelectedRecord();
-
-    }
+    mouseDownPos = {
+        x: mouse.x,
+        y: mouse.y
+    };
 };
 
 var onMouseUpEvent = function ( e ) {
@@ -653,7 +655,8 @@ var onMouseUpEvent = function ( e ) {
     clearInterval( scrollRecordsTimeout );
     renderer.domElement.classList.remove('grab');
 
-    if ( coordsEqualsApprox( mouseDownPos, mouse, Constants.scene.grabSensitivity ) ) {
+    // Trigger scene click event only if mouseup event is not a drag end event & not a click on a link
+    if ( coordsEqualsApprox( mouseDownPos, mouse, Constants.scene.grabSensitivity ) && !( e.target && e.target.hasAttribute('href') ) ) {
 
         onClickEvent( mouseDownPos );
 
