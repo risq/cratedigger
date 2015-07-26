@@ -13,7 +13,6 @@ module.exports = {
     crateTexture: 'img/wood.jpg',
     closeInfoPanelOnClick: true,
     closeInfoPanelOnScroll: true,
-    infoPanelOpacity: 0.9,
     postprocessing: false,
     blurAmount: 0.4,
     updateCanvasSizeOnWindowResize: true,

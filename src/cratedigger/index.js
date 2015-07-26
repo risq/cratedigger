@@ -214,7 +214,7 @@ var loadRecords = function ( recordsData, shuffleBeforeLoading, done ) {
 
     resetShownRecord( true );
 
-    showLoading( function () {
+    showLoading( function() {
 
         if ( loadedRecords > 0 ) {
 
@@ -243,17 +243,12 @@ var loadRecords = function ( recordsData, shuffleBeforeLoading, done ) {
         
         setTimeout( function () {
 
-            hideLoading( loadingContainerElement );
+            hideLoading(done);
             Constants.onLoadingEnd();
 
-            if ( done ) {
+        }, 3000 );
+    });
 
-                done();
-
-            }
-
-        }, 2000 );
-    } );
 };
 
 var shuffleRecords = function () {
@@ -300,7 +295,7 @@ var flipSelectedRecord = function () {
 
         setTimeout( function () {
 
-            fadeIn( infoContainerElement, Constants.infoPanelOpacity );
+            fadeIn( infoContainerElement );
 
         }, 300 );
     }
@@ -700,13 +695,15 @@ var onWindowResizeEvent = function ( e ) {
 
 var showLoading = function ( done ) {
 
-    fadeIn( loadingContainerElement, 1, done );
+    fadeIn( loadingContainerElement );
+    setTimeout(done, 1000);
 
 };
 
 var hideLoading = function ( done ) {
 
-    fadeOut( loadingContainerElement, done );
+    fadeOut( loadingContainerElement );
+    setTimeout(done, 1000);
 
 };
 
@@ -785,7 +782,7 @@ var initScene = function () {
 
     setCanvasDimensions();
 
-    infoContainerElement.style.display = 'none';
+    hideElement(infoContainerElement);
 
     if ( Constants.debug ) {
 
@@ -1113,57 +1110,98 @@ var coordsEqualsApprox = function ( coord1, coord2, range ) {
 
 };
 
-var fadeOut = function ( element, done ) {
+var fadeOut = function ( element ) {
 
-    if ( element.style.opacity <= 0.1 ) {
+    if (element.style.opacity === 0) {
+
         element.style.display = 'none';
-        element.style.opacity = 0;
-        if ( isFunction( done ) ) {
-            done();
-        }
-    } else {
-        element.style.opacity -= 0.1;
-        setTimeout( function () {
-            fadeOut( element, done );
-        }, 10 );
-    }
-};
-
-var fadeIn = function ( element, fadeTo, done, op ) {
-
-    if ( !element.style.opacity || element.style.opacity && element.style.opacity < fadeTo ) {
-
-        if ( element.style.display == 'none' ) {
-
-            element.style.display = 'block';
-            op = 0;
-
-        } else if ( !element.style.display ) {
-
-            op = element.style.opacity || 1;
-
-        }
-
-        op += 0.03;
-        element.style.opacity = op;
-
-        setTimeout( function () {
-
-            fadeIn( element, fadeTo, done, op );
-
-        }, 10 );
 
     } else {
 
-        element.style.opacity = fadeTo;
+        var transitionEvent = getTransitionEvent(element);
 
-        if ( isFunction( done ) ) {
+        if (transitionEvent) {
 
-            done();
+            element.addEventListener(transitionEvent, onFadeComplete);
+
+            element.style.opacity = 0;
+
+        }        
+    }
+};
+
+var fadeIn = function ( element ) {
+
+    if (element.style.opacity === '' || element.style.opacity === '1') {
+
+        element.style.display = 'block';
+
+    } else {
+        
+        var transitionEvent = getTransitionEvent(element);
+        
+        element.style.display = 'block';
+
+        if (transitionEvent) {
+
+            element.addEventListener(transitionEvent, onFadeComplete);
+
+        }
+
+        setTimeout(function () {
+            element.style.opacity = 1;
+        }, 15);
+    }
+
+};
+
+function onFadeComplete( e ) {
+
+    e.target.removeEventListener(e.type, onFadeComplete);
+    if ( e.target.style.opacity === '0' ) {
+
+        e.target.style.display = 'none';
+
+    } else {
+
+        e.target.style.display = 'block';
+
+    }
+}
+
+
+var hideElement = function( element ) {
+
+    element.style.opacity = 0;
+    element.style.display = 'none';
+
+}
+
+var showElement = function( element ) {
+
+    element.style.display = 'block';
+    element.style.opacity = 1;
+
+}
+
+var getTransitionEvent = function () {
+    var t,
+        transitions = {
+            'transition':'transitionend',
+            'OTransition':'oTransitionEnd',
+            'MozTransition':'transitionend',
+            'WebkitTransition':'webkitTransitionEnd'
+        };
+
+    for(t in transitions) {
+
+        if( document.body.style[t] !== undefined ) {
+
+            return transitions[t];
 
         }
     }
-};
+}
 
 var calculateCanvasSize = function () {
 

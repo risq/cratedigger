@@ -28,11 +28,14 @@ html, body {
     z-index: 10;
     height: 100%;
     width: 100%;
+    transition: opacity 0.8s;
 }
 
 #cratedigger-info {
-    background-color: #111111;
+    background-color: rgba(17, 17, 17, 0.9);
     z-index: 5;
+    display: block;
+    transition: opacity 0.3s;
 }
 
 #cratedigger-record-title {

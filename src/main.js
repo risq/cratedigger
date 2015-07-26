@@ -31,7 +31,9 @@ cratedigger.init({
 	}
 });
 
-cratedigger.loadRecords(data, true);
+cratedigger.loadRecords(data, true, function() {
+	console.log('Loaded !');
+});
 
 buttonPrev.addEventListener('click', function(e) {
 	cratedigger.selectPrevRecord();
