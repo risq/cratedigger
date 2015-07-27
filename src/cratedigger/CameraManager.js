@@ -4,7 +4,9 @@ var THREE = require('three'),
 	Constants = require('./Constants');
 
 var camera,
-	target;
+	target,
+    cameraTween,
+    targetTween;
 
 function init(ratio) {
 
@@ -14,15 +16,19 @@ function init(ratio) {
     camera.setLens( camera.focalLength, camera.frameSize );
 
     target = new THREE.Object3D();
-    //        target = new THREE.Mesh(new THREE.BoxGeometry(10, 10, 10, 1, 1, 1));
-    //        scene.add(target);
     camera.lookAt( target.position );
+
+    cameraTween = new TWEEN.Tween();
+    targetTween = new TWEEN.Tween();
 
 }
 
 function focusRecord(recordXPos, recordAbsolutePos) {
+    
+    cameraTween.stop();
+    targetTween.stop();
 
-    new TWEEN.Tween( target.position )
+    targetTween = new TWEEN.Tween( target.position )
 	    .to( {
 	        x: recordXPos,
 	        y: 50 + Constants.scene.recordShownY,
@@ -30,7 +36,7 @@ function focusRecord(recordXPos, recordAbsolutePos) {
 	    }, Constants.scene.cameraMoveTime )
 	    .easing( TWEEN.Easing.Quartic.Out ).start();
 
-	new TWEEN.Tween( camera.position )
+	cameraTween = new TWEEN.Tween( camera.position )
 	    .to( {
 	        x: recordXPos + Constants.scene.cameraFocusPosition.x,
 	        y: Constants.scene.cameraFocusPosition.y,
@@ -40,8 +46,11 @@ function focusRecord(recordXPos, recordAbsolutePos) {
 }
 
 function zoomInRecord(recordXPos, recordAbsolutePos) {
+    
+    cameraTween.stop();
+    targetTween.stop();
 
-    new TWEEN.Tween( target.position )
+    targetTween = new TWEEN.Tween( target.position )
         .to( {
             x: recordXPos,
             y: Constants.scene.recordFlippedY + 50,
@@ -49,7 +58,7 @@ function zoomInRecord(recordXPos, recordAbsolutePos) {
         }, Constants.scene.infoOpenTime )
         .easing( TWEEN.Easing.Quartic.Out ).start()
 
-    new TWEEN.Tween( camera.position )
+    cameraTween = new TWEEN.Tween( camera.position )
         .to( {
             x: recordXPos + Constants.scene.cameraFocusPosition.x + 80,
             y: Constants.scene.cameraFocusPosition.y - 50,
@@ -58,8 +67,11 @@ function zoomInRecord(recordXPos, recordAbsolutePos) {
 }
 
 function zoomOutRecord(recordXPos, recordAbsolutePos) {
+    
+    cameraTween.stop();
+    targetTween.stop();
 
-    new TWEEN.Tween( target.position )
+    targetTween = new TWEEN.Tween( target.position )
         .delay( Constants.scene.infoOpenTime / 2 )
         .to( {
             x: recordXPos,
@@ -68,7 +80,7 @@ function zoomOutRecord(recordXPos, recordAbsolutePos) {
         }, Constants.scene.infoOpenTime )
         .easing( TWEEN.Easing.Quartic.Out ).start();
 
-    new TWEEN.Tween( camera.position )
+    cameraTween = new TWEEN.Tween( camera.position )
         .to( {
             x: recordXPos + Constants.scene.cameraFocusPosition.x,
             y: Constants.scene.cameraFocusPosition.y,
@@ -77,7 +89,11 @@ function zoomOutRecord(recordXPos, recordAbsolutePos) {
 }
 
 function resetCamera() {
-	new TWEEN.Tween( target.position )
+    
+    cameraTween.stop();
+    targetTween.stop();
+
+	targetTween = new TWEEN.Tween( target.position )
         .to( {
             x: Constants.scene.targetBasePosition.x,
             y: Constants.scene.targetBasePosition.y,
@@ -85,7 +101,7 @@ function resetCamera() {
         }, Constants.scene.cameraMoveTime )
         .easing( TWEEN.Easing.Quartic.Out ).start();
 
-    new TWEEN.Tween( camera.position )
+    cameraTween = new TWEEN.Tween( camera.position )
         .to( {
             x: Constants.scene.cameraBasePosition.x,
             y: Constants.scene.cameraBasePosition.y,

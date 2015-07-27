@@ -23,6 +23,9 @@ var Record = function ( id, crateId, pos ) {
     this.mesh.recordId = id;
     this.absolutePosition = new THREE.Vector3();
 
+    this.positionTween = new TWEEN.Tween();
+    this.rotationTween = new TWEEN.Tween();
+
     this.setUnactive();
     this.pushRecord();
 
@@ -52,18 +55,21 @@ Record.prototype.setUnactive = function () {
 
 Record.prototype.showRecord = function () {
 
+    this.positionTween.stop();
+    this.rotationTween.stop();
+
     if ( this.state !== 'shown' ) {
 
         this.state = 'shown';
         this.absolutePosition.setFromMatrixPosition( this.mesh.matrixWorld );
 
-        new TWEEN.Tween( this.mesh.position )
+        this.positionTween = new TWEEN.Tween( this.mesh.position )
             .to( {
                 y: Constants.scene.recordShownY
             }, Constants.scene.recordMoveTime )
             .easing( TWEEN.Easing.Quartic.Out ).start();
 
-        new TWEEN.Tween( this.mesh.rotation )
+        this.rotationTween = new TWEEN.Tween( this.mesh.rotation )
             .to( {
                 z: Math.PI / 2
             }, Constants.scene.recordMoveTime )
@@ -80,13 +86,16 @@ Record.prototype.pushRecord = function () {
 
         this.state = 'pushed';
 
-        new TWEEN.Tween( this.mesh.position )
+        this.positionTween.stop();
+        this.rotationTween.stop();
+
+        this.positionTween = new TWEEN.Tween( this.mesh.position )
             .to( {
                 y: Constants.scene.recordBaseY
             }, Constants.scene.recordMoveTime )
             .easing( TWEEN.Easing.Quartic.Out ).start();
 
-        new TWEEN.Tween( this.mesh.rotation )
+        this.rotationTween = new TWEEN.Tween( this.mesh.rotation )
             .to( {
                 z: Math.PI / 2 + Math.PI / 7
             }, Constants.scene.recordMoveTime )
@@ -101,13 +110,16 @@ Record.prototype.pullRecord = function () {
 
         this.state = 'pulled';
 
-        new TWEEN.Tween( this.mesh.position )
+        this.positionTween.stop();
+        this.rotationTween.stop();
+
+        this.positionTween = new TWEEN.Tween( this.mesh.position )
             .to( {
                 y: Constants.scene.recordBaseY
             }, Constants.scene.recordMoveTime )
             .easing( TWEEN.Easing.Quartic.Out ).start();
 
-        new TWEEN.Tween( this.mesh.rotation )
+        this.rotationTween = new TWEEN.Tween( this.mesh.rotation )
             .to( {
                 z: Math.PI / 2 - Math.PI / 7
             }, Constants.scene.recordMoveTime )
@@ -120,16 +132,21 @@ Record.prototype.flipRecord = function ( done ) {
 
     this.state = 'flipped';
 
-    new TWEEN.Tween( this.mesh.position )
+    this.positionTween.stop();
+    this.rotationTween.stop();
+
+    this.positionTween = new TWEEN.Tween( this.mesh.position )
         .to( {
             y: Constants.scene.recordFlippedY
         }, Constants.scene.infoOpenTime )
         .easing( TWEEN.Easing.Quartic.Out ).start();
 
-    new TWEEN.Tween( this.mesh.rotation )
+    this.rotationTween = new TWEEN.Tween( this.mesh.rotation )
         .delay( Constants.scene.infoOpenTime / 4 )
         .to( {
-            y: Math.PI
+            x: 0,
+            y: Math.PI,
+            z: Math.PI / 2
         }, Constants.scene.infoOpenTime )
         .easing( TWEEN.Easing.Quartic.Out ).start()
         .onComplete( done );
@@ -141,14 +158,17 @@ Record.prototype.flipBackRecord = function ( done , noCameraTween ) {
 
     if ( this.state === 'flipped' ) {
 
-        new TWEEN.Tween( this.mesh.position )
+        this.positionTween.stop();
+        this.rotationTween.stop();
+
+        this.positionTween = new TWEEN.Tween( this.mesh.position )
             .delay( Constants.scene.infoOpenTime / 2 )
             .to( {
                 y: Constants.scene.recordBaseY
             }, Constants.scene.infoOpenTime )
             .easing( TWEEN.Easing.Quartic.Out ).start();
 
-        new TWEEN.Tween( this.mesh.rotation )
+        this.rotationTween = new TWEEN.Tween( this.mesh.rotation )
             .to( {
                 y: 0
             }, Constants.scene.infoOpenTime / 2 )
