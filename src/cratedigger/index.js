@@ -492,6 +492,24 @@ var fillInfoPanel = function ( record ) {
 =            EVENTS HANDLING            =
 =======================================*/
 
+var bindEvents = function() {
+
+    rootContainerElement.addEventListener( 'DOMMouseScroll', onScrollEvent, false );
+    rootContainerElement.addEventListener( 'mousewheel', onScrollEvent, false );
+    rootContainerElement.addEventListener( 'mousemove', onMouseMoveEvent, false );
+    rootContainerElement.addEventListener( 'mousedown', onMouseDownEvent, false );
+    rootContainerElement.addEventListener( 'mouseup', onMouseUpEvent, false );
+    rootContainerElement.addEventListener( 'contextmenu', onRightClickEvent, false );
+
+    window.addEventListener( 'keydown', onKeyDownEvent, false ); 
+
+    if ( Constants.updateCanvasSizeOnWindowResize ) {
+
+        window.addEventListener( 'resize', onWindowResizeEvent, false );
+
+    }
+}
+
 
 var onMouseMoveEvent = function ( e ) {
 
@@ -631,33 +649,56 @@ var onClickEvent = function ( mouseDownPos ) {
 
 var onMouseDownEvent = function ( e ) {
 
-    clearInterval( scrollRecordsTimeout );
+    if ( e.button !== 1 && e.button !== 2 ) {
 
-    if ( infoPanelState === 'closed' ) {
+        clearInterval( scrollRecordsTimeout );
 
-        scrollRecords( mouse.y );
+        if ( infoPanelState === 'closed' ) {
 
-    } 
+            scrollRecords( mouse.y );
 
-    mouseDownPos = {
-        x: mouse.x,
-        y: mouse.y
-    };
+        } 
+
+        mouseDownPos = {
+            x: mouse.x,
+            y: mouse.y
+        };
+
+    }
 };
 
 var onMouseUpEvent = function ( e ) {
 
-    clearInterval( scrollRecordsTimeout );
-    renderer.domElement.classList.remove('grab');
+    if ( e.button !== 1 && e.button !== 2 ) {
 
-    // Trigger scene click event only if mouseup event is not a drag end event & not a click on a link
-    if ( coordsEqualsApprox( mouseDownPos, mouse, Constants.scene.grabSensitivity ) && !( e.target && e.target.hasAttribute('href') ) ) {
+        clearInterval( scrollRecordsTimeout );
+        renderer.domElement.classList.remove('grab');
 
-        onClickEvent( mouseDownPos );
+        // Trigger scene click event only if mouseup event is not a drag end event & not a click on a link
+        if ( coordsEqualsApprox( mouseDownPos, mouse, Constants.scene.grabSensitivity ) && !( e.target && e.target.hasAttribute('href') ) ) {
+
+            onClickEvent( mouseDownPos );
+
+        }
+    }
+};
+
+var onRightClickEvent = function ( e ) {
+
+    e.preventDefault();
+
+    if ( infoPanelState === 'opened' ) {
+
+        flipBackSelectedRecord();
+
+    } else {
+
+        resetShownRecord();
 
     }
 
-};
+    return false;
+}
 
 var onKeyDownEvent = function ( e ) {
 
@@ -776,19 +817,7 @@ var initScene = function () {
 
     initPostProcessing();
 
-    rootContainerElement.addEventListener( 'DOMMouseScroll', onScrollEvent, false );
-    rootContainerElement.addEventListener( 'mousewheel', onScrollEvent, false );
-    rootContainerElement.addEventListener( 'mousemove', onMouseMoveEvent, false );
-    rootContainerElement.addEventListener( 'mousedown', onMouseDownEvent, false );
-    rootContainerElement.addEventListener( 'mouseup', onMouseUpEvent, false );
-
-    window.addEventListener( 'keydown', onKeyDownEvent, false ); 
-
-    if ( Constants.updateCanvasSizeOnWindowResize ) {
-
-        window.addEventListener( 'resize', onWindowResizeEvent, false );
-
-    }
+    bindEvents();
 
     // DOM setup
     rootContainerElement.style.position = 'relative';
