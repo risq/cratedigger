@@ -1168,16 +1168,17 @@ var fadeIn = function ( element ) {
 
 };
 
-function onFadeComplete( e ) {
+function onFadeComplete( e , e2 ) {
 
-    e.target.removeEventListener(e.type, onFadeComplete);
-    if ( e.target.style.opacity === '0' ) {
+    e.currentTarget.removeEventListener(e.type, onFadeComplete);
 
-        e.target.style.display = 'none';
+    if ( e.currentTarget.style.opacity === '0' ) {
+
+        e.currentTarget.style.display = 'none';
 
     } else {
 
-        e.target.style.display = 'block';
+        e.currentTarget.style.display = 'block';
 
     }
 }
@@ -1198,6 +1199,7 @@ var showElement = function( element ) {
 }
 
 var getTransitionEvent = function () {
+    
     var t,
         transitions = {
             'transition':'transitionend',
