@@ -67,17 +67,6 @@ require('./threejs_modules/EffectComposer')(THREE);
 var exports = {}, // Object for public APIs
 
 
-    /*==========  DOM container elements  ==========*/
-
-    rootContainerElement,
-    canvasContainerElement,
-    loadingContainerElement,
-    infoContainerElement,
-    titleInfoElement,
-    artistInfoElement,
-    coverInfoElement,
-
-
     /*==========  Three.js objects  ==========*/
 
     stats,
@@ -282,7 +271,6 @@ var flipSelectedRecord = function () {
 
     if ( records[ selectedRecord ] ) {
 
-        fillInfoPanel( records[ selectedRecord ] );
         infoPanelState = 'opening';
 
         records[ selectedRecord ].flipRecord( function () {
@@ -295,7 +283,7 @@ var flipSelectedRecord = function () {
 
         setTimeout( function () {
 
-            fadeIn( infoContainerElement );
+            fadeIn( Constants.elements.infoContainer );
 
         }, 300 );
     }
@@ -305,7 +293,7 @@ var flipBackSelectedRecord = function (force) {
 
     if ( infoPanelState === 'opened' ) {
 
-        fadeOut( infoContainerElement );
+        fadeOut( Constants.elements.infoContainer );
         infoPanelState = 'closing';
 
         records[ selectedRecord ].flipBackRecord( function () {
@@ -466,27 +454,6 @@ var scrollRecords = function ( baseY, oldDelta ) {
 
 };
 
-var fillInfoPanel = function ( record ) {
-
-    if ( record.data.title ) {
-
-        titleInfoElement.innerHTML = record.data.title;
-
-    }
-
-    if ( record.data.artist ) {
-
-        artistInfoElement.innerHTML = record.data.artist;
-
-    }
-
-    if ( record.data.cover ) {
-
-        coverInfoElement.style.backgroundImage = 'url(' + record.data.cover + ')';
-
-    }
-};
-
 
 /*=======================================
 =            EVENTS HANDLING            =
@@ -494,12 +461,12 @@ var fillInfoPanel = function ( record ) {
 
 var bindEvents = function() {
 
-    rootContainerElement.addEventListener( 'DOMMouseScroll', onScrollEvent, false );
-    rootContainerElement.addEventListener( 'mousewheel', onScrollEvent, false );
-    rootContainerElement.addEventListener( 'mousemove', onMouseMoveEvent, false );
-    rootContainerElement.addEventListener( 'mousedown', onMouseDownEvent, false );
-    rootContainerElement.addEventListener( 'mouseup', onMouseUpEvent, false );
-    rootContainerElement.addEventListener( 'contextmenu', onRightClickEvent, false );
+    Constants.elements.rootContainer.addEventListener( 'DOMMouseScroll', onScrollEvent, false );
+    Constants.elements.rootContainer.addEventListener( 'mousewheel', onScrollEvent, false );
+    Constants.elements.rootContainer.addEventListener( 'mousemove', onMouseMoveEvent, false );
+    Constants.elements.rootContainer.addEventListener( 'mousedown', onMouseDownEvent, false );
+    Constants.elements.rootContainer.addEventListener( 'mouseup', onMouseUpEvent, false );
+    Constants.elements.rootContainer.addEventListener( 'contextmenu', onRightClickEvent, false );
 
     window.addEventListener( 'keydown', onKeyDownEvent, false ); 
 
@@ -752,14 +719,14 @@ var onWindowResizeEvent = function ( e ) {
 
 var showLoading = function ( done ) {
 
-    fadeIn( loadingContainerElement );
+    fadeIn( Constants.elements.loadingContainer );
     setTimeout(done, 1000);
 
 };
 
 var hideLoading = function ( done ) {
 
-    fadeOut( loadingContainerElement );
+    fadeOut( Constants.elements.loadingContainer );
     setTimeout(done, 1000);
 
 };
@@ -782,7 +749,7 @@ var initScene = function () {
     } );
     renderer.setSize( canvasWidth, canvasHeight );
 
-    canvasContainerElement.appendChild( renderer.domElement );
+    Constants.elements.canvasContainer.appendChild( renderer.domElement );
     renderer.domElement.id = "context";
     renderer.setClearColor( Constants.backgroundColor, 1 );
 
@@ -820,14 +787,14 @@ var initScene = function () {
     bindEvents();
 
     // DOM setup
-    rootContainerElement.style.position = 'relative';
-    canvasContainerElement.style.position = 'absolute';
-    infoContainerElement.style.position = 'absolute';
-    loadingContainerElement.style.position = 'absolute';
+    Constants.elements.rootContainer.style.position = 'relative';
+    Constants.elements.canvasContainer.style.position = 'absolute';
+    Constants.elements.infoContainer.style.position = 'absolute';
+    Constants.elements.loadingContainer.style.position = 'absolute';
 
     setCanvasDimensions();
 
-    hideElement(infoContainerElement);
+    hideElement(Constants.elements.infoContainer);
 
     if ( Constants.debug ) {
 
@@ -914,7 +881,7 @@ var initDebug = function () {
     stats.domElement.style.position = 'absolute';
     stats.domElement.style.left = "0";
     stats.domElement.style.top = "0";
-    rootContainerElement.appendChild( stats.domElement );
+    Constants.elements.rootContainer.appendChild( stats.domElement );
 
     var debug = new THREE.Mesh( new THREE.BoxGeometry( 20, 20, 20, 1, 1, 1 ) );
     debug.position.set(
@@ -1251,22 +1218,22 @@ var getTransitionEvent = function () {
 
 var calculateCanvasSize = function () {
 
-    canvasWidth = Constants.canvasWidth ? Constants.canvasWidth : rootContainerElement.clientWidth;
-    canvasHeight = Constants.canvasHeight ? Constants.canvasHeight : rootContainerElement.clientHeight;
+    canvasWidth = Constants.canvasWidth ? Constants.canvasWidth : Constants.elements.rootContainer.clientWidth;
+    canvasHeight = Constants.canvasHeight ? Constants.canvasHeight : Constants.elements.rootContainer.clientHeight;
 
 };
 
 var setCanvasDimensions = function () {
 
-    //rootContainerElement.style.height     = canvasHeight + 'px';
-    canvasContainerElement.style.height = canvasHeight + 'px';
-    infoContainerElement.style.height = canvasHeight + 'px';
-    loadingContainerElement.style.height = canvasHeight + 'px';
+    //Constants.elements.rootContainer.style.height     = canvasHeight + 'px';
+    Constants.elements.canvasContainer.style.height = canvasHeight + 'px';
+    Constants.elements.infoContainer.style.height = canvasHeight + 'px';
+    Constants.elements.loadingContainer.style.height = canvasHeight + 'px';
 
-    //rootContainerElement.style.width     = canvasWidth + 'px';
-    canvasContainerElement.style.width = canvasWidth + 'px';
-    infoContainerElement.style.width = canvasWidth + 'px';
-    loadingContainerElement.style.width = canvasWidth + 'px';
+    //Constants.elements.rootContainer.style.width     = canvasWidth + 'px';
+    Constants.elements.canvasContainer.style.width = canvasWidth + 'px';
+    Constants.elements.infoContainer.style.width = canvasWidth + 'px';
+    Constants.elements.loadingContainer.style.width = canvasWidth + 'px';
 
 };
 
@@ -1308,52 +1275,30 @@ exports.init = function ( params ) {
 
     }
 
-    rootContainerElement = document.getElementById( Constants.elements.rootContainerId );
-    if ( !rootContainerElement ) {
+    if ( !Constants.elements.rootContainer ) {
 
         console.error( 'cratedigger.js - Init failed : can not find root container element.' );
         return;
 
     }
-    canvasContainerElement = document.getElementById( Constants.elements.canvasContainerId );
-    if ( !canvasContainerElement ) {
+
+    if ( !Constants.elements.canvasContainer ) {
 
         console.error( 'cratedigger.js - Init failed : can not find canvas container element.' );
         return;
 
     }
-    loadingContainerElement = document.getElementById( Constants.elements.loadingContainerId );
-    if ( !loadingContainerElement ) {
+
+    if ( !Constants.elements.loadingContainer ) {
 
         console.error( 'cratedigger.js - Init failed : can not find loading container element.' );
         return;
 
     }
-    infoContainerElement = document.getElementById( Constants.elements.infoContainerId );
-    if ( !infoContainerElement ) {
+
+    if ( !Constants.elements.infoContainer ) {
 
         console.error( 'cratedigger.js - Init failed : can not find info container element.' );
-        return;
-
-    }
-    titleInfoElement = document.getElementById( Constants.elements.titleContainerId );
-    if ( !titleInfoElement ) {
-
-        console.error( 'cratedigger.js - Init failed : can not find record title container element.' );
-        return;
-
-    }
-    artistInfoElement = document.getElementById( Constants.elements.artistContainerId );
-    if ( !artistInfoElement ) {
-
-        console.error( 'cratedigger.js - Init failed : can not find record artist container element.' );
-        return;
-
-    }
-    coverInfoElement = document.getElementById( Constants.elements.coverContainerId );
-    if ( !coverInfoElement ) {
-
-        console.error( 'cratedigger.js - Init failed : can not find cover image container element.' );
         return;
 
     }

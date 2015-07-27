@@ -20,13 +20,13 @@ module.exports = {
     onInfoPanelClosed: function () {},
     onLoadingEnd: function () {},
     elements: {
-        rootContainerId: 'cratedigger',
-        canvasContainerId: 'cratedigger-canvas',
-        loadingContainerId: 'cratedigger-loading',
-        infoContainerId: 'cratedigger-info',
-        titleContainerId: 'cratedigger-record-title',
-        artistContainerId: 'cratedigger-record-artist',
-        coverContainerId: 'cratedigger-record-cover'
+        rootContainer: null,
+        canvasContainer: null,
+        loadingContainer: null,
+        infoContainer: null,
+        titleContainer: null,
+        artistContainer: null,
+        coverContainer: null
     },
     scene: {
         recordMoveTime: 1000,
