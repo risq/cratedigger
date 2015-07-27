@@ -669,6 +669,22 @@ var onKeyDownEvent = function ( e ) {
 
         navigateRecords( 'prev' );
 
+    } else if ( infoPanelState === 'closed' && e.keyCode === 13 || e.keyCode === 32) {
+
+        flipSelectedRecord();
+
+    } else if ( e.keyCode === 27 ) {
+
+        if ( infoPanelState === 'opened' ) {
+
+            flipBackSelectedRecord();
+
+        } else {
+
+            resetShownRecord();
+
+        }
+
     }
 };
 
