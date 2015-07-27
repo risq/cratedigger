@@ -46,9 +46,9 @@ module.exports = {
             z: 180
         },
         cameraFocusPosition: {
-            x: 185,
-            y: 205,
-            z: 88
+            x: 190,
+            y: 195,
+            z: 93
         },
         cameraMouseMoveSpeedY: 0.07,
         cameraMouseMoveSpeedZ: 0.04,
