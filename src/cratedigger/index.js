@@ -934,12 +934,13 @@ var initGUI = function () {
         _last;
 
     gui = new dat.GUI();
+    
+    cameraFolder = gui.addFolder( 'Camera' );
+    cameraFocalLength = cameraFolder.add( camera, 'focalLength', 28, 200 ).name( 'Focal Length' );
+    cameraFocalLength.onChange( updateCamera );
 
     if ( Constants.postprocessing ) {
 
-        cameraFolder = gui.addFolder( 'Camera' );
-        cameraFocalLength = cameraFolder.add( camera, 'focalLength', 28, 200 ).name( 'Focal Length' );
-        cameraFocalLength.onChange( updateCamera );
 
         dofFolder = gui.addFolder( 'Depth of Field' );
         dofFolder.add( dof.uniforms.focalDepth, 'value', 0, 10 ).name( 'Focal Depth' );
