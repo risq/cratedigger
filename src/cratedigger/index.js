@@ -136,7 +136,7 @@ var exports = {}, // Object for public APIs
 =            BASE METHODS            =
 ====================================*/
 
-var animate = function () {
+function animate () {
 
     if ( doRender ) {
 
@@ -151,7 +151,7 @@ var animate = function () {
     }
 };
 
-var render = function () {
+function render () {
 
     TWEEN.update();
     updateShownRecord();
@@ -184,7 +184,7 @@ var render = function () {
 /*
  * Loading methods
  */
-var unloadRecords = function () {
+function unloadRecords () {
 
     for ( var i = 0; i < records.length; i++ ) {
 
@@ -199,7 +199,7 @@ var unloadRecords = function () {
 };
 
 
-var loadRecords = function ( recordsData, shuffleBeforeLoading, done ) {
+function loadRecords ( recordsData, shuffleBeforeLoading, done ) {
 
     resetShownRecord( true );
 
@@ -240,7 +240,7 @@ var loadRecords = function ( recordsData, shuffleBeforeLoading, done ) {
 
 };
 
-var shuffleRecords = function () {
+function shuffleRecords () {
 
     var shuffledRecords = recordsDataList;
     shuffledRecords = shuffle( shuffledRecords );
@@ -254,7 +254,7 @@ var shuffleRecords = function () {
 =================================================*/
 
 
-var selectRecord = function ( id ) {
+function selectRecord ( id ) {
 
     if ( infoPanelState === 'opened' ) {
 
@@ -267,7 +267,7 @@ var selectRecord = function ( id ) {
     }
 };
 
-var flipSelectedRecord = function () {
+function flipSelectedRecord () {
 
     if ( records[ selectedRecord ] ) {
 
@@ -289,7 +289,7 @@ var flipSelectedRecord = function () {
     }
 };
 
-var flipBackSelectedRecord = function (force) {
+function flipBackSelectedRecord (force) {
 
     if ( infoPanelState === 'opened' ) {
 
@@ -305,7 +305,7 @@ var flipBackSelectedRecord = function (force) {
     }
 };
 
-var updateShownRecord = function () {
+function updateShownRecord () {
 
     if ( infoPanelState === 'closed' && shownRecord != selectedRecord ) {
 
@@ -336,7 +336,7 @@ var updateShownRecord = function () {
     }
 };
 
-var resetShownRecord = function ( force ) {
+function resetShownRecord ( force ) {
 
     if ( infoPanelState === 'opened' && !force ) {
 
@@ -354,19 +354,19 @@ var resetShownRecord = function ( force ) {
     }
 };
 
-var selectPrevRecord = function () {
+function selectPrevRecord () {
 
     selectRecord(getPrevAvailableRecord(selectedRecord));
     
 };
 
-var selectNextRecord = function () {
+function selectNextRecord () {
 
     selectRecord(getNextAvailableRecord(selectedRecord));
 
 };
 
-var getPrevAvailableRecord = function (fromRecord) {
+function getPrevAvailableRecord (fromRecord) {
 
     if ( fromRecord == -1 ) {
 
@@ -386,7 +386,7 @@ var getPrevAvailableRecord = function (fromRecord) {
     
 };
 
-var getNextAvailableRecord = function (fromRecord) {
+function getNextAvailableRecord (fromRecord) {
 
     if ( fromRecord == -1 ) {
 
@@ -406,7 +406,7 @@ var getNextAvailableRecord = function (fromRecord) {
 
 };
 
-var navigateRecords = function ( direction ) {
+function navigateRecords ( direction ) {
 
     if ( infoPanelState === 'closed' ) {
 
@@ -428,7 +428,7 @@ var navigateRecords = function ( direction ) {
 
 };
 
-var scrollRecords = function ( baseY, oldDelta ) {
+function scrollRecords ( baseY, oldDelta ) {
 
     oldDelta = !oldDelta || Math.abs( oldDelta ) > 0.5 ? 0.5 : Math.abs( oldDelta );
     var inverseDelta = 1 - oldDelta;
@@ -459,7 +459,7 @@ var scrollRecords = function ( baseY, oldDelta ) {
 =            EVENTS HANDLING            =
 =======================================*/
 
-var bindEvents = function() {
+function bindEvents() {
 
     Constants.elements.rootContainer.addEventListener( 'DOMMouseScroll', onScrollEvent, false );
     Constants.elements.rootContainer.addEventListener( 'mousewheel', onScrollEvent, false );
@@ -478,7 +478,7 @@ var bindEvents = function() {
 }
 
 
-var onMouseMoveEvent = function ( e ) {
+function onMouseMoveEvent ( e ) {
 
     var m_posx = 0,
         m_posy = 0,
@@ -523,7 +523,7 @@ var onMouseMoveEvent = function ( e ) {
     mouse.y = m_posy - e_posy;
 };
 
-var onScrollEvent = function ( e ) {
+function onScrollEvent ( e ) {
 
 
     if ( wheelDirection( e ) < 0 ) {
@@ -539,7 +539,7 @@ var onScrollEvent = function ( e ) {
     return false;
 };
 
-var onClickEvent = function ( mouseDownPos ) {
+function onClickEvent ( mouseDownPos ) {
 
     if ( infoPanelState === 'closed' ) {
 
@@ -614,7 +614,7 @@ var onClickEvent = function ( mouseDownPos ) {
     }
 };
 
-var onMouseDownEvent = function ( e ) {
+function onMouseDownEvent ( e ) {
 
     if ( e.button !== 1 && e.button !== 2 ) {
 
@@ -634,7 +634,7 @@ var onMouseDownEvent = function ( e ) {
     }
 };
 
-var onMouseUpEvent = function ( e ) {
+function onMouseUpEvent ( e ) {
 
     if ( e.button !== 1 && e.button !== 2 ) {
 
@@ -650,7 +650,7 @@ var onMouseUpEvent = function ( e ) {
     }
 };
 
-var onRightClickEvent = function ( e ) {
+function onRightClickEvent ( e ) {
 
     e.preventDefault();
 
@@ -667,7 +667,7 @@ var onRightClickEvent = function ( e ) {
     return false;
 }
 
-var onKeyDownEvent = function ( e ) {
+function onKeyDownEvent ( e ) {
 
     if ( e.keyCode === 37 || e.keyCode === 38 ) {
 
@@ -696,7 +696,7 @@ var onKeyDownEvent = function ( e ) {
     }
 };
 
-var onWindowResizeEvent = function ( e ) {
+function onWindowResizeEvent ( e ) {
 
     calculateCanvasSize();
     setCanvasDimensions();
@@ -717,14 +717,14 @@ var onWindowResizeEvent = function ( e ) {
 ======================================*/
 
 
-var showLoading = function ( done ) {
+function showLoading ( done ) {
 
     fadeIn( Constants.elements.loadingContainer );
     setTimeout(done, 1000);
 
 };
 
-var hideLoading = function ( done ) {
+function hideLoading ( done ) {
 
     fadeOut( Constants.elements.loadingContainer );
     setTimeout(done, 1000);
@@ -739,7 +739,7 @@ var hideLoading = function ( done ) {
 ======================================*/
 
 
-var initScene = function () {
+function initScene () {
 
     // scene, renderer, camera,...
     scene = new THREE.Scene();
@@ -807,7 +807,7 @@ var initScene = function () {
     animate();
 };
 
-var initPostProcessing = function () {
+function initPostProcessing () {
 
     depthShader = THREE.ShaderLib.depthRGBA;
     depthUniforms = THREE.UniformsUtils.clone( depthShader.uniforms );
@@ -875,7 +875,7 @@ var initPostProcessing = function () {
 
 };
 
-var initDebug = function () {
+function initDebug () {
 
     stats = new Stats();
     stats.domElement.style.position = 'absolute';
@@ -893,7 +893,7 @@ var initDebug = function () {
 
 };
 
-var initGUI = function () {
+function initGUI () {
 
     var cameraFolder,
         cameraFocalLength,
@@ -951,7 +951,7 @@ var initGUI = function () {
 
 };
 
-var updateCamera = function () {
+function updateCamera () {
 
     camera.setLens( camera.focalLength, camera.frameSize );
     camera.updateProjectionMatrix();
@@ -959,7 +959,7 @@ var updateCamera = function () {
 
 };
 
-var initCrates = function () {
+function initCrates () {
 
     for ( var crateId = 0; crateId < Constants.nbCrates; crateId++ ) {
         var crate = createCrate( crateId );
@@ -969,7 +969,7 @@ var initCrates = function () {
 
 };
 
-var createCrate = function ( id ) {
+function createCrate ( id ) {
 
     crates[ id ] = new THREE.Object3D();
 
@@ -1003,7 +1003,7 @@ var createCrate = function ( id ) {
 
 };
 
-var initRecords = function () {
+function initRecords () {
 
     var currentRecordId = 0;
     for ( var crateId = 0; crateId < crates.length; crateId++ ) {
@@ -1015,7 +1015,7 @@ var initRecords = function () {
     }
 };
 
-var createRecord = function ( id, crateId, pos ) {
+function createRecord ( id, crateId, pos ) {
 
     var record = new Record( id, crateId, pos );
     crates[ crateId ].add( record.mesh );
@@ -1023,7 +1023,7 @@ var createRecord = function ( id, crateId, pos ) {
 
 };
 
-var getRecordMaterial = function ( src, hasSleeve ) {
+function getRecordMaterial ( src, hasSleeve ) {
 
     var img = new Image();
     img.crossOrigin = "Anonymous";
@@ -1097,7 +1097,7 @@ var getRecordMaterial = function ( src, hasSleeve ) {
 =============================*/
 
 
-var wheelDistance = function ( e ) {
+function wheelDistance ( e ) {
 
     if ( !e ) e = event;
     var w = e.wheelDelta,
@@ -1110,20 +1110,20 @@ var wheelDistance = function ( e ) {
     } else return w / 120; // IE/Safari/Chrome
 };
 
-var wheelDirection = function ( e ) {
+function wheelDirection ( e ) {
 
     if ( !e ) e = event;
     return ( e.detail < 0 ) ? 1 : ( e.wheelDelta > 0 ) ? 1 : -1;
 
 };
 
-var coordsEqualsApprox = function ( coord1, coord2, range ) {
+function coordsEqualsApprox ( coord1, coord2, range ) {
 
     return ( Math.abs( coord1.x - coord2.x ) <= range ) && ( Math.abs( coord1.y - coord2.y ) <= range );
 
 };
 
-var fadeOut = function ( element ) {
+function fadeOut ( element ) {
 
     if (element.style.opacity === 0) {
 
@@ -1143,7 +1143,7 @@ var fadeOut = function ( element ) {
     }
 };
 
-var fadeIn = function ( element ) {
+function fadeIn ( element ) {
 
     if (element.style.opacity === '' || element.style.opacity === '1') {
 
@@ -1184,22 +1184,22 @@ function onFadeComplete( e , e2 ) {
 }
 
 
-var hideElement = function( element ) {
+function hideElement( element ) {
 
     element.style.opacity = 0;
     element.style.display = 'none';
 
 }
 
-var showElement = function( element ) {
+function showElement( element ) {
 
     element.style.display = 'block';
     element.style.opacity = 1;
 
 }
 
-var getTransitionEvent = function () {
-    
+function getTransitionEvent () {
+
     var t,
         transitions = {
             'transition':'transitionend',
@@ -1218,14 +1218,14 @@ var getTransitionEvent = function () {
     }
 }
 
-var calculateCanvasSize = function () {
+function calculateCanvasSize () {
 
     canvasWidth = Constants.canvasWidth ? Constants.canvasWidth : Constants.elements.rootContainer.clientWidth;
     canvasHeight = Constants.canvasHeight ? Constants.canvasHeight : Constants.elements.rootContainer.clientHeight;
 
 };
 
-var setCanvasDimensions = function () {
+function setCanvasDimensions () {
 
     //Constants.elements.rootContainer.style.height     = canvasHeight + 'px';
     Constants.elements.canvasContainer.style.height = canvasHeight + 'px';
