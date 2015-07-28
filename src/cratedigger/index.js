@@ -428,15 +428,17 @@ function navigateRecords ( direction ) {
 
 };
 
-function scrollRecords ( baseY, oldDelta ) {
+function scrollRecords ( touch, baseY, oldDelta ) {
+
+    var scrollSpeed;
 
     oldDelta = !oldDelta || Math.abs( oldDelta ) > 0.5 ? 0.5 : Math.abs( oldDelta );
-    var inverseDelta = 1 - oldDelta;
-    var scrollSpeed = inverseDelta * inverseDelta * inverseDelta * 300;
+    scrollSpeed = touch ? Math.pow(1 - oldDelta, 3) * 200 : Math.pow(1 - oldDelta, 3) * 300;
 
     scrollRecordsTimeout = setTimeout( function () {
-        renderer.domElement.classList.add('grab');
+
         var delta = ( baseY - mouse.y ) / canvasHeight;
+        renderer.domElement.classList.add('grab');
 
         if ( delta > 0 ) {
 
@@ -448,12 +450,11 @@ function scrollRecords ( baseY, oldDelta ) {
 
         }
 
-        scrollRecords( baseY, delta );
+        scrollRecords( touch, baseY, delta );
 
     }, scrollSpeed );
 
 };
-
 
 /*=======================================
 =            EVENTS HANDLING            =
@@ -464,8 +465,11 @@ function bindEvents() {
     Constants.elements.rootContainer.addEventListener( 'DOMMouseScroll', onScrollEvent, false );
     Constants.elements.rootContainer.addEventListener( 'mousewheel', onScrollEvent, false );
     Constants.elements.rootContainer.addEventListener( 'mousemove', onMouseMoveEvent, false );
+    Constants.elements.rootContainer.addEventListener( 'touchmove', onTouchMoveEvent, false );
     Constants.elements.rootContainer.addEventListener( 'mousedown', onMouseDownEvent, false );
+    Constants.elements.rootContainer.addEventListener( 'touchstart', onTouchStartEvent, false );
     Constants.elements.rootContainer.addEventListener( 'mouseup', onMouseUpEvent, false );
+    Constants.elements.rootContainer.addEventListener( 'touchend', onTouchStopEvent, false );
     Constants.elements.rootContainer.addEventListener( 'contextmenu', onRightClickEvent, false );
 
     window.addEventListener( 'keydown', onKeyDownEvent, false ); 
@@ -508,6 +512,47 @@ function onMouseMoveEvent ( e ) {
 
     //get parent element position in document
     if ( obj.offsetParent ) {
+
+        do {
+
+            e_posx += obj.offsetLeft;
+            e_posy += obj.offsetTop;
+
+        } while ( obj = obj.offsetParent ); // jshint ignore:line
+
+    }
+
+    // mouse position minus elm position is mouseposition relative to element:
+    mouse.x = m_posx - e_posx;
+    mouse.y = m_posy - e_posy;
+};
+
+function onTouchMoveEvent ( e ) {
+
+    var m_posx = 0,
+        m_posy = 0,
+        e_posx = 0,
+        e_posy = 0,
+        obj = this;
+
+    if (e.changedTouches && e.changedTouches[0]) {
+
+        if ( e.changedTouches[0].pageX || e.changedTouches[0].pageY ) {
+
+            m_posx = e.changedTouches[0].pageX;
+            m_posy = e.changedTouches[0].pageY;
+        } else if ( e.changedTouches[0].clientX || e.changedTouches[0].clientY ) {
+
+            m_posx = e.changedTouches[0].clientX + document.body.scrollLeft +
+                document.documentElement.scrollLeft;
+            m_posy = e.changedTouches[0].clientY + document.body.scrollTop +
+                document.documentElement.scrollTop;
+
+        }
+    }
+
+    //get parent element position in document
+    if ( obj && obj.offsetParent ) {
 
         do {
 
@@ -622,7 +667,7 @@ function onMouseDownEvent ( e ) {
 
         if ( infoPanelState === 'closed' ) {
 
-            scrollRecords( mouse.y );
+            scrollRecords( false, mouse.y );
 
         } 
 
@@ -632,6 +677,24 @@ function onMouseDownEvent ( e ) {
         };
 
     }
+};
+
+function onTouchStartEvent ( e ) {
+
+    mouseDownPos = {
+        x: mouse.x,
+        y: mouse.y
+    };
+
+    onTouchMoveEvent( e );
+
+    clearInterval( scrollRecordsTimeout );
+
+    if ( infoPanelState === 'closed' ) {
+
+        scrollRecords( true, mouse.y );
+
+    } 
 };
 
 function onMouseUpEvent ( e ) {
@@ -647,6 +710,19 @@ function onMouseUpEvent ( e ) {
             onClickEvent( mouseDownPos );
 
         }
+    }
+};
+
+function onTouchStopEvent ( e ) {
+
+    clearInterval( scrollRecordsTimeout );
+    renderer.domElement.classList.remove('grab');
+
+    // Trigger scene click event only if mouseup event is not a drag end event & not a click on a link
+    if ( coordsEqualsApprox( mouseDownPos, mouse, Constants.scene.grabSensitivity ) && !( e.target && e.target.hasAttribute('href') ) ) {
+
+        onClickEvent( mouseDownPos );
+
     }
 };
 
