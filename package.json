@@ -1,6 +1,6 @@
 {
   "name": "cratedigger.js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "3D vinyl records exploration & crate digging plugin, using WebGL with Three.js",
   "main": "src/cratedigger/index.js",
   "scripts": {
