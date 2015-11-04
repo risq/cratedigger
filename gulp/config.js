@@ -1,4 +1,4 @@
-var dest = 'www';
+var dest = 'lib';
 var src = 'src';
 var maps = 'maps';
 

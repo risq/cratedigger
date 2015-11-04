@@ -1,7 +1,7 @@
 .DS_Store
 .sass-cache
 
-/www
+/lib
 /sourcemaps
 /vendor/js/libs.js
 /vendor/js/libs.js.map
@@ -9,10 +9,7 @@
 Desktop.ini
 
 /node_modules
-/bower_components
 
 *.sublime-workspace
 npm-debug.log
 coverage
-
-src/**/*.css

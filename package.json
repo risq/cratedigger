@@ -2,7 +2,7 @@
   "name": "cratedigger",
   "version": "0.1.1",
   "description": "3D vinyl records exploration & crate digging experience, using WebGL with Three.js",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/risq/cratedigger.js.git"
@@ -26,6 +26,7 @@
     "preproduction": "gulp clean",
     "production": "gulp production",
     "prebuild": "gulp clean",
+    "prepublish": "gulp build",
     "build": "gulp build",
     "start": "gulp"
   },
