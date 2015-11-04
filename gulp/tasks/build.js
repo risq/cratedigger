@@ -1,8 +1,8 @@
 var gulp = require('gulp');
 
-gulp.task('build', ['markup',
+gulp.task('build', [
+  'markup',
   'images',
-  'fonts',
-  'less-all',
+  'less',
   'vendor',
 ]);

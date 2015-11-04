@@ -58,49 +58,6 @@ module.exports = {
     ],
     dest: dest,
   },
-  fonts: {
-    src: [
-      src + '/fonts/**/*',
-    ],
-    dest: dest + '/fonts',
-  },
-  iconFont: {
-    name: 'Gulp Starter Icons',
-    src: src + '/icons/*.svg',
-    dest: dest + '/fonts',
-    lessDest: src + '/styles',
-    template: './gulp/tasks/iconFont/template.less.swig',
-    lessOutputName: '_icons.less',
-    fontPath: '/fonts',
-    className: 'icon',
-    options: {
-      svg: true,
-      timestamp: 0, // see https://github.com/fontello/svg2ttf/issues/33
-      fontName: 'oz-icons',
-      appendUnicode: true,
-      normalize: false,
-    },
-  },
-  sprite: {
-    destStyle: src + '/styles',
-    destImage: dest + '/images',
-    options: {
-      src: src + '/sprites/**/*.png',
-      base64: false,
-      split: true,
-      prefix: 'sprite',
-      dimension: [{
-        ratio: 1,
-        dpi: 72,
-      }, {
-        ratio: 2,
-        dpi: 192,
-      },],
-      style: '_sprites.less',
-      cssPath: './images',
-      processor: 'less',
-    },
-  },
   browserify: {
     // List here all external libs
     libs: [

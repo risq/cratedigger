@@ -21,5 +21,3 @@ function doLess() {
 };
 
 gulp.task('less', doLess);
-
-gulp.task('less-all', ['sprite', 'iconFont'], doLess);
