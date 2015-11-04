@@ -1,50 +1,146 @@
-var dest = "./build";
-var src = './src';
+var dest = 'www';
+var src = 'src';
+var maps = 'maps';
 
 module.exports = {
-  bower: {
-    src: "./bower_components/**",
-    dest: dest + "/bower_components"
+  clean: {
+    src: [
+      dest,
+      maps,
+    ],
+  },
+  production: {
+    src: [
+      dest + '/**/*.+(js|css).map',
+    ],
+    dest: maps,
   },
   browserSync: {
     server: {
       // Serve up our build folder
-      baseDir: dest
-    }
+      baseDir: dest,
+    },
+    watchOptions: {
+      ignoreInitial: true,
+    },
   },
-  css: {
-    src: src + "/styles/*.css",
-    dest: dest + "/"
+  lint: {
+    js: {
+      src: [
+        src + '/*.js',
+      ],
+      dest: src,
+    },
   },
-  deploy: {
-    files: dest + "/**"
+  less: {
+    autoprefixer: {
+      browsers: [
+        'last 2 version',
+      ],
+    },
+    watch: [
+      src + '/**/*.less',
+    ],
+    src: [
+      src + '/index.less',
+    ],
+    dest: dest,
   },
   images: {
-    src: src + "/img/**",
-    dest: dest + "/img"
+    src: [
+      src + '/images/**/*',
+    ],
+    dest: dest + '/images',
   },
   markup: {
-    src: src + "/index.html",
-    dest: dest
+    src: [
+      src + '/htdocs/**/*',
+    ],
+    dest: dest,
+  },
+  fonts: {
+    src: [
+      src + '/fonts/**/*',
+    ],
+    dest: dest + '/fonts',
+  },
+  iconFont: {
+    name: 'Gulp Starter Icons',
+    src: src + '/icons/*.svg',
+    dest: dest + '/fonts',
+    lessDest: src + '/styles',
+    template: './gulp/tasks/iconFont/template.less.swig',
+    lessOutputName: '_icons.less',
+    fontPath: '/fonts',
+    className: 'icon',
+    options: {
+      svg: true,
+      timestamp: 0, // see https://github.com/fontello/svg2ttf/issues/33
+      fontName: 'oz-icons',
+      appendUnicode: true,
+      normalize: false,
+    },
+  },
+  sprite: {
+    destStyle: src + '/styles',
+    destImage: dest + '/images',
+    options: {
+      src: src + '/sprites/**/*.png',
+      base64: false,
+      split: true,
+      prefix: 'sprite',
+      dimension: [{
+        ratio: 1,
+        dpi: 72,
+      }, {
+        ratio: 2,
+        dpi: 192,
+      },],
+      style: '_sprites.less',
+      cssPath: './images',
+      processor: 'less',
+    },
   },
   browserify: {
+    // List here all external libs
+    libs: [
+      'debug',
+      'three.js',
+      'source-map-support/register',
+    ],
+
     // A separate bundle will be generated for each
     // bundle config in the list below
     bundleConfigs: [{
-      entries: src + '/cratedigger/index.js',
+      debug: true,
+      paths: src,
+      entries: src + '/index.js',
       dest: dest,
-      outputName: 'cratedigger.js',
-      // list of externally available modules to exclude from the bundle
-      external: ['jquery', 'underscore']
-    },{
-      entries: src + '/main.js',
-      dest: dest,
-      outputName: 'main.js'
-    }]
+      outputName: 'index.js',
+    },],
+
+    // separate bundle for external libs
+    pluginsBundleConfig: {
+      debug: true,
+      paths: src,
+      entries: [],
+      dest: './vendor/js',
+      outputName: 'libs.js',
+    },
+
+    // Ignore this lib in the external libs bundle in prod
+    ignoreInProd: [
+      'source-map-support/register',
+    ],
   },
-  build: {
-    cssSrc: dest + '/*.css',
-    jsSrc: dest + '/*.js',
-    dest: dest
-  }
+  vendorJs: {
+    src: ['./vendor/js/*js'],
+    dest: dest,
+    outputName: 'vendor.js',
+  },
+  vendorCss: {
+    src: ['./vendor/css/*css'],
+    dest: dest,
+    outputName: 'vendor.css',
+  },
 };
