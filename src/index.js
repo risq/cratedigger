@@ -11,12 +11,12 @@ const artistContainer = document.getElementById('cratedigger-record-artist');
 const coverContainer = document.getElementById('cratedigger-record-cover');
 
 function bindEvents() {
-  buttonPrev.addEventListener('click', function(e) {
+  buttonPrev.addEventListener('click', (e) => {
     e.preventDefault();
     cratedigger.selectPrevRecord();
   }, false);
 
-  buttonShow.addEventListener('click', function(e) {
+  buttonShow.addEventListener('click', (e) => {
     e.preventDefault();
     if (cratedigger.getSelectedRecord()) {
       cratedigger.flipSelectedRecord();
@@ -25,7 +25,7 @@ function bindEvents() {
     }
   }, false);
 
-  buttonNext.addEventListener('click', function(e) {
+  buttonNext.addEventListener('click', (e) => {
     e.preventDefault();
     cratedigger.selectNextRecord();
   }, false);
@@ -46,23 +46,23 @@ function fillInfoPanel(record) {
 }
 
 cratedigger.init({
-  debug: true,
+  debug: false,
   elements: {
     rootContainer: document.getElementById('cratedigger'),
     canvasContainer: document.getElementById('cratedigger-canvas'),
     loadingContainer: document.getElementById('cratedigger-loading'),
     infoContainer: document.getElementById('cratedigger-info'),
   },
-  onInfoPanelOpened: function() {
+  onInfoPanelOpened() {
     bottomBar.classList.add('closed');
     fillInfoPanel(cratedigger.getSelectedRecord());
   },
 
-  onInfoPanelClosed: function() {
+  onInfoPanelClosed() {
     bottomBar.classList.remove('closed');
   },
 });
 
-cratedigger.loadRecords(data, true, function() {
+cratedigger.loadRecords(data, true, () => {
   bindEvents();
 });
