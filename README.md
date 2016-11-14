@@ -3,7 +3,7 @@ cratedigger.js
 
 3D vinyl records exploration & crate digging plugin, using WebGL with Three.js.
 
-[![cratedigger.js demo](http://risq.github.io/cratedigger/img/demo.gif)](http://risq.github.io/cratedigger.js)
+[![cratedigger.js demo](https://github.com/risq/cratedigger/blob/master/src/images/demo.gif?raw=true)](http://risq.github.io/cratedigger.js)
 
 **demo** : [http://risq.github.io/cratedigger.js](http://risq.github.io/cratedigger)
 
@@ -11,8 +11,8 @@ cratedigger.js
 Screenshots
 -----------
 
-![cratedigger.js screenshot #1](http://risq.github.io/cratedigger/img/screenshot1.png)
-![cratedigger.js screenshot #2](http://risq.github.io/cratedigger/img/screenshot2.png)
+![cratedigger.js screenshot #1](https://github.com/risq/cratedigger/blob/master/src/images/screenshot1.png?raw=true)
+![cratedigger.js screenshot #2](https://github.com/risq/cratedigger/blob/master/src/images/screenshot2.png?raw=true)
 
 
 Using with npm
