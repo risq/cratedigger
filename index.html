@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cratedigger - 3D Music Collection Explorer</title>
+    <meta name="description" content="Explore vinyl record collections in an immersive 3D environment">
+  </head>
+  <body>
+    <div id="app">
+      <div id="loading" class="loading">
+        <div class="loading-text">Loading crates...</div>
+      </div>
+      <div id="info-panel" class="info-panel hidden">
+        <div class="info-content">
+          <img id="album-cover" class="album-cover" alt="Album cover">
+          <div class="album-details">
+            <h3 id="album-title" class="album-title"></h3>
+            <p id="album-artist" class="album-artist"></p>
+            <p id="album-year" class="album-year"></p>
+          </div>
+          <button id="close-info" class="close-btn">&times;</button>
+        </div>
+      </div>
+      <div id="controls" class="controls">
+        <div class="control-text">Click crates to explore • Drag to rotate • Scroll to zoom</div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
