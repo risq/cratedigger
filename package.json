@@ -1,90 +1,19 @@
 {
   "name": "cratedigger",
-  "version": "0.2.0",
-  "description": "3D vinyl records exploration & crate digging experience, using WebGL with Three.js",
-  "main": "lib/index.js",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/risq/cratedigger.js.git"
-  },
-  "author": "risq <valentin.ledrapier@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/risq/cratedigger.js/issues"
-  },
-  "keywords": [
-    "vinyl",
-    "records",
-    "music",
-    "crate",
-    "digging",
-    "webgl",
-    "three.js",
-    "3D"
-  ],
+  "description": "3D vinyl records visualization using Three.js and Vite",
+  "version": "1.0.0",
+  "type": "module",
   "scripts": {
-    "preproduction": "gulp clean",
-    "production": "gulp production",
-    "prebuild": "gulp clean",
-    "prepublish": "gulp build",
-    "build": "gulp build",
-    "start": "gulp"
+    "dev": "vite",
+    "build": "vite build --outDir docs",
+    "preview": "vite preview",
+    "deploy": "npm run build && touch docs/.nojekyll"
   },
   "devDependencies": {
-    "babel": "^5.8.12",
-    "babel-eslint": "^4.0.5",
-    "babelify": "^6.1.3",
-    "browser-sync": "^2.8.0",
-    "browserify": "^11.0.0",
-    "browserify-shim": "^3.8.10",
-    "del": "^1.2.0",
-    "envify": "^3.4.0",
-    "eslint": "^0.24.1",
-    "eslint-config-oz": "1.0.1",
-    "glob": "^5.0.14",
-    "gulp": "^3.9.0",
-    "gulp-autoprefixer": "^2.3.1",
-    "gulp-concat": "^2.6.0",
-    "gulp-eslint": "^0.15.0",
-    "gulp-filesize": "0.0.6",
-    "gulp-iconfont": "^4.0.0",
-    "gulp-if": "^1.2.5",
-    "gulp-jscs": "^1.6.0",
-    "gulp-less": "^3.0.3",
-    "gulp-minify-css": "^1.2.0",
-    "gulp-newer": "^0.5.1",
-    "gulp-notify": "^2.2.0",
-    "gulp-recess": "^1.1.2",
-    "gulp-rename": "^1.2.2",
-    "gulp-sourcemaps": "^1.5.2",
-    "gulp-swig": "^0.7.4",
-    "gulp-task-listing": "^1.0.1",
-    "gulp-uglify": "^1.2.0",
-    "gulp-util": "^3.0.6",
-    "lodash": "^3.10.1",
-    "pretty-hrtime": "^1.0.0",
-    "require-dir": "^0.3.0",
-    "rimraf": "^2.4.2",
-    "source-map-support": "^0.3.2",
-    "sprity": "^1.0.7",
-    "sprity-less": "^1.0.3",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-paths": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.3.0"
+    "vite": "^7.1.2"
   },
   "dependencies": {
-    "dat-gui": "^0.5.0",
-    "debug": "^2.2.0",
-    "stats-js": "^1.0.0-alpha1",
-    "three.js": "^0.73.0",
-    "tween.js": "^16.3.1"
-  },
-  "browserify-shim": {},
-  "browserify": {
-    "transform": [
-      "babelify",
-      "envify"
-    ]
+    "papaparse": "^5.5.3",
+    "three": "^0.179.1"
   }
 }
