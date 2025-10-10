@@ -1,7 +1,158 @@
+// src/index.js — hard-coded #DATA replacing the original inline JSON array
+// (This replaces the original `const data = JSON.parse('...')` from your file.) [oai_citation:1‡index (2).js](file-service://file-CanMM6JjGKDFMnDN4i4m5n)
+
 import cratedigger from './scripts/cratedigger';
 
-const data = JSON.parse('[{"title":"So What","artist":"mark shapiro ","cover":"hhttps://i.scdn.co/image/ab67616d0000b2732dc219f646be779b0e43a36b","year":"2001","id":"SOBYBNV14607703ACA","hasSleeve":false},{"title":"Stolen Moments","artist":"Oliver Nelson","cover":"http://cdn-images.deezer.com/images/cover/99235a5fbe557590ccd62a2a152e4dbe/400x400-000000-80-0-0.jpg","year":"1961","id":"SOCNMPH12B0B8064AA","hasSleeve":false},{"title":"Theme for Maxine","artist":"Woody Shaw","cover":"http://cdn-images.deezer.com/images/cover/bb937f1e1d57f7542a64c74b13c47900/400x400-000000-80-0-0.jpg","year":"1998","id":"SOMLSGW131343841A7","hasSleeve":false},{"title":"Moanin\' Mambo","artist":"Mingus Big Band","cover":"http://cdn-images.deezer.com/images/cover/dcd1565cf3dd663f7b7492e4da378855/400x400-000000-80-0-0.jpg","year":"1996","id":"SOVQLVX13134386AF9","hasSleeve":false},{"title":"Summertime","artist":"Oscar Peterson","cover":"http://cdn-images.deezer.com/images/cover/d6acdf4a975edf9556182d7c6a31e596/400x400-000000-80-0-0.jpg","year":"1959","id":"SOFNWTV137712739BC","hasSleeve":false},{"title":"Tea for Two","artist":"Lester Young","cover":"http://cdn-images.deezer.com/images/cover/8effbd8dc7a95f06c5aca8e6ecf3a78e/400x400-000000-80-0-0.jpg","year":"1997","id":"SOAPBMQ144C4A18CD4","hasSleeve":false},{"title":"Line Up","artist":"Lennie Tristano","cover":"http://cdn-images.deezer.com/images/cover/23b2766c2457be502e3b79f088cb8ba9/400x400-000000-80-0-0.jpg","year":"1955","id":"SOBPDRQ1313439BA51","hasSleeve":false},{"title":"I Remember Clifford","artist":"Lee Morgan","cover":"http://cdn-images.deezer.com/images/cover/efa706e1d3fc1363c7a5f07f9088a6cb/400x400-000000-80-0-0.jpg","year":"1999","id":"SOCRUWO12AB0184846","hasSleeve":false},{"title":"All The Things You Are","artist":"Oscar Pettiford","cover":"http://cdn-images.deezer.com/images/cover/8ce9fcf0ec333b06c38ad999c8dccb29/400x400-000000-80-0-0.jpg","year":"1988","id":"SOBHKVG1315CD41C41","hasSleeve":false},{"title":"Easy Living","artist":"Clifford Brown","cover":"http://cdn-images.deezer.com/images/cover/e8463630813b6c25536cdbef03134ae3/400x400-000000-80-0-0.jpg","year":"1995","id":"SOEVLRZ131343A28D6","hasSleeve":false},{"title":"Whiplash","artist":"Don Ellis","cover":"http://cdn-images.deezer.com/images/cover/34d87cf0631937bdb79675402054d3b2/400x400-000000-80-0-0.jpg","year":"1973","id":"SOOVZHR12A8C132FA8","hasSleeve":false},{"title":"Bumpin\' On Sunset","artist":"Wes Montgomery","cover":"http://cdn-images.deezer.com/images/cover/75f43523fcd01b3046486674e09d3700/400x400-000000-80-0-0.jpg","year":"1966","id":"SOKXHZT1478B63887A","hasSleeve":false},{"title":"Footprints","artist":"Wayne Shorter","cover":"http://cdn-images.deezer.com/images/cover/40c4768d6ee25d5356b5efbd0f69c324/400x400-000000-80-0-0.jpg","year":"2007","id":"SOZLFJA144D13D0768","hasSleeve":false},{"title":"Blue Train","artist":"John Coltrane","cover":"http://cdn-images.deezer.com/images/cover/1d019d81f99c5213398791c8a0d6a2d1/400x400-000000-80-0-0.jpg","year":"1957","id":"SOACYSS145FEBAD8C6","hasSleeve":false},{"title":"All Blues","artist":"Ron Carter","cover":"http://cdn-images.deezer.com/images/cover/2d20ae4c4127ce6b8aa58f08becc9c05/400x400-000000-80-0-0.jpg","year":"2001","id":"SOBJQBM144E5CA4D89","hasSleeve":false},{"title":"My Funny Valentine","artist":"Chet Baker","cover":"http://cdn-images.deezer.com/images/cover/d2f8b4d15a624333903c57b7d4aa5ab5/400x400-000000-80-0-0.jpg","year":"1954","id":"SOAAQIZ144C486A932","hasSleeve":false},{"title":"Love for Sale","artist":"Cannonball Adderley","cover":"http://cdn-images.deezer.com/images/cover/b7df440f2e746476810b8fc36e1970df/400x400-000000-80-0-0.jpg","year":"1959","id":"SOPJQEU144AD705584","hasSleeve":false},{"title":"Lady Sings the Blues","artist":"Herbie Nichols","cover":"http://cdn-images.deezer.com/images/cover/17ea4a0526096e5a8fb20717386e99e9/400x400-000000-80-0-0.jpg","year":"2010","id":"SOAOYTH1376F78A4BA","hasSleeve":false},{"title":"Cleopatra\'s Dream","artist":"Bud Powell","cover":"http://cdn-images.deezer.com/images/cover/013ea0cecc3e8b370bd21b445ce5b8c5/400x400-000000-80-0-0.jpg","year":"1958","id":"SOKPATT12A6D4F412B","hasSleeve":false},{"title":"Bernie\'s Tune","artist":"Gerry Mulligan","cover":"http://cdn-images.deezer.com/images/cover/7bce5b21ad29df130368121a5c4bcf36/400x400-000000-80-0-0.jpg","year":"1990","id":"SOBJHOS137618BE4FD","hasSleeve":false},{"title":"Let The Good Times Roll","artist":"Lester Bowie","cover":"http://cdn-images.deezer.com/images/cover/08e18d6e4f8499003ed8c9ebbc7ce73a/400x400-000000-80-0-0.jpg","year":"1988","id":"SOBRPSD13134386B16","hasSleeve":false},{"title":"Grooveyard","artist":"Harold Land","cover":"http://cdn-images.deezer.com/images/cover/0cac603ac7828983edb63c59f4b2ff99/400x400-000000-80-0-0.jpg","year":"1988","id":"SOHANRF1311AFECA2F","hasSleeve":false},{"title":"Far West","artist":"Tim Hagans","cover":"http://cdn-images.deezer.com/images/cover/f1d9645904ea3441fe5c7d025c450d0c/400x400-000000-80-0-0.jpg","year":"1999","id":"SOGFYEL12A58A7C0B2","hasSleeve":false},{"title":"My Ideal","artist":"Kenny Dorham","cover":"http://cdn-images.deezer.com/images/cover/228b0532e8ef84a6cfa49bebfec24278/400x400-000000-80-0-0.jpg","year":"1959","id":"SOFQKLH1313439C9D0","hasSleeve":false},{"title":"Yearnin\'","artist":"Oliver Nelson","cover":"http://cdn-images.deezer.com/images/cover/99235a5fbe557590ccd62a2a152e4dbe/400x400-000000-80-0-0.jpg","year":"1961","id":"SOEIGTM12A6D4F92E1","hasSleeve":false},{"title":"Moanin\'","artist":"Art Blakey","cover":"http://cdn-images.deezer.com/images/cover/3e8498d49bc3d030a36730aada3c553b/400x400-000000-80-0-0.jpg","year":"1958","id":"SOBWNRX145FD6B55E2","hasSleeve":false},{"title":"Like Someone in Love","artist":"Art Farmer","cover":"http://cdn-images.deezer.com/images/cover/c85aed0c4cb96bcc6753d6140de9cf75/400x400-000000-80-0-0.jpg","year":"2004","id":"SOBFGKP12A6D4F8834","hasSleeve":false},{"title":"Cheese Cake","artist":"Dexter Gordon","cover":"http://cdn-images.deezer.com/images/cover/767354ab07d1fdcc6924bbce0a431e60/400x400-000000-80-0-0.jpg","year":"1988","id":"SOKPRXE1377042B07E","hasSleeve":false},{"title":"Peace Piece","artist":"Bill Evans","cover":"http://cdn-images.deezer.com/images/cover/12a472c142105e0496e842e486b252cc/400x400-000000-80-0-0.jpg","year":"1998","id":"SOAYBHG144C74C5C52","hasSleeve":false},{"title":"Ain\'t It Funky Now","artist":"Grant Green","cover":"http://cdn-images.deezer.com/images/cover/dfe2b24b075435f62907d3637cd812b4/400x400-000000-80-0-0.jpg","year":"1970","id":"SOBAGJQ13167714741","hasSleeve":false},{"title":"Driva\' Man","artist":"Max Roach","cover":"http://cdn-images.deezer.com/images/cover/7aee52fbf15a6b9a034a3a915fbe0d60/400x400-000000-80-0-0.jpg","year":"2011","id":"SOERNHP13767946CFF","hasSleeve":false},{"title":"What Are You Doing The Rest Of Your Life?","artist":"Milt Jackson","cover":"http://cdn-images.deezer.com/images/cover/a1133e65eb7cbee9e5e32d8f31f50475/400x400-000000-80-0-0.jpg","year":"1973","id":"SOHXWWN13777557752","hasSleeve":false},{"title":"The Girl From Ipanema","artist":"Stan Getz","cover":"http://cdn-images.deezer.com/images/cover/0b072edc1697b558720c640948371d7a/400x400-000000-80-0-0.jpg","year":"2000","id":"SOCNBTN1478C4603ED","hasSleeve":false},{"title":"Alone Together","artist":"Kenny Dorham","cover":"http://cdn-images.deezer.com/images/cover/228b0532e8ef84a6cfa49bebfec24278/400x400-000000-80-0-0.jpg","year":"1959","id":"SOABROI12AB017C3E5","hasSleeve":false},{"title":"September In The Rain","artist":"Roy Hargrove","cover":"http://cdn-images.deezer.com/images/cover/98a482d8ccca7b22152d5714c22aa464/400x400-000000-80-0-0.jpg","year":"1994","id":"SOPWTIL12A8C13BBDF","hasSleeve":false},{"title":"Love Theme from \'Spartacus\'","artist":"Yusef Lateef","cover":"http://cdn-images.deezer.com/images/cover/bb50516b507ac87482a446ce44b0629e/400x400-000000-80-0-0.jpg","year":"1961","id":"SOIFBAQ1311AFE3148","hasSleeve":false},{"title":"Almost Like Being in Love","artist":"Red Garland","cover":"http://cdn-images.deezer.com/images/cover/b3cf6995de24d43c717e41300e78f607/400x400-000000-80-0-0.jpg","year":"2006","id":"SOATHDZ12AB0185B5F","hasSleeve":false},{"title":"Night And Day","artist":"Joe Pass","cover":"http://cdn-images.deezer.com/images/cover/17ecd15c241bf378e684d553b4e7b8bc/400x400-000000-80-0-0.jpg","year":"2005","id":"SOBYOAC13E6CB01926","hasSleeve":false},{"title":"Sous Le Ciel De Paris","artist":"Toots Thielemans","cover":"http://cdn-images.deezer.com/images/cover/81f873457a346b26b85a8122541a8f07/400x400-000000-80-0-0.jpg","year":"1998","id":"SOMUWQS12A8C13B2D3","hasSleeve":false},{"title":"Scrambled Eggs","artist":"Nat Adderley","cover":"http://cdn-images.deezer.com/images/cover/a2154ebd75c247095fef500c6d5f163c/400x400-000000-80-0-0.jpg","year":"1960","id":"SODJAYZ1311AFDA13F","hasSleeve":false},{"title":"Lansana\'s Priestess","artist":"Donald Byrd","cover":"http://cdn-images.deezer.com/images/cover/c00ba5c47f58252e4ef81279e6feb1a0/400x400-000000-80-0-0.jpg","year":"1973","id":"SODUJIR12A6D4F85A0","hasSleeve":false},{"title":"My Little Brown Book","artist":"Duke Ellington","cover":"http://cdn-images.deezer.com/images/cover/ac05edd38684177e3556b1cdbde4764a/400x400-000000-80-0-0.jpg","year":"1963","id":"SOGTTHV136F24052DE","hasSleeve":false},{"title":"Patricia","artist":"Art Pepper","cover":"http://cdn-images.deezer.com/images/cover/4928a2211000a85bbe02cd299b5d6291/400x400-000000-80-0-0.jpg","year":"2007","id":"SONVUPG13772274375","hasSleeve":false},{"title":"The Sidewinder","artist":"Lee Morgan","cover":"http://cdn-images.deezer.com/images/cover/38ebedd7c4a77c3502b2cc5d80db3109/400x400-000000-80-0-0.jpg","year":"1998","id":"SOGTXEX12B0B806866","hasSleeve":false},{"title":"You Don\'t Know What Love Is","artist":"Sonny Rollins","cover":"http://cdn-images.deezer.com/images/cover/49d72537f916a90c27e629a87308bc53/400x400-000000-80-0-0.jpg","year":"1956","id":"SOEDTNN13772A39D94","hasSleeve":false},{"title":"Blue Monk","artist":"Thelonious Monk","cover":"http://cdn-images.deezer.com/images/cover/023727db68f4edbb78eb11808fd95574/400x400-000000-80-0-0.jpg","year":"1999","id":"SOATUCE144AD0E89D1","hasSleeve":false},{"title":"Las Vegas Tango","artist":"Gil Evans","cover":"http://cdn-images.deezer.com/images/cover/316f0911a56060678c224120387cd7a8/400x400-000000-80-0-0.jpg","year":"1964","id":"SOFDOCY13775C36109","hasSleeve":false},{"title":"Sandu","artist":"Clifford Brown","cover":"http://cdn-images.deezer.com/images/cover/acd61c42e28df7fbd337ffd3e6383908/400x400-000000-80-0-0.jpg","year":"1955","id":"SOAACEF13152A71E9D","hasSleeve":false}]');
+// --- Hard-coded TSV block (title, artist, cover, year, hasSleeve) ---
+const tsv = `title	artist	cover	Year	hasSleeve
+The Barr Brothers	Let it Hiss	https://i.scdn.co/image/ab67616d0000b27392d68ffd58ad8ea4cf9be566	acid jazz-jazz funk	TRUE
+Ike Reilly	Salesmen & Racists	https://i.scdn.co/image/ab67616d0000b273f63ef14157f7e8e0ed5e8113	acid jazz-jazz funk	TRUE
+James McMurtry	The Horses and the Hounds	https://i.scdn.co/image/ab67616d0000b27388ef788544886eb4cb162792	acid jazz-jazz funk	TRUE
+David Byrne& St. Vincent	Love This Giant	https://i.scdn.co/image/ab67616d0000b2731f1bafb7b062972bdd1f6cdc	acid jazz-jazz funk	TRUE
+Dominique Fils-Aim√©	Our Roots Run Deep	https://i.scdn.co/image/ab67616d0000b273810ebe4ee7d21b022a35980e	acid jazz-jazz funk	TRUE
+Taffetas	Taffetas	https://i.scdn.co/image/ab67616d0000b273923a878d3e0de9fb10993791	acid jazz-jazz funk	TRUE
+Bruce Hornsby	Halcyon Days (Expanded Edition)	https://i.scdn.co/image/ab67616d0000b27318caaf52d7c2a553548f3e54	acid jazz-jazz funk	TRUE
+The Be Good Tanyas	Hello Love	https://i.scdn.co/image/ab67616d0000b2730050e6a23be3f843943930a8	acid jazz-jazz funk	TRUE
+David Gray	Money (That's What I Want) [From Jim Beam's Live Music Series]	https://i.scdn.co/image/ab67616d0000b2730c1b380dd74426a61febcdf9	acid jazz-jazz funk	TRUE
+Wilczynski	Cafe Microphone / 32¬∞ Fahrenheit	https://i.scdn.co/image/ab67616d0000b273caba7f127c7a27bfde00b31c	acid jazz-jazz funk	TRUE
+Frank Turner	Songbook	https://i.scdn.co/image/ab67616d0000b2736fb7596b0d83fcfaa274058e	acid jazz-jazz funk	TRUE
+Patti Smith	Dream Of Life	https://i.scdn.co/image/ab67616d0000b2733763d1cb36a0f79d7a198a0a	acid jazz-jazz funk	TRUE
+Eric Church	All My Friends: Celebrating The Songs & Voice Of Gregg Allman	https://i.scdn.co/image/ab67616d0000b273ca7965d1a450596137778f6a	acid jazz-jazz funk	TRUE
+The Mighty Rootsmen& Toots & The Maytals& Gregory Isaacs& Mykal Rose	I Won't Back Down	https://i.scdn.co/image/ab67616d0000b27371300435962e79c4d3c7f516	afro soul-afropop	TRUE
+Cracker	Sunrise In The Land Of Milk And Honey	https://i.scdn.co/image/ab67616d0000b27363a16571d0382386dc2846ff	afro soul-afropop	TRUE
+Steve Forbert	Daylight Savings Time	https://i.scdn.co/image/ab67616d0000b273653eaed759d9930c36805be9	afro soul-afropop	TRUE
+The Cars	The Cars	https://i.scdn.co/image/ab67616d0000b273f725bc7907dcf15aa2c6e7b7	afro soul-afropop	TRUE
+DOPE LEMON	Honey Bones	https://i.scdn.co/image/ab67616d0000b2736e5f26c11f97c7211fe5f4fb	afro soul-afropop	TRUE
+Alpha Blondy	Jah Victory	https://i.scdn.co/image/ab67616d0000b27391f3bb8309fc2ef2066cabfe	afro soul-afropop	TRUE
+Orions Belte	Villa Amorini	https://i.scdn.co/image/ab67616d0000b2739525069482163b8af80bf3c5	afro soul-afropop	TRUE
+Blind Melon	Blind Melon	https://i.scdn.co/image/ab67616d0000b2737ed1df1690df31d094d7c2bc	afro soul-afropop	TRUE
+Traveling Wilburys	The Traveling Wilburys& Vol. 1	https://i.scdn.co/image/ab67616d0000b273d9e06f988048ecf3c54ca749	afro soul-afropop	TRUE
+Dave Matthews Band	Come Tomorrow	https://i.scdn.co/image/ab67616d0000b273b27b9b65abca5a3c3a1021c2	afro soul-afropop	TRUE
+Frank Turner	Songbook	https://i.scdn.co/image/ab67616d0000b2736fb7596b0d83fcfaa274058e	afro soul-afropop	TRUE
+Patti Smith& Jay Dee Daugherty& Lenny Kaye	Dream Of Life	https://i.scdn.co/image/ab67616d0000b2733763d1cb36a0f79d7a198a0a	afro soul-afropop	TRUE
+The Barr Brothers	Let it Hiss	https://i.scdn.co/image/ab67616d0000b27392d68ffd58ad8ea4cf9be566	afro soul-afropop	TRUE
+Ike Reilly	Salesmen & Racists	https://i.scdn.co/image/ab67616d0000b273f63ef14157f7e8e0ed5e8113	alt country-americana	TRUE
+James McMurtry	The Horses and the Hounds	https://i.scdn.co/image/ab67616d0000b27388ef788544886eb4cb162792	alt country-americana	TRUE
+David Byrne& St. Vincent	Love This Giant	https://i.scdn.co/image/ab67616d0000b2731f1bafb7b062972bdd1f6cdc	alt country-americana	TRUE
+Dominique Fils-Aim√©	Our Roots Run Deep	https://i.scdn.co/image/ab67616d0000b273810ebe4ee7d21b022a35980e	alt country-americana	TRUE
+Taffetas	Taffetas	https://i.scdn.co/image/ab67616d0000b273923a878d3e0de9fb10993791	alt country-americana	TRUE
+Bruce Hornsby	Halcyon Days (Expanded Edition)	https://i.scdn.co/image/ab67616d0000b27318caaf52d7c2a553548f3e54	alt country-americana	TRUE
+The Be Good Tanyas	Hello Love	https://i.scdn.co/image/ab67616d0000b2730050e6a23be3f843943930a8	alt country-americana	TRUE
+David Gray	Money (That's What I Want) [From Jim Beam's Live Music Series]	https://i.scdn.co/image/ab67616d0000b2730c1b380dd74426a61febcdf9	alt country-americana	TRUE
+Wilczynski	Cafe Microphone / 32¬∞ Fahrenheit	https://i.scdn.co/image/ab67616d0000b273caba7f127c7a27bfde00b31c	alt country-americana	TRUE
+Frank Turner	Songbook	https://i.scdn.co/image/ab67616d0000b2736fb7596b0d83fcfaa274058e	alt country-americana	TRUE
+Patti Smith	Dream Of Life	https://i.scdn.co/image/ab67616d0000b2733763d1cb36a0f79d7a198a0a	alt country-americana	TRUE
+Eric Church	All My Friends: Celebrating The Songs & Voice Of Gregg Allman	https://i.scdn.co/image/ab67616d0000b273ca7965d1a450596137778f6a	alt country-americana	TRUE
+The Mighty Rootsmen& Toots & The Maytals& Gregory Isaacs& Mykal Rose	I Won't Back Down	https://i.scdn.co/image/ab67616d0000b27371300435962e79c4d3c7f516	alt country-americana	TRUE
+Cracker	Sunrise In The Land Of Milk And Honey	https://i.scdn.co/image/ab67616d0000b27363a16571d0382386dc2846ff	alt country-americana	TRUE
+Steve Forbert	Daylight Savings Time	https://i.scdn.co/image/ab67616d0000b273653eaed759d9930c36805be9	alt country-americana	TRUE
+The Cars	The Cars	https://i.scdn.co/image/ab67616d0000b273f725bc7907dcf15aa2c6e7b7	alt country-americana	TRUE
+DOPE LEMON	Honey Bones	https://i.scdn.co/image/ab67616d0000b2736e5f26c11f97c7211fe5f4fb	alt country-americana	TRUE
+Alpha Blondy	Jah Victory	https://i.scdn.co/image/ab67616d0000b27391f3bb8309fc2ef2066cabfe	alt country-americana	TRUE
+Orions Belte	Villa Amorini	https://i.scdn.co/image/ab67616d0000b2739525069482163b8af80bf3c5	alt country-americana	TRUE
+Blind Melon	Blind Melon	https://i.scdn.co/image/ab67616d0000b2737ed1df1690df31d094d7c2bc	alt country-americana	TRUE
+Traveling Wilburys	The Traveling Wilburys& Vol. 1	https://i.scdn.co/image/ab67616d0000b273d9e06f988048ecf3c54ca749	alt country-americana	TRUE
+Dave Matthews Band	Come Tomorrow	https://i.scdn.co/image/ab67616d0000b273b27b9b65abca5a3c3a1021c2	alt country-americana	TRUE
+Frank Turner	Songbook	https://i.scdn.co/image/ab67616d0000b2736fb7596b0d83fcfaa274058e	alt country-americana	TRUE
+Patti Smith& Jay Dee Daugherty& Lenny Kaye	Dream Of Life	https://i.scdn.co/image/ab67616d0000b2733763d1cb36a0f79d7a198a0a	alt country-americana	TRUE
+Jackson Browne& Gregg Allman	All My Friends: Celebrating The Songs & Voice Of Gregg Allman	https://i.scdn.co/image/ab67616d0000b273ca7965d1a450596137778f6a	alt country-americana	TRUE
+Texas& John McElhone& Wu-Tang Clan& Robert F. "Prince Rakeem" Diggs	The Greatest Hits	https://i.scdn.co/image/ab67616d0000b2733a1fb109b59d508c2acf724b	alt country-americana	TRUE
+Dan Mangan	Nice& Nice& Very Nice (10th Anniversary Deluxe Edition)	https://i.scdn.co/image/ab67616d0000b2731bd0fb7cce906f89b7c1a641	alt country-americana-bluegrass	TRUE
+The Avett Brothers	Magpie And The Dandelion (Deluxe)	https://i.scdn.co/image/ab67616d0000b2739f7cabfabff0c2c64dbd0fae	alt country-americana-bluegrass	TRUE
+Colbey	Journey Man	https://i.scdn.co/image/ab67616d0000b27367c87cfcad680ea69affcee0	alt country-americana-bluegrass	TRUE
+Bob Marley & The Wailers	Rastaman Vibration	https://i.scdn.co/image/ab67616d0000b27396e1463315f7d1c84632e633	alt country-americana-bluegrass	TRUE
+Bedouin Soundclash& Frank Turner	When the Night Feels My Song (Reimagined)	https://i.scdn.co/image/ab67616d0000b27343732cdab1c3aaf2638c2faa	alt country-americana-bluegrass	TRUE
+Max Romeo	The Max Romeo Catalog Chapter 1 - Verse 1-16	https://i.scdn.co/image/ab67616d0000b2730c096957131d4a08d3475b96	alt country-americana-bluegrass	TRUE
+Morphine	At Your Service (Anthology)	https://i.scdn.co/image/ab67616d0000b2733f3202c3327bca526f55d9bf	alt country-americana-bluegrass	TRUE
+Angelique Kidjo& Peter Gabriel	Djin Djin	https://i.scdn.co/image/ab67616d0000b273e57233b54a880463c5c429fa	alt country-americana-bluegrass	TRUE
+Mista Savona& Julito Padron	Havana Meets Kingston	https://i.scdn.co/image/ab67616d0000b27395a5fa55f8f9969534a54ddb	alt country-americana-bluegrass	TRUE
+Ted Hawkins	The Next Hundred Years	https://i.scdn.co/image/ab67616d0000b27389525f5134cf5d741d52c138	alt country-americana-bluegrass	TRUE
+twiddy	Live from the Bowling Alley	https://i.scdn.co/image/ab67616d0000b2735bcd392373ebb4eb71352328	alt country-americana-bluegrass	TRUE
+Amanaz	Africa	https://i.scdn.co/image/ab67616d0000b2731a3e9f74688b6c8f7fe97751	alt country-americana-bluegrass	TRUE
+The Olympians	The Olympians	https://i.scdn.co/image/ab67616d0000b273dfb22883cfcb5dcd6d158d45	alt country-americana-bluegrass	TRUE
+Deren Ney	West Coast Mama	https://i.scdn.co/image/ab67616d0000b273211366d64862cd2bd012d275	alt country-americana-outlaw country	TRUE
+Craig Cardiff	Mothers & Daughters	https://i.scdn.co/image/ab67616d0000b273a9f5002b07349416d840ee1a	alt country-americana-outlaw country	TRUE
+Loudon Wainwright III	Strange Weirdos: Music From And Inspired By The Film Knocked Up	https://i.scdn.co/image/ab67616d0000b2734054ad4034544e1d65497b06	alt country-americana-outlaw country	TRUE
+Michigan Rattlers	Time to Move On	https://i.scdn.co/image/ab67616d0000b273195f318aa3959e282fe56a80	alt country-americana-outlaw country	TRUE
+Jon Batiste	Battle Hymn of the Republic	https://i.scdn.co/image/ab67616d0000b27382b8a616d0cafa58178bf868	alt country-americana-outlaw country	TRUE
+Tinariwen	Amassakoul	https://i.scdn.co/image/ab67616d0000b27374757005c6b8a980d66e91eb	alt country-americana-outlaw country	TRUE
+Frank Turner	Songbook	https://i.scdn.co/image/ab67616d0000b2736fb7596b0d83fcfaa274058e	alt country-americana-outlaw country	TRUE
+Frank Turner	Be More Kind	https://i.scdn.co/image/ab67616d0000b273dce3805d8e00aac763236018	alt country-americana-outlaw country	TRUE
+Patti Smith	Dream Of Life	https://i.scdn.co/image/ab67616d0000b2733763d1cb36a0f79d7a198a0a	alt country-americana-outlaw country	TRUE
+Patti Smith	Outside Society	https://i.scdn.co/image/ab67616d0000b2738c26f65cf6d2eb781a73cbdc	alt country-americana-outlaw country	TRUE
+Jackson Browne& Gregg Allman	All My Friends: Celebrating The Songs & Voice Of Gregg Allman	https://i.scdn.co/image/ab67616d0000b273ca7965d1a450596137778f6a	alt country-americana-outlaw country	TRUE
+Allman Brothers Band	All My Friends: Celebrating The Songs & Voice Of Gregg Allman	https://i.scdn.co/image/ab67616d0000b273ca7965d1a450596137778f6a	alt country-americana-outlaw country	TRUE
+BROS	Vol. 1	https://i.scdn.co/image/ab67616d0000b273151317b361cb89b3a014dd07	alt country-americana-outlaw country	TRUE
+FaithNYC	Love Is A Wish Away	https://i.scdn.co/image/ab67616d0000b273150b2b0164feb9d7fcd4a6f0	alt country-americana-outlaw country-red dirt-texas country-roots rock	TRUE
+Aloe Blacc	Lift Your Spirit	https://i.scdn.co/image/ab67616d0000b2734de16370db3ca53c8e29e72f	alt country-americana-outlaw country-red dirt-texas country-roots rock	TRUE
+Unknown Mortal Orchestra	II (10 Year Anniversary Edition)	https://i.scdn.co/image/ab67616d0000b273172b71645a2626c9cb34e300	alt country-americana-outlaw country-red dirt-texas country-roots rock	TRUE
+Anderson .Paak	Malibu	https://i.scdn.co/image/ab67616d0000b273f8e77075414234fd77fce32b	alt country-americana-outlaw country-red dirt-texas country-roots rock	TRUE
+Sylvan Esso	Cluster Flies	https://i.scdn.co/image/ab67616d0000b273b7010afabacdcf6536e8f361	alt country-americana-outlaw country-red dirt-texas country-roots rock	TRUE
+Khruangbin	Mordechai	https://i.scdn.co/image/ab67616d0000b273f94c16116e5e2e850af916d3	alt country-americana-outlaw country-red dirt-texas country-roots rock	TRUE
+The Revivalists	The Revivalists	https://i.scdn.co/image/ab67616d0000b273130f93eb55c01218ba6939f9	alt country-americana-outlaw country-red dirt-texas country-roots rock	TRUE
+Chris Thile& Brad Mehldau	Chris Thile & Brad Mehldau	https://i.scdn.co/image/ab67616d0000b2737a2358b47feab5e9340e61ce	alt country-americana-outlaw country-red dirt-texas country-roots rock	TRUE
+Chet Atkins& Mark Knopfler	Chet Atkins Certified Guitar Player	https://i.scdn.co/image/ab67616d0000b2735aa4f6a4653dbc89dfab4658	alt country-americana-outlaw country-red dirt-texas country-roots rock	TRUE
+Frank Turner	Be More Kind	https://i.scdn.co/image/ab67616d0000b273dce3805d8e00aac763236018	alt country-americana-outlaw country-red dirt-texas country-roots rock	TRUE
+Patti Smith	Dream Of Life	https://i.scdn.co/image/ab67616d0000b2733763d1cb36a0f79d7a198a0a	alt country-americana-outlaw country-red dirt-texas country-roots rock	TRUE
+Delta Rae& Lindsey Buckingham	Carry the Fire	https://i.scdn.co/image/ab67616d0000b27349aaf14f0936159764cd728a	alt country-americana-outlaw country-red dirt-texas country-roots rock	TRUE
+Eric McFadden	Eric McFadden does AC/DC (Acoustic Tribute)	https://i.scdn.co/image/ab67616d0000b273cddfc52b0f03f4a56828acd5	alt country-americana-outlaw country-red dirt-texas country-roots rock	TRUE
+Les Dynamites	Pop Oud #2	https://i.scdn.co/image/ab67616d0000b2730c81e260743adad87ece7676	alt country-americana-roots rock	TRUE
+Ziggy Marley	Long Story Short: Willie Nelson 90 (Live At The Hollywood Bowl)	https://i.scdn.co/image/ab67616d0000b2730d5328e56626d0a77bb0b53f	alt country-americana-roots rock	TRUE
+Eels	Tomorrow Morning (Deluxe)	https://i.scdn.co/image/ab67616d0000b273b32b868b66c576c9c264a0a8	alt country-americana-roots rock	TRUE
+Josh Ritter	Hello Starling	https://i.scdn.co/image/ab67616d0000b273c05b09ba8de646a48fe53fcf	alt country-americana-roots rock	TRUE
+Xavier Rudd	White Moth	https://i.scdn.co/image/ab67616d0000b273e0b6e20c4d70ebb46a3eb0cc	alt country-americana-roots rock	TRUE
+The Supremes	Favorites	https://i.scdn.co/image/ab67616d0000b273e6bee0d562bda5b6237996f8	alt country-americana-roots rock	TRUE
+Joe Cocker	Mad Dogs & Englishmen (Deluxe Edition)	https://i.scdn.co/image/ab67616d0000b273c26d29e0574c83b3e2ab6371	alt country-americana-roots rock	TRUE
+John Fullbright	From The Ground Up	https://i.scdn.co/image/ab67616d0000b273ec1ee525a147d369bca9eef1	alt country-americana-roots rock	TRUE
+Lydian Collective	Adventure	https://i.scdn.co/image/ab67616d0000b2734b2cd72576601e9cc6c9a25b	alt country-americana-roots rock	TRUE
+Frank Turner	Be More Kind	https://i.scdn.co/image/ab67616d0000b273dce3805d8e00aac763236018	alt country-americana-roots rock	TRUE
+Sin√©ad O'Connor	I Do Not Want What I Haven't Got	https://i.scdn.co/image/ab67616d0000b2736f6536c2e326fb2b42db90f8	alt country-americana-roots rock	TRUE
+Jason Isbell and the 400 Unit	Hope the High Road	https://i.scdn.co/image/ab67616d0000b273f041f136a4faea8356d8811f	alt country-americana-roots rock	TRUE
+Mac Hanson	Alfa Romeo	https://i.scdn.co/image/ab67616d0000b273cfee37e97e42f473d29ae005	alt country-americana-roots rock	TRUE
+Macadam Crocodile	Walk Faster	https://i.scdn.co/image/ab67616d0000b273c074a844ee6a76232c2bbb07	alt country-americana-roots rock	TRUE
+John Mellencamp	Strictly A One-Eyed Jack	https://i.scdn.co/image/ab67616d0000b273469af8f55b559334071ae9f9	alt country-americana-roots rock	TRUE
+James Tillman	Magic City Thrill	https://i.scdn.co/image/ab67616d0000b27382a2451d708d00ce2b486be6	alt country-americana-roots rock	TRUE
+Bob Schneider	I'm Good Now	https://i.scdn.co/image/ab67616d0000b273ada52ffaa777929fd151f8c1	alt country-americana-roots rock	TRUE
+Bukahara	Canaries in a Coal Mine	https://i.scdn.co/image/ab67616d0000b273f46f70bcbc37d92ebf959fac	alt country-americana-roots rock	TRUE
+Van Morrison	Wavelength	https://i.scdn.co/image/ab67616d0000b273bad7dd1bb61103d0e71dc0b5	alt country-americana-roots rock	TRUE
+Eilen Jewell	Queen of the Minor Key	https://i.scdn.co/image/ab67616d0000b2730e19f19aaca37f7edfc6ed51	alt country-americana-roots rock	TRUE
+Matthew Logan Vasquez	Austin	https://i.scdn.co/image/ab67616d0000b27329144767f7087d7014fe40b7	alt country-americana-roots rock	TRUE
+AQUA STONE THRONE	Children of Light	https://i.scdn.co/image/ab67616d0000b273b8212da81e41476b2efbc019	alt country-americana-roots rock	TRUE
+Frank Turner	Be More Kind	https://i.scdn.co/image/ab67616d0000b273dce3805d8e00aac763236018	alt country-americana-roots rock	TRUE
+Sin√©ad O'Connor	I Do Not Want What I Haven't Got	https://i.scdn.co/image/ab67616d0000b2736f6536c2e326fb2b42db90f8	alt country-americana-roots rock	TRUE
+Neil Young	Freedom	https://i.scdn.co/image/ab67616d0000b27349862db9cbce96b19c03c3c6	alt country-americana-roots rock	TRUE
+Charlie Mars	Like a Bird& Like a Plane	https://i.scdn.co/image/ab67616d0000b273ab41b018fcf7fb93b8f6af70	alt country-americana-roots rock	TRUE
+Electric Light Orchestra	Face the Music	https://i.scdn.co/image/ab67616d0000b273f309550529487fe09f3ff041	alt country-americana-roots rock	TRUE
+Brian Eno	Discreet Music	https://i.scdn.co/image/ab67616d0000b273b540c9476ea9425a2bd6d3ec	alt country-americana-roots rock	TRUE
+Ukandanz	Evil Plan	https://i.scdn.co/image/ab67616d0000b273461bc8f7026536da909196e0	alt country-americana-roots rock	TRUE
+Beth Hart	Bang Bang Boom Boom	https://i.scdn.co/image/ab67616d0000b2736b5f77b7966a82a998cfda24	alt country-americana-roots rock	TRUE
+MC YOGI	All the Love in the World	https://i.scdn.co/image/ab67616d0000b2731ae6807ea26ed12dcf78365d	alt country-americana-roots rock	TRUE
+Anders Osborne	American Patchwork	https://i.scdn.co/image/ab67616d0000b2730579f666c1149d49a77f1e3e	alt country-americana-roots rock	TRUE
+Bobby Alu	Bobby Alu	https://i.scdn.co/image/ab67616d0000b2734824c01e17b7d67db29bf273	alt country-americana-roots rock	TRUE
+Nil√ºfer Yanya	Extraordinary Renditions	https://i.scdn.co/image/ab67616d0000b273fb156eeb4ff1552379483d36	alt country-americana-roots rock	TRUE
+Frank Turner	Undefeated	https://i.scdn.co/image/ab67616d0000b273a240f004cd8c693b7bc827a7	alt country-americana-roots rock	TRUE`;
 
+// --- Parse TSV into objects: keep headers, coerce hasSleeve to boolean ---
+function parseTSV(txt) {
+  const lines = txt.split(/\r?\n/).filter(Boolean);
+  const headers = lines.shift().split('\t').map(h => h.trim());
+  return lines.map((line, idx) => {
+    const cols = line.split('\t');
+    const row = Object.fromEntries(headers.map((h, i) => [h.toLowerCase(), (cols[i] ?? '').trim()]));
+    return {
+      title: row.title || '',
+      artist: row.artist || '',
+      cover: row.cover || '',
+      year: row['year'] || '',            // keeping your “Year” values verbatim
+      hasSleeve: /^true$/i.test(row['hassleeve'] || ''), // TRUE → true
+      id: `REC_${idx + 1}`                 // lightweight stable id
+    };
+  });
+}
+
+const data = parseTSV(tsv);
+
+// --- UI & Cratedigger wiring (unchanged from your original file’s structure) ---
 const bottomBar = document.getElementById('bottom-bar');
 const buttonPrev = document.getElementById('button-prev');
 const buttonShow = document.getElementById('button-show');
@@ -32,15 +183,13 @@ function bindEvents() {
 }
 
 function fillInfoPanel(record) {
-  if (record.data.title) {
+  if (record?.data?.title) {
     titleContainer.innerHTML = record.data.title;
   }
-
-  if (record.data.artist) {
+  if (record?.data?.artist) {
     artistContainer.innerHTML = record.data.artist;
   }
-
-  if (record.data.cover) {
+  if (record?.data?.cover) {
     coverContainer.style.backgroundImage = 'url(' + record.data.cover + ')';
   }
 }
@@ -57,12 +206,12 @@ cratedigger.init({
     bottomBar.classList.add('closed');
     fillInfoPanel(cratedigger.getSelectedRecord());
   },
-
   onInfoPanelClosed() {
     bottomBar.classList.remove('closed');
   },
 });
 
+// Load the hard-coded data (this mirrors your original flow)
 cratedigger.loadRecords(data, true, () => {
   bindEvents();
 });
